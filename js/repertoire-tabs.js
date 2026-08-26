@@ -24,7 +24,7 @@ export const repertoireData = {
       style: "Tijdloze Motown klassieker in een gestript, warm akoestisch jasje"
     },
     {
-      title: "Waiting in Vain / Is This Love / Redemption Song",
+      title: "Redemption Song / One Love / No Woman No Cry",
       artist: "Bob Marley",
       mood: "Feelgood & Roots",
       style: "Akoestische reggae-soul vol zon, ritme en verbondenheid"
