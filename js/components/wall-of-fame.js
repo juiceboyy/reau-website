@@ -1,38 +1,28 @@
 /**
  * Reau Website - Wall of Fame Component
  * Speelse, oneindige marquee met bedrijven, organisaties en podia waar Reau / Ro heeft gespeeld.
- * Logo's kunnen eenvoudig worden aangevuld via het 'logo' attribuut.
+ * Voeg hier eenvoudig nieuwe organisaties aan toe (inclusief optionele logo-url).
  */
 
-export const wallOfFameRow1 = [
+export const wallOfFameItems = [
   { name: 'Louwman Museum', category: 'Bedrijfsevent', logo: 'assets/images/logos/louwman-museum.svg' },
-  { name: 'Landgoedhotel De Wilmersberg', category: 'Paasdiner', logo: 'assets/images/logos/wilmersberg.svg' },
-  { name: 'ING', category: 'Bedrijfsevenement', logo: '' },
-  { name: 'Heineken', category: 'Zomerfestival & Borrel', logo: '' },
-  { name: 'KPN', category: 'Relatiedag & Diner', logo: '' },
-  { name: 'Rijksoverheid', category: 'Jubileumcongres', logo: '' },
-  { name: 'Rabobank', category: 'Nieuwjaarsbijeenkomst', logo: '' },
-  { name: 'Paradiso Amsterdam', category: 'Cultureel Event', logo: '' },
-  { name: 'ASML', category: 'Personeelsfeest', logo: '' },
-  { name: 'De Efteling', category: 'Besloten Event', logo: '' }
+  { name: 'BOVAG', category: 'Netwerkborrel', logo: 'assets/images/logos/bovag.png' },
+  { name: 'Landgoedhotel De Wilmersberg', category: 'Paasdiner', logo: 'assets/images/logos/wilmersberg.svg' }
 ];
 
-export const wallOfFameRow2 = [
-  { name: 'BOVAG', category: 'Netwerkborrel', logo: 'assets/images/logos/bovag.png' },
-  { name: 'Booking.com', category: 'Corporate Celebration', logo: '' },
-  { name: 'Patronaat Haarlem', category: 'Muziekevent', logo: '' },
-  { name: 'PwC Nederland', category: 'Zomergala & Borrel', logo: '' },
-  { name: 'Gemeente Den Haag', category: 'Stadsevenement', logo: '' },
-  { name: 'Unilever', category: 'Acoustic Garden Session', logo: '' },
-  { name: 'TivoliVredenburg', category: 'Zaal & Foyer Optreden', logo: '' },
-  { name: 'Deloitte', category: 'Relatie-ontvangst', logo: '' },
-  { name: 'Museum Mauritshuis', category: 'Exclusieve Receptie', logo: '' }
-];
+function getRepeatedItems(items, minCount = 8) {
+  if (!items.length) return [];
+  let result = [];
+  while (result.length < minCount) {
+    result = result.concat(items);
+  }
+  return result;
+}
 
 function renderCard(item) {
   const initials = item.name.split(' ').map(w => w[0]).slice(0, 2).join('');
   const logoContent = item.logo
-    ? `<img src="${item.logo}" alt="${item.name}" class="max-h-7 max-w-[100px] object-contain">`
+    ? `<img src="${item.logo}" alt="${item.name}" class="max-h-7 max-w-[110px] object-contain">`
     : `<div class="w-8 h-8 rounded-lg bg-terracotta/10 text-terracotta flex items-center justify-center font-semibold text-xs tracking-wider">${initials}</div>`;
 
   return `
@@ -49,8 +39,11 @@ function renderCard(item) {
 export function renderWallOfFame(container) {
   if (!container) return;
 
-  const row1Html = wallOfFameRow1.map(renderCard).join('');
-  const row2Html = wallOfFameRow2.map(renderCard).join('');
+  const row1Data = getRepeatedItems(wallOfFameItems, 8);
+  const row2Data = getRepeatedItems([...wallOfFameItems].reverse(), 8);
+
+  const row1Html = row1Data.map(renderCard).join('');
+  const row2Html = row2Data.map(renderCard).join('');
 
   container.innerHTML = `
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 text-center">
@@ -85,3 +78,4 @@ export function renderWallOfFame(container) {
     </div>
   `;
 }
+
