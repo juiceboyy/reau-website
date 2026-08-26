@@ -12,10 +12,10 @@ export const repertoireData = {
       style: "Akoestische groove, soulvolle dynamiek en vocale bezieling"
     },
     {
-      title: "Feeling Good / I Put a Spell on You",
+      title: "My Baby Just Cares for Me",
       artist: "Nina Simone",
-      mood: "Jazzy & Intens",
-      style: "Intieme jazzy gitaarharmonieën vol emotionele zeggingskracht"
+      mood: "Klassiek & Swing",
+      style: "Smaakvolle syncopes, speelse jazzy harmonieën en akoestische verfijning"
     },
     {
       title: "You've Really Got a Hold on Me / The Tracks of My Tears",
@@ -34,12 +34,6 @@ export const repertoireData = {
       artist: "Bill Withers",
       mood: "Groovy & Vrolijk",
       style: "Aanstekelijke baslijnen en ritmisch gitaarspel dat uitnodigt tot meedeinen"
-    },
-    {
-      title: "My Baby Just Cares for Me / Don't Let Me Be Misunderstood",
-      artist: "Nina Simone",
-      mood: "Klassiek & Swing",
-      style: "Smaakvolle syncopes en akoestische verfijning"
     }
   ],
   originals: [
