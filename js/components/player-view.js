@@ -74,7 +74,7 @@ export function renderPlayerView(container) {
           <!-- Streaming External Links -->
           <div class="pt-3 border-t border-espresso/10 flex flex-wrap items-center justify-center gap-4 text-xs text-espresso-muted">
             <span>Luister ook op:</span>
-            <a href="https://open.spotify.com/artist/0F2t706hY2eDqfO7Q7x1d4" target="_blank" rel="noopener noreferrer" class="hover:text-terracotta font-medium underline">Spotify</a>
+            <a href="https://open.spotify.com/artist/79dS9zvJ6QCjz54EUdjs9u" target="_blank" rel="noopener noreferrer" class="hover:text-terracotta font-medium underline">Spotify</a>
             <span>•</span>
             <a href="https://soundcloud.com/rohalfhide" target="_blank" rel="noopener noreferrer" class="hover:text-terracotta font-medium underline">SoundCloud</a>
             <span>•</span>
