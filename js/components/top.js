@@ -1,8 +1,8 @@
 /**
- * Reau Website - Hero Component
+ * Reau Website - Top Section Component
  */
 
-export function renderHero(container) {
+export function renderTop(container) {
   if (!container) return;
   container.innerHTML = `
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

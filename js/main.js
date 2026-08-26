@@ -3,7 +3,7 @@
  * Orchestrates modular components with the required DOMContentLoaded state guard.
  */
 
-import { renderHero } from './components/hero.js';
+import { renderTop } from './components/top.js';
 import { renderAbout } from './components/about.js';
 import { renderRepertoire } from './components/repertoire.js';
 import { renderPlayerView } from './components/player-view.js';
@@ -19,7 +19,7 @@ import { initContactForm } from './contact-form.js';
 
 function init() {
   // 1. Render all modular section views
-  renderHero(document.getElementById('hero'));
+  renderTop(document.getElementById('top'));
   renderAbout(document.getElementById('about'));
   renderRepertoire(document.getElementById('repertoire'));
   renderPlayerView(document.getElementById('muziek'));
