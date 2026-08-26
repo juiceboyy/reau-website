@@ -48,7 +48,7 @@ export function renderTop(container) {
 
         <div class="lg:col-span-5 relative">
           <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[4/5] bg-sand">
-            <img src="assets/images/reau-hero.jpg" alt="Ro Halfhide - Reau" class="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700">
+            <img src="assets/images/reau-lowres.jpg" alt="Ro Halfhide - Reau" class="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700">
             <div class="absolute inset-0 bg-gradient-to-t from-espresso/80 via-espresso/20 to-transparent"></div>
             
             <div class="absolute bottom-6 left-6 right-6 text-white">
