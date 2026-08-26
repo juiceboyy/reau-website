@@ -18,7 +18,8 @@ export const wallOfFameRow1 = [
   { name: 'Prodentfabriek', category: 'Diverse congressen', logo: 'assets/images/logos/prodentfabriek.svg' },
   { name: 'Ministerie van IenW', category: 'Diverse congressen', logo: 'assets/images/logos/ministerie-ienw.svg' },
   { name: 'Koninklijke Saan', category: 'Opening Laadplein', logo: 'assets/images/logos/koninklijke-saan.svg' },
-  { name: 'Kasteel Doornenburg', category: 'Bruiloft', logo: 'assets/images/logos/kasteel-doornenburg.png' }
+  { name: 'Kasteel Doornenburg', category: 'Bruiloft', logo: 'assets/images/logos/kasteel-doornenburg.png' },
+  { name: 'Paradiso', category: 'Eigen werk optreden', logo: 'assets/images/logos/paradiso.svg' }
 ];
 
 export const wallOfFameRow2 = [
@@ -34,7 +35,9 @@ export const wallOfFameRow2 = [
   { name: 'Industrieele Groote Club', category: 'Verjaardag', logo: 'assets/images/logos/industrieele-groote-club.svg' },
   { name: 'Bodembeheer NL', category: 'Congres', logo: 'assets/images/logos/bodembeheer-nl.png' },
   { name: 'AFAS Software', category: 'Diverse congressen', logo: 'assets/images/logos/afas-software.png' },
-  { name: 'Trekpleister', category: 'Jubileum feest', logo: 'assets/images/logos/trekpleister.svg' }
+  { name: 'Trekpleister', category: 'Jubileum feest', logo: 'assets/images/logos/trekpleister.svg' },
+  { name: 'Noorderslag', category: 'Eigen werk optreden', logo: 'assets/images/logos/noorderslag.png' },
+  { name: 'Carré', category: 'Knoopgala', logo: 'assets/images/logos/carre.png' }
 ];
 
 function getRepeatedItems(items, minCount = 8) {
