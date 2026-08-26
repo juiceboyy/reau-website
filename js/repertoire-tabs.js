@@ -28,12 +28,6 @@ export const repertoireData = {
       artist: "Bob Marley",
       mood: "Feelgood & Roots",
       style: "Akoestische reggae-soul vol zon, ritme en verbondenheid"
-    },
-    {
-      title: "Lovely Day / Use Me",
-      artist: "Bill Withers",
-      mood: "Groovy & Vrolijk",
-      style: "Aanstekelijke baslijnen en ritmisch gitaarspel dat uitnodigt tot meedeinen"
     }
   ],
   originals: [
