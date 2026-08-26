@@ -15,11 +15,11 @@ export function renderTop(container) {
           </div>
           
           <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-espresso leading-[1.12] tracking-tight">
-            Acoustic soul, reimagined covers & <span class="italic text-terracotta">original stories.</span>
+            Acoustic soul, herkenbare covers & <span class="italic text-terracotta">eigen werk.</span>
           </h1>
           
           <p class="text-espresso-muted text-base sm:text-lg lg:text-xl leading-relaxed max-w-xl">
-            Warme, bezielde akoestische herinterpretaties van pop- en soulklassiekers, naadloos verweven met persoonlijke singer-songwriter verhalen.
+            Warme, soulvolle interpretaties van pop- en soulklassiekers, naadloos verweven met eigen singer-songwriter werk.
           </p>
 
           <div class="flex flex-wrap gap-2.5 pt-2 text-xs font-medium text-espresso-muted">
