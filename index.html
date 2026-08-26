@@ -7,7 +7,7 @@
   <meta name="description" content="Reau brengt bezielde akoestische covers (Bill Withers, Nina Simone, Bob Marley) en persoonlijke singer-songwriter verhalen. Ideaal voor huiskamerconcerten en intieme evenementen.">
   <meta property="og:title" content="Reau | Acoustic Soul & Stories">
   <meta property="og:description" content="Warm, intiem en mobiel. Geen stroom nodig op locatie. Boek Reau (Ro Halfhide) voor je huiskamerconcert of evenement.">
-  <meta property="og:image" content="assets/images/ro-halfhide-portrait.jpg">
+  <meta property="og:image" content="assets/images/reau-lowres.jpg">
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -34,17 +34,19 @@
     }
   </script>
 
-  <!-- Custom Stylesheet -->
+  <!-- Custom Stylesheet & Favicons -->
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="icon" type="image/jpeg" href="assets/images/ro-halfhide-portrait.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
 </head>
 <body class="bg-canvas text-espresso font-sans antialiased selection:bg-terracotta/20 selection:text-terracotta-dark min-h-screen flex flex-col">
 
   <!-- Header / Navigation -->
   <header id="main-navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 glass-nav">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between">
-      <a href="#hero" class="flex items-center gap-3 group focus:outline-none">
-        <span class="font-serif text-2xl sm:text-3xl tracking-tight text-espresso group-hover:text-terracotta transition-colors">Reau</span>
+      <a href="#top" class="flex items-center gap-3 group focus:outline-none">
+        <img src="assets/images/reau-logo.png" alt="Reau" class="h-8 sm:h-9 w-auto object-contain transition-transform group-hover:scale-105">
         <span class="text-xs uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-terracotta/10 text-terracotta font-semibold hidden sm:inline-block">Acoustic Soul</span>
       </a>
 
@@ -84,7 +86,7 @@
 
   <!-- Main Content Mount Points -->
   <main class="flex-grow pt-16 sm:pt-18">
-    <section id="hero" class="relative pt-6 pb-12 sm:pt-10 sm:pb-16 lg:pt-12 lg:pb-20 bg-warm-hero overflow-hidden"></section>
+    <section id="top" class="relative pt-6 pb-12 sm:pt-10 sm:pb-16 lg:pt-12 lg:pb-20 bg-warm-top overflow-hidden"></section>
     <section id="about" class="py-16 sm:py-20 bg-canvas-alt/60 border-y border-espresso/5"></section>
     <section id="repertoire" class="py-16 sm:py-20 bg-canvas"></section>
     <section id="muziek" class="py-16 sm:py-20 bg-canvas-alt/50 border-t border-espresso/5"></section>
@@ -98,12 +100,12 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col md:flex-row items-center justify-between gap-8">
         <div class="text-center md:text-left">
-          <span class="font-serif text-3xl text-white">Reau</span>
-          <p class="text-xs text-white/60 mt-1">Acoustic Soul & Singer-Songwriter project van Ro Halfhide</p>
+          <img src="assets/images/reau-logo.png" alt="Reau" class="h-8 w-auto object-contain brightness-0 invert mx-auto md:mx-0 opacity-90">
+          <p class="text-xs text-white/60 mt-1.5">Acoustic Soul & Singer-Songwriter project van Ro Halfhide</p>
         </div>
 
         <div class="flex items-center gap-5 text-white/80">
-          <a href="https://open.spotify.com/artist/0F2t706hY2eDqfO7Q7x1d4" target="_blank" rel="noopener noreferrer" class="hover:text-terracotta transition-colors" title="Spotify">
+          <a href="https://open.spotify.com/artist/79dS9zvJ6QCjz54EUdjs9u" target="_blank" rel="noopener noreferrer" class="hover:text-terracotta transition-colors" title="Spotify">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.503 17.309c-.216.354-.675.467-1.03.25-2.822-1.724-6.375-2.114-10.56-1.159-.404.092-.81-.161-.902-.565-.092-.404.161-.81.565-.902 4.58-1.047 8.508-.604 11.677 1.346.355.217.467.676.25 1.03zm1.47-3.27c-.272.443-.852.585-1.295.313-3.23-1.986-8.156-2.56-11.977-1.4-4.99.151-.97-.184-1.12-.684-.152-.499.184-.97.683-1.121 4.38-1.33 9.808-.686 13.396 1.597.443.272.585.852.313 1.295zm.127-3.407C15.23 8.358 8.847 8.147 5.153 9.269c-.59.179-1.218-.16-1.397-.75-.179-.59.16-1.218.75-1.397 4.244-1.288 11.294-1.043 15.753 1.603.531.315.703 1.002.388 1.533-.314.531-1.002.703-1.533.388z"/></svg>
           </a>
           <a href="https://instagram.com/rohalfhide" target="_blank" rel="noopener noreferrer" class="hover:text-terracotta transition-colors" title="Instagram">

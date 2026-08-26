@@ -5,26 +5,37 @@
 
 export const playlist = [
   {
+    id: 'your-morning-smile',
+    title: "Your Morning Smile",
+    subtitle: "Jazzy Singer-Songwriter",
+    duration: "3:20",
+    src: "assets/audio/your-morning-smile.mp3",
+    artwork: "assets/images/album-paint-the-town.jpg",
+    spotify: "https://open.spotify.com/artist/79dS9zvJ6QCjz54EUdjs9u",
+    soundcloud: "https://soundcloud.com/rohalfhide",
+    description: "Speelse jazzy timing, warm akoestisch gitaarspel en een opgewekte melodie."
+  },
+  {
+    id: 'rise-up-and-start-singing',
+    title: "Rise Up and Start Singing",
+    subtitle: "Acoustic Pop / Soul",
+    duration: "2:36",
+    src: "assets/audio/rise-up-and-start-singing.mp3",
+    artwork: "assets/images/album-malaysia-style.jpg",
+    spotify: "https://open.spotify.com/artist/79dS9zvJ6QCjz54EUdjs9u",
+    soundcloud: "https://soundcloud.com/rohalfhide",
+    description: "Aanstekelijke melodie en optimistische energie vol hoop, verbinding en ritme."
+  },
+  {
     id: 'its-been-good',
     title: "It's Been Good",
-    subtitle: "Acoustic Pop / Soul • Single",
+    subtitle: "Pop / Soul",
     duration: "1:50",
     src: "assets/audio/its-been-good.mp3",
     artwork: "assets/images/album-its-been-good.jpg",
-    spotify: "https://open.spotify.com/artist/0F2t706hY2eDqfO7Q7x1d4",
+    spotify: "https://open.spotify.com/artist/79dS9zvJ6QCjz54EUdjs9u",
     soundcloud: "https://soundcloud.com/rohalfhide",
     description: "Een warme reflectie op het leven, genomen keuzes en de schoonheid van het pad tot nu toe."
-  },
-  {
-    id: 'evening-sun',
-    title: "Evening Sun",
-    subtitle: "Soulful Singer-Songwriter",
-    duration: "3:06",
-    src: "assets/audio/evening-sun.mp3",
-    artwork: "assets/images/album-evening-sun.jpg",
-    spotify: "https://open.spotify.com/artist/0F2t706hY2eDqfO7Q7x1d4",
-    soundcloud: "https://soundcloud.com/rohalfhide",
-    description: "Intieme melodielijnen en sfeervolle akoestische gitaardynamiek voor een zwoele avond."
   },
   {
     id: 'think-that-i-must-be-in-love',
@@ -33,18 +44,29 @@ export const playlist = [
     duration: "2:27",
     src: "assets/audio/think-that-i-must-be-in-love.mp3",
     artwork: "assets/images/ro-halfhide-portrait.jpg",
-    spotify: "https://open.spotify.com/artist/0F2t706hY2eDqfO7Q7x1d4",
+    spotify: "https://open.spotify.com/artist/79dS9zvJ6QCjz54EUdjs9u",
     soundcloud: "https://soundcloud.com/rohalfhide",
     description: "Puur liedjesmakerschap geïnspireerd door klassieke soul en jazzy akkoorden."
   },
   {
+    id: 'evening-sun',
+    title: "Evening Sun",
+    subtitle: "Soulful Singer-Songwriter",
+    duration: "3:06",
+    src: "assets/audio/evening-sun.mp3",
+    artwork: "assets/images/album-evening-sun.jpg",
+    spotify: "https://open.spotify.com/artist/79dS9zvJ6QCjz54EUdjs9u",
+    soundcloud: "https://soundcloud.com/rohalfhide",
+    description: "Intieme melodielijnen en sfeervolle akoestische gitaardynamiek voor een zwoele avond."
+  },
+  {
     id: 'get-into-your-car-and-drive',
     title: "Get Into Your Car And Drive",
-    subtitle: "Folk & Soul Ballad",
+    subtitle: "Protest Pop",
     duration: "5:40",
     src: "assets/audio/get-into-your-car-and-drive.mp3",
     artwork: "assets/images/ro-halfhide-portrait.jpg",
-    spotify: "https://open.spotify.com/artist/0F2t706hY2eDqfO7Q7x1d4",
+    spotify: "https://open.spotify.com/artist/79dS9zvJ6QCjz54EUdjs9u",
     soundcloud: "https://soundcloud.com/rohalfhide",
     description: "Een meeslepend muzikaal verhaal over vrijheid, loslaten en vooruitkijken."
   }
