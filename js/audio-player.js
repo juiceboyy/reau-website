@@ -16,17 +16,6 @@ export const playlist = [
     description: "Een warme reflectie op het leven, genomen keuzes en de schoonheid van het pad tot nu toe."
   },
   {
-    id: 'evening-sun',
-    title: "Evening Sun",
-    subtitle: "Soulful Singer-Songwriter",
-    duration: "3:06",
-    src: "assets/audio/evening-sun.mp3",
-    artwork: "assets/images/album-evening-sun.jpg",
-    spotify: "https://open.spotify.com/artist/0F2t706hY2eDqfO7Q7x1d4",
-    soundcloud: "https://soundcloud.com/rohalfhide",
-    description: "Intieme melodielijnen en sfeervolle akoestische gitaardynamiek voor een zwoele avond."
-  },
-  {
     id: 'think-that-i-must-be-in-love',
     title: "Think That I Must Be In Love",
     subtitle: "Acoustic Storytelling",
@@ -36,6 +25,17 @@ export const playlist = [
     spotify: "https://open.spotify.com/artist/0F2t706hY2eDqfO7Q7x1d4",
     soundcloud: "https://soundcloud.com/rohalfhide",
     description: "Puur liedjesmakerschap geïnspireerd door klassieke soul en jazzy akkoorden."
+  },
+  {
+    id: 'evening-sun',
+    title: "Evening Sun",
+    subtitle: "Soulful Singer-Songwriter",
+    duration: "3:06",
+    src: "assets/audio/evening-sun.mp3",
+    artwork: "assets/images/album-evening-sun.jpg",
+    spotify: "https://open.spotify.com/artist/0F2t706hY2eDqfO7Q7x1d4",
+    soundcloud: "https://soundcloud.com/rohalfhide",
+    description: "Intieme melodielijnen en sfeervolle akoestische gitaardynamiek voor een zwoele avond."
   },
   {
     id: 'get-into-your-car-and-drive',
