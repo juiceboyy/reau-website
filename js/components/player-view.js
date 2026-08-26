@@ -17,7 +17,7 @@ export function renderPlayerView(container) {
         <!-- Album Art & Track Info -->
         <div class="lg:col-span-5 flex flex-col items-center text-center">
           <div class="relative w-48 h-48 sm:w-56 sm:h-56 rounded-2xl overflow-hidden shadow-lg border-2 border-espresso/10 mb-4 bg-sand">
-            <img id="player-artwork" src="assets/images/album-its-been-good.jpg" alt="Track artwork" class="w-full h-full object-cover">
+            <img id="player-artwork" src="assets/images/album-malaysia-style.jpg" alt="Track artwork" class="w-full h-full object-cover">
             
             <div id="player-waveform" class="waveform-paused absolute bottom-3 left-1/2 -translate-x-1/2 flex items-end gap-1.5 h-8 px-3 py-1 rounded-full bg-espresso/80 backdrop-blur-sm">
               <span class="waveform-bar w-1 h-3 bg-terracotta rounded-full"></span>
@@ -29,8 +29,8 @@ export function renderPlayerView(container) {
             </div>
           </div>
           
-          <h3 id="player-title" class="font-serif text-2xl text-espresso">It's Been Good</h3>
-          <p id="player-subtitle" class="text-xs text-espresso-muted mt-1">Pop / Soul</p>
+          <h3 id="player-title" class="font-serif text-2xl text-espresso">Rise Up and Start Singing</h3>
+          <p id="player-subtitle" class="text-xs text-espresso-muted mt-1">Acoustic Pop / Soul</p>
         </div>
 
         <!-- Controls & Tracklist -->
@@ -43,7 +43,7 @@ export function renderPlayerView(container) {
             </div>
             <div class="flex justify-between text-xs text-espresso-muted font-mono mt-2">
               <span id="player-current-time">0:00</span>
-              <span id="player-duration">1:50</span>
+              <span id="player-duration">2:36</span>
             </div>
           </div>
 
