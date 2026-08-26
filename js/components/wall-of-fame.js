@@ -18,7 +18,8 @@ export const wallOfFameRow2 = [
   { name: 'researchED Nederland', category: 'Onderwijscongres', logo: 'assets/images/logos/researched-nederland.png' },
   { name: 'Beatrix Theater', category: 'Diverse congressen', logo: 'assets/images/logos/beatrix-theater.svg' },
   { name: 'Stichting New Energy Coalition', category: 'Nieuwjaarsreceptie', logo: 'assets/images/logos/new-energy-coalition.svg' },
-  { name: 'Theater Rotterdam', category: 'Nieuwjaarsreceptie', logo: 'assets/images/logos/theater-rotterdam.svg' }
+  { name: 'Theater Rotterdam', category: 'Nieuwjaarsreceptie', logo: 'assets/images/logos/theater-rotterdam.svg' },
+  { name: 'Landhuishotel De Bloemenbeek', category: 'Oud & Nieuw feest', logo: 'assets/images/logos/bloemenbeek.png' }
 ];
 
 function getRepeatedItems(items, minCount = 8) {
