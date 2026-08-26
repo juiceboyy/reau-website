@@ -28,6 +28,12 @@ export const repertoireData = {
       artist: "Bob Marley",
       mood: "Feelgood & Roots",
       style: "Akoestische reggae met veel soul en lekker meezingen"
+    },
+    {
+      title: "Easy",
+      artist: "Lionel Richie",
+      mood: "Smooth Soul",
+      style: "Zijdezachte vocalen met een natuurlijke warme klankkleur, ontspannen akoestische grooves en pure feelgood"
     }
   ],
   originals: [

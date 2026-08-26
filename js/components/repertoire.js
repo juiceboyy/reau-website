@@ -31,7 +31,7 @@ export function renderRepertoire(container) {
       <div class="mt-12 p-6 sm:p-8 rounded-3xl bg-warm-dark text-white flex flex-col md:flex-row items-center justify-between gap-6">
         <div>
           <span class="text-xs uppercase tracking-widest text-terracotta font-semibold">Uitgelichte Cover Iconen</span>
-          <h3 class="font-serif text-2xl text-white mt-1">Bill Withers • Nina Simone • Smokey Robinson • Bob Marley</h3>
+          <h3 class="font-serif text-2xl text-white mt-1">Bill Withers • Nina Simone • Lionel Richie • Smokey Robinson • Bob Marley</h3>
           <p class="text-sm text-white/70 mt-1">En verrassende akoestische interpretaties van hedendaagse indie- en popklassiekers.</p>
         </div>
         <a href="#contact" class="btn-terracotta px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider whitespace-nowrap">
