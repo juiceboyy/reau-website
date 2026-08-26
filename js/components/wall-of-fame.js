@@ -11,7 +11,8 @@ export const wallOfFameRow1 = [
   { name: 'Leroy Seafood', category: 'Nieuwjaarsfeest', logo: 'assets/images/logos/leroy-seafood.svg' },
   { name: 'Woonbron', category: 'Nieuwjaarsreceptie', logo: 'assets/images/logos/woonbron.svg' },
   { name: 'Provincie Overijssel', category: 'Nieuwjaarsreceptie', logo: 'assets/images/logos/provincie-overijssel.svg' },
-  { name: 'Gemeente Meppel', category: 'Straat optreden', logo: 'assets/images/logos/gemeente-meppel.svg' }
+  { name: 'Gemeente Meppel', category: 'Straat optreden', logo: 'assets/images/logos/gemeente-meppel.svg' },
+  { name: 'Mercedes-Benz Benelux', category: 'Kerstdiner', logo: 'assets/images/logos/mercedes-benz.svg' }
 ];
 
 export const wallOfFameRow2 = [
@@ -21,7 +22,8 @@ export const wallOfFameRow2 = [
   { name: 'Stichting New Energy Coalition', category: 'Nieuwjaarsreceptie', logo: 'assets/images/logos/new-energy-coalition.svg' },
   { name: 'Theater Rotterdam', category: 'Nieuwjaarsreceptie', logo: 'assets/images/logos/theater-rotterdam.svg' },
   { name: 'Landhuishotel De Bloemenbeek', category: 'Oud & Nieuw feest', logo: 'assets/images/logos/bloemenbeek.png' },
-  { name: 'Urenco', category: 'Kerstdiner', logo: 'assets/images/logos/urenco.svg' }
+  { name: 'Urenco', category: 'Kerstdiner', logo: 'assets/images/logos/urenco.svg' },
+  { name: 'Stichting Duurzaam Repareren', category: 'Kerstdiner', logo: 'assets/images/logos/duurzaam-repareren.png' }
 ];
 
 function getRepeatedItems(items, minCount = 8) {
