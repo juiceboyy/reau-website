@@ -47,16 +47,21 @@ export function renderTop(container) {
         </div>
 
         <div class="lg:col-span-5 relative">
-          <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[4/5] bg-sand">
-            <img src="assets/images/reau-lowres.jpg" alt="Ro Halfhide - Reau" class="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700">
+          <a href="pers.html" class="group block relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[4/5] bg-sand focus:outline-none focus:ring-4 focus:ring-terracotta/30" title="Bekijk & download hires persfoto">
+            <img src="assets/images/reau-lowres.jpg" alt="Ro Halfhide - Reau" class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700">
             <div class="absolute inset-0 bg-gradient-to-t from-espresso/80 via-espresso/20 to-transparent"></div>
             
+            <div class="absolute top-4 right-4 bg-espresso/70 backdrop-blur-sm text-white text-[11px] font-medium px-3 py-1.5 rounded-full border border-white/20 flex items-center gap-1.5 opacity-90 group-hover:opacity-100 group-hover:bg-terracotta transition-all shadow-md">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+              <span>Hires persfoto</span>
+            </div>
+
             <div class="absolute bottom-6 left-6 right-6 text-white">
               <p class="text-xs uppercase tracking-widest text-terracotta font-semibold mb-1">Singer-Songwriter & Producer</p>
               <h3 class="font-serif text-2xl">Ro Halfhide</h3>
               <p class="text-xs text-white/80 mt-1 font-light italic">"Muziek als ontmoetingsplek — een warme uitnodiging tot verbinding."</p>
             </div>
-          </div>
+          </a>
         </div>
 
       </div>
