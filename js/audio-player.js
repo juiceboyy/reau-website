@@ -40,7 +40,7 @@ export const playlist = [
   {
     id: 'get-into-your-car-and-drive',
     title: "Get Into Your Car And Drive",
-    subtitle: "Folk & Soul Ballad",
+    subtitle: "Protest Pop",
     duration: "5:40",
     src: "assets/audio/get-into-your-car-and-drive.mp3",
     artwork: "assets/images/ro-halfhide-portrait.jpg",
