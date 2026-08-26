@@ -7,7 +7,7 @@ export function renderAbout(container) {
   container.innerHTML = `
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-2xl mx-auto mb-16">
-        <span class="text-xs uppercase tracking-widest text-terracotta font-semibold">Biografie</span>
+        <span class="text-xs uppercase tracking-widest text-terracotta font-semibold">Over Reau</span>
         <h2 class="font-serif text-3xl sm:text-4xl text-espresso mt-2">Biografie & De Klank</h2>
         <div class="w-12 h-0.5 bg-terracotta mx-auto mt-4 rounded-full"></div>
       </div>
