@@ -5,6 +5,7 @@
 
 import { renderTop } from './components/top.js';
 import { renderAbout } from './components/about.js';
+import { renderWallOfFame } from './components/wall-of-fame.js';
 import { renderRepertoire } from './components/repertoire.js';
 import { renderPlayerView } from './components/player-view.js';
 import { renderLiveFormats } from './components/live-formats.js';
@@ -21,6 +22,7 @@ function init() {
   // 1. Render all modular section views
   renderTop(document.getElementById('top'));
   renderAbout(document.getElementById('about'));
+  renderWallOfFame(document.getElementById('wall-of-fame'));
   renderRepertoire(document.getElementById('repertoire'));
   renderPlayerView(document.getElementById('muziek'));
   renderLiveFormats(document.getElementById('live'));
