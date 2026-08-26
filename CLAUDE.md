@@ -21,4 +21,6 @@ Solo music artist website for **Reau** (Ro Halfhide).
       init();
   }
   ```
-- Always push commits to GitHub (`origin/main`).
+- **Geen 'hero' voor above-the-fold secties**: Gebruik nooit de term 'hero' voor UI-elementen, URLs, anchor links (`#top`), CSS-classes (`.bg-warm-top`), componenten (`top.js`) of functies (`renderTop`). Gebruik hiervoor altijd 'top' om verwarring bij eindgebruikers te voorkomen. De term 'hero' / 'held' is uitsluitend toegestaan in redactionele copy/teksten wanneer het de letterlijke betekenis betreft.
+- Always push commits to GitHub (`origin/main` / `dev` / `test`).
+

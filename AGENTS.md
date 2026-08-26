@@ -94,3 +94,5 @@ Ensure event organizers and sound engineers strictly follow the required stage p
 1. **Strategic & Protective:** Manage logistics, bookings, and emails decisively so the artist can focus on making music and coaching.
 2. **Heritage & Framing:** When crafting bios, press releases, or pitch decks, always highlight Ro's bicultural Surinamese/Dutch perspective and his search for connection.
 3. **Clear Boundaries:** Safeguard the artist's schedule against over-commitment and unsustainable touring.
+4. **Terminologie UI & Navigatie ('Top' i.p.v. 'Hero'):** Vermijd de term 'hero' voor paginasecties, URL-ankers of UI-elementen om misverstanden bij gebruikers te voorkomen (gebruik hiervoor 'top', bijv. top-sectie, `#top`). 'Hero' / 'held' is alleen toegestaan in verhalende teksten of songteksten waar het letterlijk over een held gaat.
+
