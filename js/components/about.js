@@ -15,13 +15,13 @@ export function renderAbout(container) {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         <div class="space-y-5 text-espresso-muted leading-relaxed">
           <p class="text-lg text-espresso font-serif">
-            Reau is het intieme akoestische soloproject van Ro Halfhide — een biculturele singer-songwriter en producer (half Surinaams, half Nederlands geadopteerd) met een warm, herkenbaar stemgeluid.
+            Reau is het intieme akoestische soloproject van Ro Halfhide — een biculturele singer-songwriter en producer (half Surinaams, half Nederlands) met een warm, herkenbaar stemgeluid.
           </p>
           <p>
-            Als oprichter van het <strong>Amsterdam Songwriters Guild (ASG)</strong> en producer voor diverse gerenommeerde artiesten, staat Ro bekend om zijn muzikale vakmanschap, jazzy touch en ontwapenende podiumaanwezigheid.
+            Als oprichter van het <strong>Amsterdam Songwriters Guild (ASG)</strong>, organisator van de <strong>Haagse Open Mic</strong> en producer voor gerenommeerde artiesten (waaronder Lucky Fonz III en Robin Block), staat Ro bekend om zijn muzikale vakmanschap, jazzy touch en ontwapenende podiumaanwezigheid.
           </p>
           <p>
-            Met Reau brengt hij het publiek dichtbij: verfijnde gitaarharmonieën, soulvolle dynamiek en een repertoire dat generaties en genres moeiteloos verbindt.
+            Dankzij zijn ruime ervaring in professionele akoestische coverbands brengt hij het publiek dichtbij: verfijnde gitaarharmonieën, soulvolle dynamiek en een repertoire dat generaties en genres moeiteloos verbindt.
           </p>
         </div>
 
