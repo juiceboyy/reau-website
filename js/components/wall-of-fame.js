@@ -17,7 +17,8 @@ export const wallOfFameRow1 = [
   { name: 'ESA', category: 'Congres', logo: 'assets/images/logos/esa.svg' },
   { name: 'Prodentfabriek', category: 'Diverse congressen', logo: 'assets/images/logos/prodentfabriek.svg' },
   { name: 'Ministerie van IenW', category: 'Diverse congressen', logo: 'assets/images/logos/ministerie-ienw.svg' },
-  { name: 'Koninklijke Saan', category: 'Opening Laadplein', logo: 'assets/images/logos/koninklijke-saan.svg' }
+  { name: 'Koninklijke Saan', category: 'Opening Laadplein', logo: 'assets/images/logos/koninklijke-saan.svg' },
+  { name: 'Kasteel Doornenburg', category: 'Bruiloft', logo: 'assets/images/logos/kasteel-doornenburg.png' }
 ];
 
 export const wallOfFameRow2 = [
