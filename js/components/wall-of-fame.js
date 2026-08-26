@@ -32,7 +32,8 @@ export const wallOfFameRow2 = [
   { name: 'Het Wapen van Beckum', category: 'Diverse feesten', logo: 'assets/images/logos/wapen-van-beckum.png' },
   { name: 'Industrieele Groote Club', category: 'Verjaardag', logo: 'assets/images/logos/industrieele-groote-club.svg' },
   { name: 'Bodembeheer NL', category: 'Congres', logo: 'assets/images/logos/bodembeheer-nl.png' },
-  { name: 'AFAS Software', category: 'Diverse congressen', logo: 'assets/images/logos/afas-software.png' }
+  { name: 'AFAS Software', category: 'Diverse congressen', logo: 'assets/images/logos/afas-software.png' },
+  { name: 'Trekpleister', category: 'Jubileum feest', logo: 'assets/images/logos/trekpleister.svg' }
 ];
 
 function getRepeatedItems(items, minCount = 8) {
