@@ -86,25 +86,16 @@ export function initRepertoireTabs() {
 
     items.forEach((item, index) => {
       const card = document.createElement('div');
-      card.className = 'bg-warm-card rounded-2xl p-5 sm:p-6 border border-espresso/10 hover-lift flex flex-col justify-between';
+      card.className = 'bg-warm-card rounded-2xl p-5 sm:p-6 border border-espresso/10 hover-lift';
       card.innerHTML = `
-        <div>
-          <div class="flex items-center justify-between gap-2 mb-3">
-            <span class="px-3 py-1 text-xs font-semibold rounded-full ${activeTab === 'covers' ? 'bg-terracotta/10 text-terracotta' : 'bg-amber-600/10 text-amber-700'}">
-              ${activeTab === 'covers' ? item.artist : item.album}
-            </span>
-            <span class="text-xs text-espresso-muted">${item.mood}</span>
-          </div>
-          <h4 class="font-serif text-xl sm:text-2xl text-espresso mb-2">${item.title}</h4>
-          <p class="text-sm text-espresso-muted leading-relaxed">${item.style}</p>
-        </div>
-        <div class="mt-4 pt-3 border-t border-espresso/5 flex items-center justify-between text-xs text-espresso-muted">
-          <span class="flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-            ${activeTab === 'covers' ? 'Reimagined Cover' : 'Origineel Werk'}
+        <div class="flex items-center justify-between gap-2 mb-3">
+          <span class="px-3 py-1 text-xs font-semibold rounded-full ${activeTab === 'covers' ? 'bg-terracotta/10 text-terracotta' : 'bg-amber-600/10 text-amber-700'}">
+            ${activeTab === 'covers' ? item.artist : item.album}
           </span>
-          <span class="font-medium">Akoestisch Live</span>
+          <span class="text-xs text-espresso-muted">${item.mood}</span>
         </div>
+        <h4 class="font-serif text-xl sm:text-2xl text-espresso mb-2">${item.title}</h4>
+        <p class="text-sm text-espresso-muted leading-relaxed">${item.style}</p>
       `;
       repertoireGrid.appendChild(card);
     });
