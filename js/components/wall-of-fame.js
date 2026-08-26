@@ -17,6 +17,7 @@ export const wallOfFameRow1 = [
 ];
 
 export const wallOfFameRow2 = [
+  { name: 'BOVAG', category: 'Netwerkborrel', logo: 'assets/images/logos/bovag.png' },
   { name: 'Booking.com', category: 'Corporate Celebration', logo: '' },
   { name: 'Patronaat Haarlem', category: 'Muziekevent', logo: '' },
   { name: 'PwC Nederland', category: 'Zomergala & Borrel', logo: '' },
