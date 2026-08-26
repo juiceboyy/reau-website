@@ -156,6 +156,7 @@ select:focus-visible {
   display: flex;
   flex-shrink: 0;
   gap: 1.25rem;
+  width: max-content;
   min-width: 100%;
   animation: marqueeScrollLeft 35s linear infinite;
   will-change: transform;

@@ -30,15 +30,17 @@ function getRepeatedItems(items, minCount = 8) {
 function renderCard(item) {
   const initials = item.name.split(' ').map(w => w[0]).slice(0, 2).join('');
   const logoContent = item.logo
-    ? `<img src="${item.logo}" alt="${item.name}" class="max-h-7 max-w-[110px] object-contain">`
-    : `<div class="w-8 h-8 rounded-lg bg-terracotta/10 text-terracotta flex items-center justify-center font-semibold text-xs tracking-wider">${initials}</div>`;
+    ? `<div class="h-9 min-w-[36px] max-w-[120px] flex items-center justify-center shrink-0">
+         <img src="${item.logo}" alt="${item.name}" class="max-h-8 max-w-[120px] w-auto h-auto object-contain shrink-0">
+       </div>`
+    : `<div class="w-9 h-9 rounded-xl bg-terracotta/10 text-terracotta flex items-center justify-center font-semibold text-xs tracking-wider shrink-0">${initials}</div>`;
 
   return `
-    <div class="flex items-center gap-3.5 px-5 py-3.5 rounded-2xl bg-white border border-espresso/10 shadow-sm shrink-0 hover:border-terracotta/40 hover:shadow-md transition-all">
+    <div class="inline-flex items-center gap-4 px-6 py-4 rounded-2xl bg-white border border-espresso/10 shadow-sm shrink-0 whitespace-nowrap hover:border-terracotta/40 hover:shadow-md transition-all select-none" style="min-width: max-content;">
       ${logoContent}
-      <div>
-        <p class="font-serif text-sm text-espresso font-medium whitespace-nowrap">${item.name}</p>
-        <p class="text-[11px] text-espresso-muted whitespace-nowrap">${item.category}</p>
+      <div class="flex flex-col justify-center min-w-0 pr-1">
+        <span class="font-serif text-sm sm:text-base text-espresso font-medium whitespace-nowrap leading-snug">${item.name}</span>
+        <span class="text-xs text-espresso-muted whitespace-nowrap leading-tight mt-0.5">${item.category}</span>
       </div>
     </div>
   `;
