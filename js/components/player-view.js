@@ -9,7 +9,7 @@ export function renderPlayerView(container) {
       <div class="text-center max-w-2xl mx-auto mb-12">
         <span class="text-xs uppercase tracking-widest text-terracotta font-semibold">Luister Nu</span>
         <h2 class="font-serif text-3xl sm:text-4xl text-espresso mt-2">Originele Opnames van Ro Halfhide</h2>
-        <p class="text-espresso-muted mt-3 text-sm sm:text-base">Beluister hieronder een selectie van uitgebrachte akoestische tracks.</p>
+        <p class="text-espresso-muted mt-3 text-sm sm:text-base">Beluister hieronder een selectie van uitgebrachte tracks.</p>
       </div>
 
       <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-espresso/10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
