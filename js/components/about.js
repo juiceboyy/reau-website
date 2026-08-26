@@ -21,7 +21,7 @@ export function renderAbout(container) {
             Als oprichter van het <strong>Amsterdam Songwriters Guild (ASG)</strong>, organisator van de <strong>Haagse Open Mic</strong> en producer voor gerenommeerde artiesten (waaronder Lucky Fonz III en Robin Block), staat Ro bekend om zijn muzikale vakmanschap, jazzy touch en ontwapenende podiumaanwezigheid.
           </p>
           <p>
-            Dankzij zijn ruime ervaring in professionele akoestische coverbands brengt hij het publiek dichtbij: verfijnde gitaarharmonieën, soulvolle dynamiek en een repertoire dat generaties en genres moeiteloos verbindt.
+            Dankzij zijn ruime ervaring in professionele akoestische coverbands brengt hij het publiek dichtbij: verfijnde gitaarharmonieën, soulvolle dynamiek en een repertoire dat generaties en genres moeiteloos verbindt. ➔ Bekijk de <a href="#wall-of-fame" class="text-terracotta underline font-semibold hover:text-terracotta-dark transition-colors">Wall of Fame</a> met eerdere podia &amp; opdrachtgevers.
           </p>
         </div>
 

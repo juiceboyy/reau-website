@@ -141,3 +141,52 @@ select:focus-visible {
   transform: translateY(-4px);
   box-shadow: 0 16px 32px -8px rgba(37, 29, 26, 0.08);
 }
+
+/* Infinite Wall of Fame Marquee */
+.marquee-container {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  gap: 1.25rem;
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  gap: 1.25rem;
+  min-width: 100%;
+  animation: marqueeScrollLeft 35s linear infinite;
+  will-change: transform;
+}
+
+.marquee-track-reverse {
+  animation: marqueeScrollRight 38s linear infinite;
+}
+
+.marquee-container:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeScrollLeft {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-100% - 1.25rem)); }
+}
+
+@keyframes marqueeScrollRight {
+  from { transform: translateX(calc(-100% - 1.25rem)); }
+  to { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none !important;
+  }
+  .marquee-container {
+    overflow-x: auto;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+}
+
