@@ -14,7 +14,9 @@ export const wallOfFameRow1 = [
   { name: 'Gemeente Meppel', category: 'Straat optreden', logo: 'assets/images/logos/gemeente-meppel.svg' },
   { name: 'Mercedes-Benz Benelux', category: 'Kerstdiner', logo: 'assets/images/logos/mercedes-benz.svg' },
   { name: 'Robin Radar', category: 'Personeelsfeest', logo: 'assets/images/logos/robin-radar.svg' },
-  { name: 'ESA', category: 'Congres', logo: 'assets/images/logos/esa.svg' }
+  { name: 'ESA', category: 'Congres', logo: 'assets/images/logos/esa.svg' },
+  { name: 'Prodentfabriek', category: 'Diverse congressen', logo: 'assets/images/logos/prodentfabriek.svg' },
+  { name: 'Ministerie van IenW', category: 'Diverse congressen', logo: 'assets/images/logos/ministerie-ienw.svg' }
 ];
 
 export const wallOfFameRow2 = [
@@ -27,7 +29,8 @@ export const wallOfFameRow2 = [
   { name: 'Urenco', category: 'Kerstdiner', logo: 'assets/images/logos/urenco.svg' },
   { name: 'Stichting Duurzaam Repareren', category: 'Kerstdiner', logo: 'assets/images/logos/duurzaam-repareren.png' },
   { name: 'Het Wapen van Beckum', category: 'Diverse feesten', logo: 'assets/images/logos/wapen-van-beckum.png' },
-  { name: 'Industrieele Groote Club', category: 'Verjaardag', logo: 'assets/images/logos/industrieele-groote-club.svg' }
+  { name: 'Industrieele Groote Club', category: 'Verjaardag', logo: 'assets/images/logos/industrieele-groote-club.svg' },
+  { name: 'Bodembeheer NL', category: 'Congres', logo: 'assets/images/logos/bodembeheer-nl.png' }
 ];
 
 function getRepeatedItems(items, minCount = 8) {
