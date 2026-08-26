@@ -15,7 +15,7 @@ export function renderTop(container) {
           </div>
           
           <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-espresso leading-[1.12] tracking-tight">
-            Acoustic soul, herkenbare covers & <span class="italic text-terracotta">eigen werk.</span>
+            Acoustic soul, herkenbare covers & <span class="text-terracotta">eigen werk.</span>
           </h1>
           
           <p class="text-espresso-muted text-base sm:text-lg lg:text-xl leading-relaxed max-w-xl">
