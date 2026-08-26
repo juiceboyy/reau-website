@@ -49,7 +49,7 @@ export function renderLiveFormats(container) {
               <div class="flex justify-between"><span>3 sets (± 135 min):</span> <strong class="font-mono text-espresso">€ 900,-</strong></div>
             </div>
           </div>
-          <button type="button" class="calc-format-btn mt-8 w-full py-3 rounded-xl bg-terracotta text-white text-center text-xs font-semibold uppercase tracking-wider hover:bg-terracotta-dark transition-all" data-format="duo">
+          <button type="button" class="calc-format-btn mt-8 w-full py-3 rounded-xl border border-espresso/10 text-center text-xs font-semibold uppercase tracking-wider hover:bg-espresso/5 transition-all" data-format="duo">
             Selecteer Duo
           </button>
         </div>

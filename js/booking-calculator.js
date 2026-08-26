@@ -63,8 +63,8 @@ export function initBookingCalculator() {
         btn.classList.add('border-terracotta', 'bg-terracotta/10', 'text-espresso', 'font-semibold', 'ring-2', 'ring-terracotta/30');
         btn.classList.remove('border-espresso/10', 'bg-white', 'hover:bg-espresso/5');
       } else {
-        btn.classList.remove('border-terracotta', 'bg-terracotta/10', 'text-espresso', 'font-semibold', 'ring-2', 'ring-terracotta/30');
-        btn.classList.add('border-espresso/10', 'bg-white', 'hover:bg-espresso/5');
+        btn.classList.remove('border-terracotta', 'bg-terracotta/10', 'ring-2', 'ring-terracotta/30');
+        btn.classList.add('border-espresso/10', 'bg-white', 'text-espresso', 'font-semibold', 'hover:bg-espresso/5');
       }
     });
 
