@@ -6,40 +6,34 @@
 export const repertoireData = {
   covers: [
     {
-      title: "Ain't No Sunshine / Lean On Me",
+      title: "Ain't No Sunshine / Lean On Me / Just the Two of Us",
       artist: "Bill Withers",
       mood: "Soul & Warmte",
       style: "Akoestische groove, soulvolle dynamiek en vocale bezieling"
     },
     {
-      title: "Feeling Good / I Put a Spell on You",
-      artist: "Nina Simone",
-      mood: "Jazzy & Intens",
-      style: "Intieme jazzy gitaarharmonieën vol emotionele zeggingskracht"
-    },
-    {
-      title: "You've Really Got a Hold on Me / The Tracks of My Tears",
-      artist: "Smokey Robinson & The Miracles",
-      mood: "Motown Soul",
-      style: "Zwoele Motown klassiekers in een gestript, warm akoestisch jasje"
-    },
-    {
-      title: "Waiting in Vain / Is This Love / Redemption Song",
-      artist: "Bob Marley",
-      mood: "Feelgood & Roots",
-      style: "Akoestische reggae-soul vol zon, ritme en verbondenheid"
-    },
-    {
-      title: "Lovely Day / Use Me",
-      artist: "Bill Withers",
-      mood: "Groovy & Vrolijk",
-      style: "Aanstekelijke baslijnen en ritmisch gitaarspel dat uitnodigt tot meedeinen"
-    },
-    {
-      title: "My Baby Just Cares for Me / Don't Let Me Be Misunderstood",
+      title: "My Baby Just Cares for Me",
       artist: "Nina Simone",
       mood: "Klassiek & Swing",
-      style: "Smaakvolle syncopes en akoestische verfijning"
+      style: "Smaakvolle syncopes, speelse jazzy harmonieën en akoestische verfijning"
+    },
+    {
+      title: "My Girl",
+      artist: "Smokey Robinson",
+      mood: "Motown Soul",
+      style: "Tijdloze Motown klassieker in een gestript, warm akoestisch jasje"
+    },
+    {
+      title: "Redemption Song / One Love / No Woman No Cry",
+      artist: "Bob Marley",
+      mood: "Feelgood & Roots",
+      style: "Akoestische reggae met veel soul en lekker meezingen"
+    },
+    {
+      title: "Easy",
+      artist: "Lionel Richie",
+      mood: "Smooth Soul",
+      style: "Zijdezachte vocalen met een natuurlijke warme klankkleur, ontspannen akoestische grooves en pure feelgood"
     }
   ],
   originals: [
@@ -98,25 +92,16 @@ export function initRepertoireTabs() {
 
     items.forEach((item, index) => {
       const card = document.createElement('div');
-      card.className = 'bg-warm-card rounded-2xl p-5 sm:p-6 border border-espresso/10 hover-lift flex flex-col justify-between';
+      card.className = 'bg-warm-card rounded-2xl p-5 sm:p-6 border border-espresso/10 hover-lift';
       card.innerHTML = `
-        <div>
-          <div class="flex items-center justify-between gap-2 mb-3">
-            <span class="px-3 py-1 text-xs font-semibold rounded-full ${activeTab === 'covers' ? 'bg-terracotta/10 text-terracotta' : 'bg-amber-600/10 text-amber-700'}">
-              ${activeTab === 'covers' ? item.artist : item.album}
-            </span>
-            <span class="text-xs text-espresso-muted">${item.mood}</span>
-          </div>
-          <h4 class="font-serif text-xl sm:text-2xl text-espresso mb-2">${item.title}</h4>
-          <p class="text-sm text-espresso-muted leading-relaxed">${item.style}</p>
-        </div>
-        <div class="mt-4 pt-3 border-t border-espresso/5 flex items-center justify-between text-xs text-espresso-muted">
-          <span class="flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-            ${activeTab === 'covers' ? 'Reimagined Cover' : 'Origineel Werk'}
+        <div class="flex items-center justify-between gap-2 mb-3">
+          <span class="px-3 py-1 text-xs font-semibold rounded-full ${activeTab === 'covers' ? 'bg-terracotta/10 text-terracotta' : 'bg-amber-600/10 text-amber-700'}">
+            ${activeTab === 'covers' ? item.artist : item.album}
           </span>
-          <span class="font-medium">Akoestisch Live</span>
+          <span class="text-xs text-espresso-muted">${item.mood}</span>
         </div>
+        <h4 class="font-serif text-xl sm:text-2xl text-espresso mb-2">${item.title}</h4>
+        <p class="text-sm text-espresso-muted leading-relaxed">${item.style}</p>
       `;
       repertoireGrid.appendChild(card);
     });
