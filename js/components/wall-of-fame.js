@@ -12,7 +12,8 @@ export const wallOfFameRow1 = [
   { name: 'Woonbron', category: 'Nieuwjaarsreceptie', logo: 'assets/images/logos/woonbron.svg' },
   { name: 'Provincie Overijssel', category: 'Nieuwjaarsreceptie', logo: 'assets/images/logos/provincie-overijssel.svg' },
   { name: 'Gemeente Meppel', category: 'Straat optreden', logo: 'assets/images/logos/gemeente-meppel.svg' },
-  { name: 'Mercedes-Benz Benelux', category: 'Kerstdiner', logo: 'assets/images/logos/mercedes-benz.svg' }
+  { name: 'Mercedes-Benz Benelux', category: 'Kerstdiner', logo: 'assets/images/logos/mercedes-benz.svg' },
+  { name: 'Robin Radar', category: 'Personeelsfeest', logo: 'assets/images/logos/robin-radar.svg' }
 ];
 
 export const wallOfFameRow2 = [
