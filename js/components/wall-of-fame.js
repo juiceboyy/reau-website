@@ -30,7 +30,8 @@ export const wallOfFameRow2 = [
   { name: 'Stichting Duurzaam Repareren', category: 'Kerstdiner', logo: 'assets/images/logos/duurzaam-repareren.png' },
   { name: 'Het Wapen van Beckum', category: 'Diverse feesten', logo: 'assets/images/logos/wapen-van-beckum.png' },
   { name: 'Industrieele Groote Club', category: 'Verjaardag', logo: 'assets/images/logos/industrieele-groote-club.svg' },
-  { name: 'Bodembeheer NL', category: 'Congres', logo: 'assets/images/logos/bodembeheer-nl.png' }
+  { name: 'Bodembeheer NL', category: 'Congres', logo: 'assets/images/logos/bodembeheer-nl.png' },
+  { name: 'AFAS Software', category: 'Diverse congressen', logo: 'assets/images/logos/afas-software.png' }
 ];
 
 function getRepeatedItems(items, minCount = 8) {
