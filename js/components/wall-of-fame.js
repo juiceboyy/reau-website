@@ -8,7 +8,9 @@ export const wallOfFameItems = [
   { name: 'Louwman Museum', category: 'Bedrijfsevent', logo: 'assets/images/logos/louwman-museum.svg' },
   { name: 'BOVAG', category: 'Netwerkborrel', logo: 'assets/images/logos/bovag.png' },
   { name: 'Landgoedhotel De Wilmersberg', category: 'Paasdiner', logo: 'assets/images/logos/wilmersberg.svg' },
-  { name: 'Bram Ladage', category: 'Verjaardag', logo: 'assets/images/logos/bram-ladage.png' }
+  { name: 'Bram Ladage', category: 'Verjaardag', logo: 'assets/images/logos/bram-ladage.png' },
+  { name: 'researchED Nederland', category: 'Onderwijscongres', logo: 'assets/images/logos/researched-nederland.png' },
+  { name: 'Beatrix Theater', category: 'Diverse congressen', logo: 'assets/images/logos/beatrix-theater.svg' }
 ];
 
 function getRepeatedItems(items, minCount = 8) {
