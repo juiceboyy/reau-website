@@ -5,6 +5,17 @@
 
 export const playlist = [
   {
+    id: 'your-morning-smile',
+    title: "Your Morning Smile",
+    subtitle: "Jazzy Singer-Songwriter",
+    duration: "3:20",
+    src: "assets/audio/your-morning-smile.mp3",
+    artwork: "assets/images/album-paint-the-town.jpg",
+    spotify: "https://open.spotify.com/artist/79dS9zvJ6QCjz54EUdjs9u",
+    soundcloud: "https://soundcloud.com/rohalfhide",
+    description: "Speelse jazzy timing, warm akoestisch gitaarspel en een opgewekte melodie."
+  },
+  {
     id: 'rise-up-and-start-singing',
     title: "Rise Up and Start Singing",
     subtitle: "Acoustic Pop / Soul",
