@@ -33,8 +33,8 @@ export function renderAbout(container) {
           </div>
           <div class="p-6 rounded-2xl bg-white border border-espresso/10 hover-lift">
             <div class="w-10 h-10 rounded-xl bg-terracotta/10 text-terracotta flex items-center justify-center font-serif text-xl mb-3">2</div>
-            <h4 class="font-serif text-xl text-espresso mb-1">Soulvol Vakmanschap</h4>
-            <p class="text-sm text-espresso-muted">Klassiekers en eigen composities herwerkt met soul, subtiele grooves en verhalende diepgang.</p>
+            <h4 class="font-serif text-xl text-espresso mb-1">Soul & Singalongs</h4>
+            <p class="text-sm text-espresso-muted">Van intieme akoestische klassiekers tot aanstekelijke singalongs en eigen nummers.</p>
           </div>
           <div class="p-6 rounded-2xl bg-white border border-espresso/10 hover-lift">
             <div class="w-10 h-10 rounded-xl bg-terracotta/10 text-terracotta flex items-center justify-center font-serif text-xl mb-3">3</div>
