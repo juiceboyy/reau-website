@@ -7,7 +7,7 @@ export const playlist = [
   {
     id: 'its-been-good',
     title: "It's Been Good",
-    subtitle: "Acoustic Pop / Soul • Single",
+    subtitle: "Pop / Soul",
     duration: "1:50",
     src: "assets/audio/its-been-good.mp3",
     artwork: "assets/images/album-its-been-good.jpg",

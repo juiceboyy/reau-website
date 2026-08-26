@@ -30,7 +30,7 @@ export function renderPlayerView(container) {
           </div>
           
           <h3 id="player-title" class="font-serif text-2xl text-espresso">It's Been Good</h3>
-          <p id="player-subtitle" class="text-xs text-espresso-muted mt-1">Acoustic Pop / Soul</p>
+          <p id="player-subtitle" class="text-xs text-espresso-muted mt-1">Pop / Soul</p>
         </div>
 
         <!-- Controls & Tracklist -->
