@@ -18,10 +18,10 @@ export const repertoireData = {
       style: "Smaakvolle syncopes, speelse jazzy harmonieën en akoestische verfijning"
     },
     {
-      title: "You've Really Got a Hold on Me / The Tracks of My Tears",
-      artist: "Smokey Robinson & The Miracles",
+      title: "My Girl",
+      artist: "Smokey Robinson",
       mood: "Motown Soul",
-      style: "Zwoele Motown klassiekers in een gestript, warm akoestisch jasje"
+      style: "Tijdloze Motown klassieker in een gestript, warm akoestisch jasje"
     },
     {
       title: "Waiting in Vain / Is This Love / Redemption Song",
