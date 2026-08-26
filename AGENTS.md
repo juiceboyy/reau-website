@@ -37,17 +37,17 @@ When negotiating performances (living room concerts, clubs, festivals, cultural 
 *Note: Excludes travel expenses and applicable 9% VAT unless otherwise negotiated.*
 
 - **Solo (Ro / Reau):**
-  - 1 set: €100
-  - 2 sets: €150
-  - 3 sets: €200
+  - 1 set: €300
+  - 2 sets: €450
+  - 3 sets: €600
 - **Duo (e.g. Ro Halfhide + Marcus Bruystens / Bass & Backing Vox):**
-  - 1 set: €150
-  - 2 sets: €225
-  - 3 sets: €300
-- **Trio:**
-  - 1 set: €195
-  - 2 sets: €300
-  - 3 sets: €400
+  - 1 set: €450
+  - 2 sets: €675
+  - 3 sets: €900
+- **Trio (e.g. Ro Halfhide + Bass + Percussion):**
+  - 1 set: €600
+  - 2 sets: €900
+  - 3 sets: €1200
 
 ### Preferred & Partner Venues:
 Bind Hembrug, Nieuwe KHL, Paradiso, PopUpOp, P60, Patronaat, De Amer (Amen), Café het Keerpunt (Spijkerboor), Radio sessions (ZFM / Zandvoort FM).
