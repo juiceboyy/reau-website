@@ -47,6 +47,17 @@ export const playlist = [
     spotify: "https://open.spotify.com/artist/79dS9zvJ6QCjz54EUdjs9u",
     soundcloud: "https://soundcloud.com/rohalfhide",
     description: "Een meeslepend muzikaal verhaal over vrijheid, loslaten en vooruitkijken."
+  },
+  {
+    id: 'rise-up-and-start-singing',
+    title: "Rise Up and Start Singing",
+    subtitle: "Acoustic Pop / Soul",
+    duration: "2:36",
+    src: "assets/audio/rise-up-and-start-singing.mp3",
+    artwork: "assets/images/album-malaysia-style.jpg",
+    spotify: "https://open.spotify.com/artist/79dS9zvJ6QCjz54EUdjs9u",
+    soundcloud: "https://soundcloud.com/rohalfhide",
+    description: "Aanstekelijke melodie en optimistische energie vol hoop, verbinding en ritme."
   }
 ];
 
