@@ -26,7 +26,8 @@ export const wallOfFameRow2 = [
   { name: 'Landhuishotel De Bloemenbeek', category: 'Oud & Nieuw feest', logo: 'assets/images/logos/bloemenbeek.png' },
   { name: 'Urenco', category: 'Kerstdiner', logo: 'assets/images/logos/urenco.svg' },
   { name: 'Stichting Duurzaam Repareren', category: 'Kerstdiner', logo: 'assets/images/logos/duurzaam-repareren.png' },
-  { name: 'Het Wapen van Beckum', category: 'Diverse feesten', logo: 'assets/images/logos/wapen-van-beckum.png' }
+  { name: 'Het Wapen van Beckum', category: 'Diverse feesten', logo: 'assets/images/logos/wapen-van-beckum.png' },
+  { name: 'Industrieele Groote Club', category: 'Verjaardag', logo: 'assets/images/logos/industrieele-groote-club.svg' }
 ];
 
 function getRepeatedItems(items, minCount = 8) {
