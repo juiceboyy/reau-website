@@ -19,7 +19,8 @@ export const wallOfFameRow1 = [
   { name: 'Ministerie van IenW', category: 'Diverse congressen', logo: 'assets/images/logos/ministerie-ienw.svg' },
   { name: 'Koninklijke Saan', category: 'Opening Laadplein', logo: 'assets/images/logos/koninklijke-saan.svg' },
   { name: 'Kasteel Doornenburg', category: 'Bruiloft', logo: 'assets/images/logos/kasteel-doornenburg.png' },
-  { name: 'Paradiso', category: 'Eigen werk optreden', logo: 'assets/images/logos/paradiso.svg' }
+  { name: 'Paradiso', category: 'Eigen werk optreden', logo: 'assets/images/logos/paradiso.svg' },
+  { name: "Studio's Aalsmeer", category: 'Diverse feesten', logo: 'assets/images/logos/studios-aalsmeer.png' }
 ];
 
 export const wallOfFameRow2 = [
