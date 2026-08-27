@@ -66,6 +66,8 @@ export function initContactForm() {
       const formatName = rateConfig[format]?.name || format;
       const numSets = sets === '5+' ? 5 : parseInt(sets, 10);
       const price = calculateRate(format, numSets);
+      const isParticulier = eventType.includes('Particulier');
+      const conditionNote = isParticulier ? '(inclusief reiskosten)' : '(excl. eventuele reiskosten & 9% BTW)';
 
       // Format clean email subject and body
       const subject = encodeURIComponent(`Boekingsaanvraag Reau: ${name} (${formatName}, ${eventType})`);
@@ -78,7 +80,7 @@ export function initContactForm() {
         `• Datum evenement: ${date}\n` +
         `• Type gelegenheid: ${eventType}\n` +
         `• Gewenste bezetting: ${formatName} (${sets} set(s) ± ${numSets * 45} min)\n` +
-        `• Indicatietarief: Vanaf € ${price},- (excl. reiskosten & 9% BTW)\n` +
+        `• Indicatietarief: Vanaf € ${price},- ${conditionNote}\n` +
         `• Locatie / Plaats: ${location}\n\n` +
         `Toelichting / Vraag:\n${message || 'Geen extra toelichting'}\n\n` +
         `Met vriendelijke groet,\n${name}`

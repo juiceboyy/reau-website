@@ -227,9 +227,9 @@ export function renderLiveFormats(container) {
             <div class="mt-4 flex flex-wrap items-baseline gap-3">
               <span class="text-xs text-espresso-muted uppercase tracking-wider">Indicatietarief:</span>
               <span id="calc-price-display" class="font-serif text-3xl sm:text-4xl text-terracotta font-bold">€ 750,-</span>
-              <span class="text-xs text-espresso-muted">(excl. reiskosten & 9% BTW)</span>
+              <span id="calc-vat-note" class="text-xs text-espresso-muted">(inclusief reiskosten)</span>
             </div>
-            <p class="text-xs text-espresso-muted mt-1">Inclusief voorbereiding, eigen geluid & accu-apparatuur.</p>
+            <p id="calc-sub-note" class="text-xs text-espresso-muted mt-1">Inclusief reiskosten, voorbereiding, eigen geluid & accu-apparatuur.</p>
           </div>
 
           <div class="lg:col-span-5 flex flex-col items-stretch lg:items-end">

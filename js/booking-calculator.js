@@ -56,6 +56,8 @@ export function initBookingCalculator() {
 
   const priceDisplayEl = document.getElementById('calc-price-display');
   const summaryTextEl = document.getElementById('calc-summary-text');
+  const vatNoteEl = document.getElementById('calc-vat-note');
+  const subNoteEl = document.getElementById('calc-sub-note');
   const submitBtn = document.getElementById('calc-submit-btn');
 
   // Contact form elements
@@ -78,6 +80,14 @@ export function initBookingCalculator() {
     }
     if (summaryTextEl) {
       summaryTextEl.textContent = `${formatData.name} • ${currentSets} set${currentSets > 1 ? 's' : ''} (± ${currentSets * 45} min) • ${occasionData.name}`;
+    }
+    if (vatNoteEl) {
+      vatNoteEl.textContent = currentOccasion === 'particulier' ? '(inclusief reiskosten)' : '(excl. eventuele reiskosten & 9% BTW)';
+    }
+    if (subNoteEl) {
+      subNoteEl.textContent = currentOccasion === 'particulier'
+        ? 'Inclusief reiskosten, voorbereiding, eigen geluid & accu-apparatuur.'
+        : 'Inclusief voorbereiding, eigen geluid & accu-apparatuur (excl. 9% BTW).';
     }
 
     // 2. Update format cards UI
@@ -181,12 +191,13 @@ export function initBookingCalculator() {
 
     const formSummaryEl = document.getElementById('form-calculator-summary');
     if (formSummaryEl) {
+      const conditionNote = currentOccasion === 'particulier' ? 'inclusief reiskosten' : 'excl. 9% BTW';
       formSummaryEl.innerHTML = `
         <div class="flex items-center gap-2">
           <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
           <span><strong>Gekozen configuratie:</strong> ${formatName} • ${sets} set(s) • ${occasionValue}</span>
         </div>
-        <span class="font-serif font-bold text-terracotta text-sm">Indicatie: € ${price},-</span>
+        <span class="font-serif font-bold text-terracotta text-sm">Indicatie: € ${price},- (${conditionNote})</span>
       `;
       formSummaryEl.classList.remove('hidden');
     }
