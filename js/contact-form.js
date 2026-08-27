@@ -120,38 +120,15 @@ export function initContactForm() {
       };
 
       try {
-        let isSuccess = false;
+        const funcResponse = await fetch('/.netlify/functions/send-booking', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
 
-        // Try Netlify Function (Brevo integration)
-        try {
-          const funcResponse = await fetch('/.netlify/functions/send-booking', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
+        const result = await funcResponse.json().catch(() => ({}));
 
-          if (funcResponse.ok) {
-            isSuccess = true;
-          }
-        } catch (funcErr) {
-          console.warn('Netlify function niet bereikbaar, fallback naar Netlify Forms...', funcErr);
-        }
-
-        // Fallback to Netlify Forms POST if function was not reached
-        if (!isSuccess) {
-          const formData = new FormData(form);
-          const urlEncodedData = new URLSearchParams(formData).toString();
-          const staticResponse = await fetch('/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: urlEncodedData
-          });
-          if (staticResponse.ok) {
-            isSuccess = true;
-          }
-        }
-
-        if (isSuccess) {
+        if (funcResponse.ok && result.success) {
           showToast(
             'Aanvraag Verzonden!',
             'Bedankt! Ro heeft je aanvraag ontvangen en er is een bevestiging naar je e-mailadres gestuurd.'
@@ -164,7 +141,7 @@ export function initContactForm() {
           // Scroll smoothly to success card
           successCard?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else {
-          throw new Error('Formulier kon niet worden verstuurd.');
+          throw new Error(result.error || `Status ${funcResponse.status}`);
         }
       } catch (error) {
         console.error('Fout bij versturen formulier:', error);
