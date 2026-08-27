@@ -122,7 +122,7 @@ export function renderContact(container) {
             
             <div class="flex items-center gap-3 text-xs text-espresso-muted">
               <span>Of direct per e-mail:</span>
-              <a href="mailto:halfhide@gmail.com" class="font-medium text-terracotta hover:underline">halfhide@gmail.com</a>
+              <a href="mailto:boekingen@reaumusic.nl" class="font-medium text-terracotta hover:underline">boekingen@reaumusic.nl</a>
             </div>
           </div>
 

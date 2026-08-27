@@ -6,7 +6,7 @@
 
 const BREVO_API_KEY = process.env.BREVO_API_KEY;
 const SENDER_EMAIL = process.env.SENDER_EMAIL || 'info@haagseopenmic.nl';
-const ARTIST_EMAIL = process.env.ARTIST_EMAIL || 'halfhide@gmail.com';
+const ARTIST_EMAIL = process.env.ARTIST_EMAIL || 'boekingen@reaumusic.nl';
 
 function escapeHtml(str) {
   if (!str) return '';
@@ -157,7 +157,7 @@ exports.handler = async (event) => {
         </p>
 
         <div style="border-top: 1px solid #EAE1D2; padding-top: 16px; text-align: center; font-size: 12px; color: #6B6059;">
-          E-mail: <a href="mailto:${ARTIST_EMAIL}" style="color: #C86D51;">${ARTIST_EMAIL}</a> • Website: <a href="https://reau.netlify.app" style="color: #C86D51;">reau.netlify.app</a>
+          E-mail: <a href="mailto:${ARTIST_EMAIL}" style="color: #C86D51;">${ARTIST_EMAIL}</a> • Website: <a href="https://reaumusic.nl" style="color: #C86D51;">reaumusic.nl</a>
         </div>
       </div>
     `;

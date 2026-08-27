@@ -147,7 +147,7 @@ export function initContactForm() {
         console.error('Fout bij versturen formulier:', error);
         showToast(
           'Verzending mislukt',
-          'Er is een tijdelijk verbindingsprobleem. Probeer het opnieuw of mail direct naar halfhide@gmail.com.',
+          'Er is een tijdelijk verbindingsprobleem. Probeer het opnieuw of mail direct naar boekingen@reaumusic.nl.',
           false
         );
       } finally {
