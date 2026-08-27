@@ -138,6 +138,23 @@
     <button id="toast-close" type="button" aria-label="Sluiten" class="text-white/50 hover:text-white text-sm">✕</button>
   </div>
 
+  <!-- Static Netlify Form for Build-Time Detection (SPA/JS Dynamic Render) -->
+  <form name="booking-form" netlify netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="booking-form" />
+    <input type="text" name="bot-field" />
+    <input type="text" name="name" />
+    <input type="email" name="email" />
+    <input type="tel" name="phone" />
+    <input type="date" name="event_date" />
+    <input type="text" name="location" />
+    <input type="text" name="event_type" />
+    <input type="text" name="format" />
+    <input type="text" name="sets" />
+    <textarea name="message"></textarea>
+    <input type="text" name="indicatie_tarief" />
+    <input type="text" name="gekozen_configuratie" />
+  </form>
+
   <!-- Main ES Module Script -->
   <script type="module" src="js/main.js"></script>
 </body>

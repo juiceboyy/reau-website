@@ -7,9 +7,9 @@ Solo music artist website for **Reau** (Ro Halfhide).
 - Tech Rider / USP: 100% mobile battery-powered equipment, no power/electricity required on location; walking around among audience is possible. Custom PA coordination for audiences > 200 people.
 
 ## Live Formats & Pricing:
-- **Solo (Reau)**: 1 set €300 | 2 sets €450 | 3 sets €600
-- **Duo (Reau + Bassist)**: 1 set €450 | 2 sets €675 | 3 sets €900
-- **Trio (Reau + Bassist + Percussion)**: 1 set €600 | 2 sets €900 | 3 sets €1200
+- **Solo (Reau)**: 1 set €300 | 2 sets €400 | 3 sets €500 | 4 sets €600 | 4+n sets €600 + n*€100
+- **Duo (Reau + Bassist)**: 1 set €450 | 2 sets €600 | 3 sets €750 | 4 sets €900 | 4+n sets €900 + n*€150
+- **Trio (Reau + Bassist + Percussie)**: 1 set €600 | 2 sets €800 | 3 sets €1000 | 4 sets €1200 | 4+n sets €1200 + n*€200
 
 ## Code Quality & Architecture Rules:
 - Keep all files under 300 lines by splitting into focused ES modules.
