@@ -3,6 +3,8 @@
  * Validates inputs, triggers toast notifications, and provides direct mailto/WhatsApp integration.
  */
 
+import { calculateRate, rateConfig } from './booking-calculator.js';
+
 export function initContactForm() {
   const form = document.getElementById('booking-form');
   const toast = document.getElementById('form-toast');
@@ -50,9 +52,9 @@ export function initContactForm() {
       const email = document.getElementById('form-email')?.value.trim();
       const phone = document.getElementById('form-phone')?.value.trim() || 'Niet opgegeven';
       const date = document.getElementById('form-date')?.value || 'Nader te bepalen';
-      const eventType = document.getElementById('form-event-type')?.value || 'Huiskamerconcert';
-      const format = document.getElementById('form-format')?.value || 'solo';
-      const sets = document.getElementById('form-sets')?.value || '2';
+      const eventType = document.getElementById('form-event-type')?.value || 'Particulier';
+      const format = document.getElementById('form-format')?.value || 'duo';
+      const sets = document.getElementById('form-sets')?.value || '3';
       const location = document.getElementById('form-location')?.value.trim() || 'Niet opgegeven';
       const message = document.getElementById('form-message')?.value.trim();
 
@@ -61,8 +63,12 @@ export function initContactForm() {
         return;
       }
 
+      const formatName = rateConfig[format]?.name || format;
+      const numSets = sets === '5+' ? 5 : parseInt(sets, 10);
+      const price = calculateRate(format, numSets);
+
       // Format clean email subject and body
-      const subject = encodeURIComponent(`Boekingsaanvraag Reau: ${name} (${eventType})`);
+      const subject = encodeURIComponent(`Boekingsaanvraag Reau: ${name} (${formatName}, ${eventType})`);
       const body = encodeURIComponent(
         `Beste Ro / Reau,\n\n` +
         `Hierbij wil ik graag een optreden aanvragen:\n\n` +
@@ -71,7 +77,8 @@ export function initContactForm() {
         `• Telefoon / WhatsApp: ${phone}\n` +
         `• Datum evenement: ${date}\n` +
         `• Type gelegenheid: ${eventType}\n` +
-        `• Gewenste bezetting: ${format.toUpperCase()} (${sets} set(s))\n` +
+        `• Gewenste bezetting: ${formatName} (${sets} set(s) ± ${numSets * 45} min)\n` +
+        `• Indicatietarief: Vanaf € ${price},- (excl. reiskosten & 9% BTW)\n` +
         `• Locatie / Plaats: ${location}\n\n` +
         `Toelichting / Vraag:\n${message || 'Geen extra toelichting'}\n\n` +
         `Met vriendelijke groet,\n${name}`
@@ -93,11 +100,10 @@ export function initContactForm() {
 
   // Direct WhatsApp Button Generator
   if (directWhatsappBtn) {
-    directWhatsappBtn.addEventListener('click', (e) => {
+    directWhatsappBtn.addEventListener('click', () => {
       const whatsappText = encodeURIComponent(
         'Hallo Ro! Ik heb interesse in een optreden van Reau en wil graag meer informatie over de beschikbaarheid.'
       );
-      // Opens WhatsApp web / app to direct inquiry
       window.open(`https://wa.me/31600000000?text=${whatsappText}`, '_blank', 'noopener,noreferrer');
     });
   }

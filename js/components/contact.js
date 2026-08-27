@@ -15,6 +15,16 @@ export function renderContact(container) {
       </div>
 
       <div class="bg-white rounded-3xl p-6 sm:p-10 border border-espresso/10 shadow-xl">
+        
+        <!-- Live Calculator Preset Banner -->
+        <div id="form-calculator-summary" class="hidden mb-6 p-4 rounded-2xl bg-terracotta/10 border border-terracotta/25 text-xs text-espresso flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
+            <span><strong>Gekozen configuratie:</strong> Duo (+ Bassist) • 3 sets (± 135 min) • Particulier</span>
+          </div>
+          <span class="font-serif font-bold text-terracotta text-sm">Indicatie: € 750,-</span>
+        </div>
+
         <form id="booking-form" class="space-y-6">
           
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -47,18 +57,16 @@ export function renderContact(container) {
             <div>
               <label for="form-event-type" class="block text-xs uppercase tracking-wider font-semibold text-espresso mb-2">Gelegenheid</label>
               <select id="form-event-type" name="event_type" class="w-full px-4 py-3 rounded-xl border border-espresso/15 bg-canvas focus:bg-white text-espresso text-sm transition-all">
-                <option value="Huiskamerconcert">Huiskamerconcert</option>
-                <option value="Privé-evenement / Tuinfeest">Privéfeest / Tuinfeest</option>
+                <option value="Particulier">Particulier (Huiskamer, Tuinfeest, etc.)</option>
+                <option value="Zakelijk / Event">Zakelijk / Event (Borrel, Diner, Congres)</option>
                 <option value="Bruiloft / Ceremonie">Bruiloft / Ceremonie</option>
-                <option value="Café / Cultureel Podium">Café / Podium</option>
-                <option value="Festival / Zakelijk">Festival / Zakelijk</option>
               </select>
             </div>
             <div>
               <label for="form-format" class="block text-xs uppercase tracking-wider font-semibold text-espresso mb-2">Gewenste Bezetting</label>
               <select id="form-format" name="format" class="w-full px-4 py-3 rounded-xl border border-espresso/15 bg-canvas focus:bg-white text-espresso text-sm transition-all">
                 <option value="solo">Solo (Reau)</option>
-                <option value="duo">Duo (+ Bassist)</option>
+                <option value="duo" selected>Duo (+ Bassist)</option>
                 <option value="trio">Trio (+ Percussie)</option>
               </select>
             </div>
@@ -66,8 +74,10 @@ export function renderContact(container) {
               <label for="form-sets" class="block text-xs uppercase tracking-wider font-semibold text-espresso mb-2">Aantal Sets</label>
               <select id="form-sets" name="sets" class="w-full px-4 py-3 rounded-xl border border-espresso/15 bg-canvas focus:bg-white text-espresso text-sm transition-all">
                 <option value="1">1 Set (± 45 min)</option>
-                <option value="2" selected>2 Sets (± 90 min)</option>
-                <option value="3">3 Sets (± 135 min)</option>
+                <option value="2">2 Sets (± 90 min)</option>
+                <option value="3" selected>3 Sets (± 135 min)</option>
+                <option value="4">4 Sets (± 180 min)</option>
+                <option value="5+">5+ Sets (Maatwerk)</option>
               </select>
             </div>
           </div>
