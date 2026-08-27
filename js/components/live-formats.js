@@ -38,7 +38,7 @@ export function renderLiveFormats(container) {
               <h4 class="font-serif text-2xl text-espresso mt-4">Solo (Reau)</h4>
               <p class="text-xs font-medium text-terracotta mt-0.5">Akoestische gitaar & zang</p>
               <p class="text-sm text-espresso-muted mt-3">
-                Optioneel met looper / iPad. Intiem, direct en 100% mobiel zonder benodigde stroom.
+                Optioneel met backingtracks voor beats. Intiem, direct en 100% mobiel zonder benodigde stroom.
               </p>
             </div>
             <div class="mt-6 pt-4 border-t border-espresso/10 text-xs text-espresso-muted flex items-center justify-between">
