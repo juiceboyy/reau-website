@@ -25,7 +25,34 @@ export function renderContact(container) {
           <span class="font-serif font-bold text-terracotta text-sm">Indicatie: € 750,-</span>
         </div>
 
-        <form id="booking-form" class="space-y-6">
+        <!-- Inline Success Feedback Card -->
+        <div id="form-success-card" class="hidden py-8 sm:py-12 text-center flex flex-col items-center">
+          <div class="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center text-3xl font-bold mb-4 shadow-sm">
+            ✓
+          </div>
+          <h3 class="font-serif text-2xl sm:text-3xl text-espresso">Aanvraag Succesvol Verzonden!</h3>
+          <p class="text-espresso-muted mt-3 text-sm sm:text-base max-w-md">
+            Bedankt voor je aanvraag. Ro heeft je gegevens ontvangen en neemt zo snel mogelijk (meestal binnen 24-48 uur) persoonlijk contact met je op.
+          </p>
+          <div class="mt-8 flex flex-col sm:flex-row items-center gap-4">
+            <button id="form-reset-btn" type="button" class="btn-terracotta px-8 py-3 rounded-full font-semibold text-xs uppercase tracking-wider">
+              Nieuwe aanvraag versturen
+            </button>
+            <a href="https://wa.me/31600000000" id="direct-whatsapp-btn-success" target="_blank" rel="noopener noreferrer" class="px-6 py-3 rounded-full border border-espresso/20 text-xs font-semibold text-espresso hover:bg-espresso/5 transition-colors">
+              Direct WhatsAppen
+            </a>
+          </div>
+        </div>
+
+        <form id="booking-form" name="booking-form" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" class="space-y-6">
+          
+          <!-- Netlify Forms Hidden Identifiers & Calculations -->
+          <input type="hidden" name="form-name" value="booking-form">
+          <p class="hidden">
+            <label>Niet invullen indien menselijk: <input name="bot-field"></label>
+          </p>
+          <input type="hidden" id="form-calculated-rate" name="indicatie_tarief" value="">
+          <input type="hidden" id="form-calculated-config" name="gekozen_configuratie" value="">
           
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
@@ -88,8 +115,9 @@ export function renderContact(container) {
           </div>
 
           <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <button type="submit" class="btn-terracotta w-full sm:w-auto px-10 py-4 rounded-full font-semibold text-sm uppercase tracking-wider shadow-lg">
-              Verstuur Aanvraag
+            <button id="form-submit-btn" type="submit" class="btn-terracotta w-full sm:w-auto px-10 py-4 rounded-full font-semibold text-sm uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 transition-all">
+              <span id="submit-btn-spinner" class="hidden w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+              <span id="submit-btn-text">Verstuur Aanvraag</span>
             </button>
             
             <div class="flex items-center gap-3 text-xs text-espresso-muted">

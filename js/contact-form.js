@@ -1,18 +1,27 @@
 /**
  * Reau Website - Contact & Booking Form Module
- * Validates inputs, triggers toast notifications, and provides direct mailto/WhatsApp integration.
+ * Handles direct background submission via Netlify Forms (AJAX),
+ * input validation, loading states, calculations, and UI feedback.
  */
 
 import { calculateRate, rateConfig } from './booking-calculator.js';
 
 export function initContactForm() {
   const form = document.getElementById('booking-form');
+  const successCard = document.getElementById('form-success-card');
+  const resetBtn = document.getElementById('form-reset-btn');
+  const submitBtn = document.getElementById('form-submit-btn');
+  const submitBtnText = document.getElementById('submit-btn-text');
+  const submitBtnSpinner = document.getElementById('submit-btn-spinner');
+  
   const toast = document.getElementById('form-toast');
   const toastTitle = document.getElementById('toast-title');
   const toastMessage = document.getElementById('toast-message');
   const toastClose = document.getElementById('toast-close');
-  const directMailBtn = document.getElementById('direct-mail-btn');
   const directWhatsappBtn = document.getElementById('direct-whatsapp-btn');
+  const directWhatsappBtnSuccess = document.getElementById('direct-whatsapp-btn-success');
+
+  let toastTimer = null;
 
   function showToast(title, message, isSuccess = true) {
     if (!toast) return;
@@ -28,7 +37,8 @@ export function initContactForm() {
     toast.classList.remove('hidden', 'opacity-0', 'translate-y-4');
     toast.classList.add('opacity-100', 'translate-y-0');
 
-    setTimeout(() => {
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
       hideToast();
     }, 6000);
   }
@@ -44,24 +54,37 @@ export function initContactForm() {
 
   toastClose?.addEventListener('click', hideToast);
 
+  function setSubmittingState(isSubmitting) {
+    if (!submitBtn) return;
+    submitBtn.disabled = isSubmitting;
+    if (isSubmitting) {
+      submitBtn.classList.add('opacity-80', 'cursor-not-allowed');
+      submitBtnSpinner?.classList.remove('hidden');
+      if (submitBtnText) submitBtnText.textContent = 'Versturen...';
+    } else {
+      submitBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+      submitBtnSpinner?.classList.add('hidden');
+      if (submitBtnText) submitBtnText.textContent = 'Verstuur Aanvraag';
+    }
+  }
+
   if (form) {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const name = document.getElementById('form-name')?.value.trim();
-      const email = document.getElementById('form-email')?.value.trim();
-      const phone = document.getElementById('form-phone')?.value.trim() || 'Niet opgegeven';
-      const date = document.getElementById('form-date')?.value || 'Nader te bepalen';
-      const eventType = document.getElementById('form-event-type')?.value || 'Particulier';
-      const format = document.getElementById('form-format')?.value || 'duo';
-      const sets = document.getElementById('form-sets')?.value || '3';
-      const location = document.getElementById('form-location')?.value.trim() || 'Niet opgegeven';
-      const message = document.getElementById('form-message')?.value.trim();
+      const nameInput = document.getElementById('form-name');
+      const emailInput = document.getElementById('form-email');
+      const name = nameInput?.value.trim();
+      const email = emailInput?.value.trim();
 
       if (!name || !email) {
         showToast('Ontbrekende gegevens', 'Vul alstublieft minimaal je naam en e-mailadres in.', false);
         return;
       }
+
+      const format = document.getElementById('form-format')?.value || 'duo';
+      const sets = document.getElementById('form-sets')?.value || '3';
+      const eventType = document.getElementById('form-event-type')?.value || 'Particulier';
 
       const formatName = rateConfig[format]?.name || format;
       const numSets = sets === '5+' ? 5 : parseInt(sets, 10);
@@ -69,44 +92,77 @@ export function initContactForm() {
       const isParticulier = eventType.includes('Particulier');
       const conditionNote = isParticulier ? '(inclusief reiskosten)' : '(excl. 9% BTW • inclusief reiskosten)';
 
-      // Format clean email subject and body
-      const subject = encodeURIComponent(`Boekingsaanvraag Reau: ${name} (${formatName}, ${eventType})`);
-      const body = encodeURIComponent(
-        `Beste Ro / Reau,\n\n` +
-        `Hierbij wil ik graag een optreden aanvragen:\n\n` +
-        `• Naam: ${name}\n` +
-        `• E-mail: ${email}\n` +
-        `• Telefoon / WhatsApp: ${phone}\n` +
-        `• Datum evenement: ${date}\n` +
-        `• Type gelegenheid: ${eventType}\n` +
-        `• Gewenste bezetting: ${formatName} (${sets} set(s) ± ${numSets * 45} min)\n` +
-        `• Indicatietarief: Vanaf € ${price},- ${conditionNote}\n` +
-        `• Locatie / Plaats: ${location}\n\n` +
-        `Toelichting / Vraag:\n${message || 'Geen extra toelichting'}\n\n` +
-        `Met vriendelijke groet,\n${name}`
-      );
+      // Populate hidden inputs for Netlify Form Submission
+      const calculatedRateEl = document.getElementById('form-calculated-rate');
+      const calculatedConfigEl = document.getElementById('form-calculated-config');
+      
+      if (calculatedRateEl) {
+        calculatedRateEl.value = `€ ${price},- ${conditionNote}`;
+      }
+      if (calculatedConfigEl) {
+        calculatedConfigEl.value = `${formatName} • ${sets} set(s) (± ${numSets * 45} min) • ${eventType}`;
+      }
 
-      const mailtoLink = `mailto:halfhide@gmail.com?subject=${subject}&body=${body}`;
+      setSubmittingState(true);
 
-      showToast(
-        'Aanvraag voorbereid!',
-        'Je e-mailprogramma wordt geopend met alle ingevulde gegevens. Verstuur deze om je aanvraag direct bij Ro te bezorgen.'
-      );
+      try {
+        const formData = new FormData(form);
+        const urlEncodedData = new URLSearchParams(formData).toString();
 
-      // Open mail client after brief delay
-      setTimeout(() => {
-        window.location.href = mailtoLink;
-      }, 750);
+        const response = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: urlEncodedData
+        });
+
+        if (response.ok) {
+          showToast(
+            'Aanvraag Verzonden!',
+            'Bedankt voor je aanvraag. Ro heeft je bericht ontvangen en neemt zo snel mogelijk contact op.'
+          );
+          
+          form.reset();
+          form.classList.add('hidden');
+          successCard?.classList.remove('hidden');
+
+          // Scroll smoothly to success card
+          successCard?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          throw new Error(`Status ${response.status}`);
+        }
+      } catch (error) {
+        console.error('Fout bij versturen formulier:', error);
+        showToast(
+          'Verzending mislukt',
+          'Er is een tijdelijk verbindingsprobleem. Probeer het opnieuw of mail direct naar halfhide@gmail.com.',
+          false
+        );
+      } finally {
+        setSubmittingState(false);
+      }
     });
   }
 
-  // Direct WhatsApp Button Generator
-  if (directWhatsappBtn) {
-    directWhatsappBtn.addEventListener('click', () => {
-      const whatsappText = encodeURIComponent(
-        'Hallo Ro! Ik heb interesse in een optreden van Reau en wil graag meer informatie over de beschikbaarheid.'
-      );
-      window.open(`https://wa.me/31600000000?text=${whatsappText}`, '_blank', 'noopener,noreferrer');
+  // Reset button to allow submitting another inquiry
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      successCard?.classList.add('hidden');
+      form?.classList.remove('hidden');
+      form?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
   }
+
+  // Direct WhatsApp Button Handlers
+  function openWhatsApp() {
+    const whatsappText = encodeURIComponent(
+      'Hallo Ro! Ik heb interesse in een optreden van Reau en wil graag meer informatie over de beschikbaarheid.'
+    );
+    window.open(`https://wa.me/31600000000?text=${whatsappText}`, '_blank', 'noopener,noreferrer');
+  }
+
+  directWhatsappBtn?.addEventListener('click', openWhatsApp);
+  directWhatsappBtnSuccess?.addEventListener('click', (e) => {
+    e.preventDefault();
+    openWhatsApp();
+  });
 }
