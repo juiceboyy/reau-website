@@ -105,20 +105,56 @@ export function initContactForm() {
 
       setSubmittingState(true);
 
+      const payload = {
+        name,
+        email,
+        phone: document.getElementById('form-phone')?.value.trim() || 'Niet opgegeven',
+        event_date: document.getElementById('form-date')?.value || 'Nader te bepalen',
+        location: document.getElementById('form-location')?.value.trim() || 'Niet opgegeven',
+        event_type: eventType,
+        format: formatName,
+        sets: `${sets} set(s) (± ${numSets * 45} min)`,
+        indicatie_tarief: `€ ${price},- ${conditionNote}`,
+        gekozen_configuratie: `${formatName} • ${sets} set(s) (± ${numSets * 45} min) • ${eventType}`,
+        message: document.getElementById('form-message')?.value.trim() || ''
+      };
+
       try {
-        const formData = new FormData(form);
-        const urlEncodedData = new URLSearchParams(formData).toString();
+        let isSuccess = false;
 
-        const response = await fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: urlEncodedData
-        });
+        // Try Netlify Function (Brevo integration)
+        try {
+          const funcResponse = await fetch('/.netlify/functions/send-booking', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
 
-        if (response.ok) {
+          if (funcResponse.ok) {
+            isSuccess = true;
+          }
+        } catch (funcErr) {
+          console.warn('Netlify function niet bereikbaar, fallback naar Netlify Forms...', funcErr);
+        }
+
+        // Fallback to Netlify Forms POST if function was not reached
+        if (!isSuccess) {
+          const formData = new FormData(form);
+          const urlEncodedData = new URLSearchParams(formData).toString();
+          const staticResponse = await fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: urlEncodedData
+          });
+          if (staticResponse.ok) {
+            isSuccess = true;
+          }
+        }
+
+        if (isSuccess) {
           showToast(
             'Aanvraag Verzonden!',
-            'Bedankt voor je aanvraag. Ro heeft je bericht ontvangen en neemt zo snel mogelijk contact op.'
+            'Bedankt! Ro heeft je aanvraag ontvangen en er is een bevestiging naar je e-mailadres gestuurd.'
           );
           
           form.reset();
@@ -128,7 +164,7 @@ export function initContactForm() {
           // Scroll smoothly to success card
           successCard?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else {
-          throw new Error(`Status ${response.status}`);
+          throw new Error('Formulier kon niet worden verstuurd.');
         }
       } catch (error) {
         console.error('Fout bij versturen formulier:', error);
