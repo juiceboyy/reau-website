@@ -67,7 +67,7 @@ export function initContactForm() {
       const numSets = sets === '5+' ? 5 : parseInt(sets, 10);
       const price = calculateRate(format, numSets);
       const isParticulier = eventType.includes('Particulier');
-      const conditionNote = isParticulier ? '(inclusief reiskosten)' : '(excl. eventuele reiskosten & 9% BTW)';
+      const conditionNote = isParticulier ? '(inclusief reiskosten)' : '(excl. 9% BTW • inclusief reiskosten)';
 
       // Format clean email subject and body
       const subject = encodeURIComponent(`Boekingsaanvraag Reau: ${name} (${formatName}, ${eventType})`);

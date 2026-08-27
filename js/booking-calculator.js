@@ -82,12 +82,12 @@ export function initBookingCalculator() {
       summaryTextEl.textContent = `${formatData.name} • ${currentSets} set${currentSets > 1 ? 's' : ''} (± ${currentSets * 45} min) • ${occasionData.name}`;
     }
     if (vatNoteEl) {
-      vatNoteEl.textContent = currentOccasion === 'particulier' ? '(inclusief reiskosten)' : '(excl. eventuele reiskosten & 9% BTW)';
+      vatNoteEl.textContent = currentOccasion === 'particulier' ? '(inclusief reiskosten)' : '(excl. 9% BTW • incl. reiskosten)';
     }
     if (subNoteEl) {
       subNoteEl.textContent = currentOccasion === 'particulier'
         ? 'Inclusief reiskosten, voorbereiding, eigen geluid & accu-apparatuur.'
-        : 'Inclusief voorbereiding, eigen geluid & accu-apparatuur (excl. 9% BTW).';
+        : 'Inclusief reiskosten, voorbereiding, eigen geluid & accu-apparatuur (excl. 9% BTW).';
     }
 
     // 2. Update format cards UI
@@ -191,7 +191,7 @@ export function initBookingCalculator() {
 
     const formSummaryEl = document.getElementById('form-calculator-summary');
     if (formSummaryEl) {
-      const conditionNote = currentOccasion === 'particulier' ? 'inclusief reiskosten' : 'excl. 9% BTW';
+      const conditionNote = currentOccasion === 'particulier' ? 'inclusief reiskosten' : 'excl. 9% BTW • incl. reiskosten';
       formSummaryEl.innerHTML = `
         <div class="flex items-center gap-2">
           <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
