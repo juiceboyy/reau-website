@@ -86,8 +86,8 @@ export function initBookingCalculator() {
     }
     if (subNoteEl) {
       subNoteEl.textContent = currentOccasion === 'particulier'
-        ? 'Inclusief reiskosten, voorbereiding, eigen geluid & accu-apparatuur.'
-        : 'Inclusief reiskosten, voorbereiding, eigen geluid & accu-apparatuur (excl. 9% BTW).';
+        ? 'Inclusief reiskosten, voorbereiding, eigen mobiele apparatuur.'
+        : 'Inclusief reiskosten, voorbereiding, eigen mobiele apparatuur (excl. 9% BTW).';
     }
 
     // 2. Update format cards UI

@@ -229,7 +229,7 @@ export function renderLiveFormats(container) {
               <span id="calc-price-display" class="font-serif text-3xl sm:text-4xl text-terracotta font-bold">€ 750,-</span>
               <span id="calc-vat-note" class="text-xs text-espresso-muted">(inclusief reiskosten)</span>
             </div>
-            <p id="calc-sub-note" class="text-xs text-espresso-muted mt-1">Inclusief reiskosten, voorbereiding, eigen geluid & accu-apparatuur.</p>
+            <p id="calc-sub-note" class="text-xs text-espresso-muted mt-1">Inclusief reiskosten, voorbereiding, eigen mobiele apparatuur.</p>
           </div>
 
           <div class="lg:col-span-5 flex flex-col items-stretch lg:items-end">
