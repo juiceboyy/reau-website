@@ -49,10 +49,6 @@ export function renderTop(container) {
 
       <!-- Middle: Editorial Statement (Constrained width so it NEVER overlaps with Ro on the right) -->
       <div class="relative z-10 my-auto py-8 sm:py-12 max-w-lg lg:max-w-xl xl:max-w-2xl space-y-6">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-terracotta/20 text-terracotta text-xs font-mono uppercase tracking-[0.25em] shadow-[0_0_0_1px_rgba(200,109,81,0.3)]">
-          Reau
-        </div>
-        
         <h1 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-semibold text-white tracking-[-0.035em] leading-[1.05]">
           Acoustic soul, herkenbare covers &amp; <span class="italic font-normal text-terracotta">eigen werk.</span>
         </h1>
