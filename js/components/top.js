@@ -9,11 +9,6 @@ export function renderTop(container) {
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
         
         <div class="lg:col-span-7 space-y-6 text-left">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-terracotta/10 border border-terracotta/20 text-terracotta text-xs font-semibold tracking-wide">
-            <span class="w-2 h-2 rounded-full bg-terracotta animate-pulse"></span>
-            Solo project van Ro Halfhide
-          </div>
-          
           <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-espresso leading-[1.12] tracking-tight">
             Acoustic soul, herkenbare covers & <span class="text-terracotta">eigen werk.</span>
           </h1>
