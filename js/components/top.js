@@ -8,25 +8,25 @@ export function renderTop(container) {
   container.innerHTML = `
     <div class="relative w-full min-h-[85vh] sm:min-h-[90vh] lg:min-h-[calc(100vh-4.5rem)] flex flex-col justify-between p-6 sm:p-10 lg:p-14 bg-[#140F0D] text-[#FDFBF7] overflow-hidden">
       
-      <!-- Dedicated Right-Side Photography Canvas (Ensures Ro's face is never behind text) -->
-      <div class="absolute inset-y-0 right-0 w-full sm:w-3/5 lg:w-[50%] xl:w-[48%] pointer-events-none select-none overflow-hidden">
+      <!-- Dedicated Right-Side Photography Canvas (Ensures Ro's face is never behind text & full brightness) -->
+      <div class="absolute inset-y-0 right-0 w-full sm:w-3/5 lg:w-[54%] xl:w-[50%] pointer-events-none select-none overflow-hidden">
         <picture>
           <source srcset="assets/images/reau-hires.jpg" media="(min-width: 768px)">
           <img 
             src="assets/images/reau-lowres.jpg" 
             alt="Reau (Ro Halfhide) zanger en gitarist" 
-            class="w-full h-full object-cover object-[center_15%] sm:object-[center_10%] lg:object-center"
+            class="w-full h-full object-cover object-[center_12%] sm:object-[center_10%] lg:object-center"
           >
         </picture>
         
-        <!-- Seamless Left Blend (Desktop) -->
-        <div class="hidden sm:block absolute inset-0 bg-gradient-to-r from-[#140F0D] via-[#140F0D]/50 to-transparent"></div>
+        <!-- Seamless Left Edge Feather (Desktop only, leaves face completely untouched) -->
+        <div class="hidden sm:block absolute inset-y-0 left-0 w-24 sm:w-36 lg:w-48 bg-gradient-to-r from-[#140F0D] to-transparent"></div>
         
-        <!-- Bottom Blend (Mobile & Desktop) -->
-        <div class="absolute inset-0 bg-gradient-to-t from-[#140F0D] via-[#140F0D]/70 sm:via-[#140F0D]/40 to-transparent"></div>
+        <!-- Bottom Edge Feather (Blends into bottom bar) -->
+        <div class="absolute inset-x-0 bottom-0 h-16 sm:h-24 bg-gradient-to-t from-[#140F0D] to-transparent"></div>
         
-        <!-- Top Blend -->
-        <div class="absolute inset-0 bg-gradient-to-b from-[#140F0D]/50 via-transparent to-transparent"></div>
+        <!-- Mobile-only subtle gradient for bottom text contrast -->
+        <div class="sm:hidden absolute inset-0 bg-gradient-to-t from-[#140F0D] via-[#140F0D]/60 via-45% to-transparent"></div>
       </div>
 
       <!-- Top Micro-bar: Metadata & Quick Access -->
