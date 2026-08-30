@@ -59,7 +59,7 @@ export function renderTop(container) {
             <div class="absolute bottom-6 left-6 right-6 text-white">
               <p class="text-xs uppercase tracking-widest text-terracotta font-semibold mb-1">Singer-Songwriter & Producer</p>
               <h3 class="font-serif text-2xl">Ro Halfhide</h3>
-              <p class="text-xs text-white/80 mt-1 font-light italic">"100% mobiel &amp; akoestisch: muziek midden tussen de mensen, overal waar geluisterd wordt."</p>
+              <p class="text-xs text-white/80 mt-1 font-light italic">"Mobiel &amp; akoestisch: muziek midden tussen de mensen, overal waar geluisterd wordt."</p>
             </div>
           </a>
         </div>
