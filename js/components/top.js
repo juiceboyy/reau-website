@@ -8,22 +8,25 @@ export function renderTop(container) {
   container.innerHTML = `
     <div class="relative w-full min-h-[85vh] sm:min-h-[90vh] lg:min-h-[calc(100vh-4.5rem)] flex flex-col justify-between p-6 sm:p-10 lg:p-14 bg-[#140F0D] text-[#FDFBF7] overflow-hidden">
       
-      <!-- Full-bleed Background Image with Multi-direction Scrim Gradients -->
-      <div class="absolute inset-0 pointer-events-none select-none overflow-hidden">
+      <!-- Dedicated Right-Side Photography Canvas (Ensures Ro's face is never behind text) -->
+      <div class="absolute inset-y-0 right-0 w-full sm:w-3/5 lg:w-[50%] xl:w-[48%] pointer-events-none select-none overflow-hidden">
         <picture>
           <source srcset="assets/images/reau-hires.jpg" media="(min-width: 768px)">
           <img 
             src="assets/images/reau-lowres.jpg" 
             alt="Reau (Ro Halfhide) zanger en gitarist" 
-            class="w-full h-full object-cover object-[center_18%] sm:object-[68%_22%] lg:object-[78%_22%] scale-100 transition-transform duration-1000 ease-out"
+            class="w-full h-full object-cover object-[center_15%] sm:object-[center_10%] lg:object-center"
           >
         </picture>
         
-        <!-- Left-to-right gradient for desktop text legibility -->
-        <div class="hidden lg:block absolute inset-0 bg-gradient-to-r from-[#140F0D] via-[#140F0D]/85 to-transparent w-3/4"></div>
+        <!-- Seamless Left Blend (Desktop) -->
+        <div class="hidden sm:block absolute inset-0 bg-gradient-to-r from-[#140F0D] via-[#140F0D]/50 to-transparent"></div>
         
-        <!-- Mobile/vertical scrim gradient for overall text contrast -->
-        <div class="absolute inset-0 bg-gradient-to-t from-[#140F0D] via-[#140F0D]/75 to-[#140F0D]/25 lg:bg-gradient-to-t lg:from-[#140F0D] lg:via-[#140F0D]/40 lg:to-transparent"></div>
+        <!-- Bottom Blend (Mobile & Desktop) -->
+        <div class="absolute inset-0 bg-gradient-to-t from-[#140F0D] via-[#140F0D]/70 sm:via-[#140F0D]/40 to-transparent"></div>
+        
+        <!-- Top Blend -->
+        <div class="absolute inset-0 bg-gradient-to-b from-[#140F0D]/50 via-transparent to-transparent"></div>
       </div>
 
       <!-- Top Micro-bar: Metadata & Quick Access -->
@@ -44,8 +47,8 @@ export function renderTop(container) {
         </a>
       </div>
 
-      <!-- Middle: Editorial Statement & Narrative Centerpiece -->
-      <div class="relative z-10 my-auto py-10 sm:py-14 max-w-2xl lg:max-w-3xl space-y-6">
+      <!-- Middle: Editorial Statement (Constrained width so it NEVER overlaps with Ro on the right) -->
+      <div class="relative z-10 my-auto py-8 sm:py-12 max-w-lg lg:max-w-xl xl:max-w-2xl space-y-6">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-terracotta/20 text-terracotta text-xs font-mono uppercase tracking-[0.25em] shadow-[0_0_0_1px_rgba(200,109,81,0.3)]">
           Reau
         </div>
