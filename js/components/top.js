@@ -54,7 +54,7 @@ export function renderTop(container) {
         </h1>
         
         <p class="text-white/85 text-base sm:text-lg lg:text-xl font-normal leading-relaxed max-w-xl">
-          Warme, soulvolle interpretaties van pop- en soulklassiekers, naadloos verweven met eigen singer-songwriter werk.
+          Warme interpretaties van tijdloze pop- en soulklassiekers, naadloos verweven met eigen singer-songwriter werk.
         </p>
 
         <!-- Action Triggers -->
