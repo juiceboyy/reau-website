@@ -27,17 +27,6 @@ export const playlist = [
     description: "Aanstekelijke melodie en optimistische energie vol hoop, verbinding en ritme."
   },
   {
-    id: 'its-been-good',
-    title: "It's Been Good",
-    subtitle: "Pop / Soul",
-    duration: "1:50",
-    src: "assets/audio/its-been-good.mp3",
-    artwork: "assets/images/album-its-been-good.jpg",
-    spotify: "https://open.spotify.com/artist/79dS9zvJ6QCjz54EUdjs9u",
-    soundcloud: "https://soundcloud.com/rohalfhide",
-    description: "Een warme reflectie op het leven, genomen keuzes en de schoonheid van het pad tot nu toe."
-  },
-  {
     id: 'think-that-i-must-be-in-love',
     title: "Think That I Must Be In Love",
     subtitle: "Acoustic Storytelling",
@@ -47,28 +36,6 @@ export const playlist = [
     spotify: "https://open.spotify.com/artist/79dS9zvJ6QCjz54EUdjs9u",
     soundcloud: "https://soundcloud.com/rohalfhide",
     description: "Puur liedjesmakerschap geïnspireerd door klassieke soul en jazzy akkoorden."
-  },
-  {
-    id: 'evening-sun',
-    title: "Evening Sun",
-    subtitle: "Soulful Singer-Songwriter",
-    duration: "3:06",
-    src: "assets/audio/evening-sun.mp3",
-    artwork: "assets/images/album-evening-sun.jpg",
-    spotify: "https://open.spotify.com/artist/79dS9zvJ6QCjz54EUdjs9u",
-    soundcloud: "https://soundcloud.com/rohalfhide",
-    description: "Intieme melodielijnen en sfeervolle akoestische gitaardynamiek voor een zwoele avond."
-  },
-  {
-    id: 'get-into-your-car-and-drive',
-    title: "Get Into Your Car And Drive",
-    subtitle: "Protest Pop",
-    duration: "5:40",
-    src: "assets/audio/get-into-your-car-and-drive.mp3",
-    artwork: "assets/images/ro-halfhide-portrait.jpg",
-    spotify: "https://open.spotify.com/artist/79dS9zvJ6QCjz54EUdjs9u",
-    soundcloud: "https://soundcloud.com/rohalfhide",
-    description: "Een meeslepend muzikaal verhaal over vrijheid, loslaten en vooruitkijken."
   }
 ];
 
