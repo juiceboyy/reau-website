@@ -64,42 +64,74 @@ function renderCard(item) {
   `;
 }
 
-function setupDragToScroll(slider) {
+function setupInfiniteDragToScroll(slider, initialOffset = 0) {
   if (!slider) return;
 
   let isDown = false;
-  let startX = 0;
-  let scrollLeft = 0;
+  let lastX = 0;
   let hasMoved = false;
+  let isWrapping = false;
 
+  const getSingleWidth = () => slider.scrollWidth / 3;
+
+  const initPosition = () => {
+    const singleWidth = getSingleWidth();
+    if (singleWidth > 100) {
+      isWrapping = true;
+      slider.scrollLeft = singleWidth + initialOffset;
+      isWrapping = false;
+    }
+  };
+
+  requestAnimationFrame(initPosition);
+  setTimeout(initPosition, 100);
+  setTimeout(initPosition, 300);
+
+  // Oneindig naadloos doorlopen bij elke scroll (touch, trackpad, drag, muiswiel)
+  slider.addEventListener('scroll', () => {
+    if (isWrapping) return;
+    const singleWidth = getSingleWidth();
+    if (singleWidth <= 100) return;
+
+    if (slider.scrollLeft >= singleWidth * 2) {
+      isWrapping = true;
+      slider.scrollLeft -= singleWidth;
+      isWrapping = false;
+    } else if (slider.scrollLeft <= 50) {
+      isWrapping = true;
+      slider.scrollLeft += singleWidth;
+      isWrapping = false;
+    }
+  });
+
+  // Desktop Muis-drag interactie
   slider.addEventListener('mousedown', (e) => {
     isDown = true;
     hasMoved = false;
     slider.classList.add('is-dragging');
-    startX = e.pageX - slider.offsetLeft;
-    scrollLeft = slider.scrollLeft;
+    lastX = e.pageX;
   });
 
-  slider.addEventListener('mouseleave', () => {
+  const stopDrag = () => {
     isDown = false;
     slider.classList.remove('is-dragging');
-  });
+  };
 
-  slider.addEventListener('mouseup', () => {
-    isDown = false;
-    slider.classList.remove('is-dragging');
-  });
+  slider.addEventListener('mouseleave', stopDrag);
+  slider.addEventListener('mouseup', stopDrag);
 
   slider.addEventListener('mousemove', (e) => {
     if (!isDown) return;
     e.preventDefault();
-    const x = e.pageX - slider.offsetLeft;
-    const walk = (x - startX) * 1.5;
-    slider.scrollLeft = scrollLeft - walk;
-    hasMoved = true;
+    const delta = e.pageX - lastX;
+    if (Math.abs(delta) > 0) {
+      slider.scrollLeft -= delta * 1.5;
+      lastX = e.pageX;
+      hasMoved = true;
+    }
   });
 
-  // Voorkom onbedoelde interacties tijdens slepen
+  // Voorkom onbedoelde kliks tijdens slepen
   slider.addEventListener('click', (e) => {
     if (hasMoved) {
       e.preventDefault();
@@ -113,6 +145,8 @@ export function renderWallOfFame(container) {
 
   const row1Html = wallOfFameRow1.map(renderCard).join('');
   const row2Html = wallOfFameRow2.map(renderCard).join('');
+  const row1All = row1Html + row1Html + row1Html;
+  const row2All = row2Html + row2Html + row2Html;
 
   container.innerHTML = `
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center">
@@ -122,21 +156,21 @@ export function renderWallOfFame(container) {
         Gespeeld voor toonaangevende bedrijven, culturele podia en particuliere opdrachtgevers — solo en met professionele akoestische coveracts.
       </p>
       <p class="text-xs text-terracotta font-medium tracking-wide mt-2.5 flex items-center justify-center gap-1.5 opacity-85">
-        <span>&larr;</span> Sleep met de muis of swipe horizontaal om alle referenties te zien <span>&rarr;</span>
+        <span>&larr;</span> Sleep met de muis of swipe oneindig door alle referenties <span>&rarr;</span>
       </p>
     </div>
 
     <!-- Rij 1 -->
     <div class="wof-slider-container py-2" id="wof-row-1" title="Sleep met de muis of swipe om te bladeren">
       <div class="wof-slider-track">
-        ${row1Html}
+        ${row1All}
       </div>
     </div>
 
     <!-- Rij 2 -->
     <div class="wof-slider-container py-2 mt-1" id="wof-row-2" title="Sleep met de muis of swipe om te bladeren">
       <div class="wof-slider-track">
-        ${row2Html}
+        ${row2All}
       </div>
     </div>
   `;
@@ -144,12 +178,7 @@ export function renderWallOfFame(container) {
   const row1 = container.querySelector('#wof-row-1');
   const row2 = container.querySelector('#wof-row-2');
 
-  setupDragToScroll(row1);
-  setupDragToScroll(row2);
-
-  // Verspring rij 2 subtiel bij start voor een speels, uitnodigend effect
-  if (row2) {
-    row2.scrollLeft = 80;
-  }
+  setupInfiniteDragToScroll(row1, 0);
+  setupInfiniteDragToScroll(row2, 120);
 }
 
