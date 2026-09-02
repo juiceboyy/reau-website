@@ -20,7 +20,8 @@ export const wallOfFameRow1 = [
   { name: 'Koninklijke Saan', category: 'Opening Laadplein', logo: 'assets/images/logos/koninklijke-saan.svg' },
   { name: 'Kasteel Doornenburg', category: 'Bruiloft', logo: 'assets/images/logos/kasteel-doornenburg.png' },
   { name: 'Paradiso', category: 'Eigen werk optreden', logo: 'assets/images/logos/paradiso.svg' },
-  { name: "Studio's Aalsmeer", category: 'Diverse feesten', logo: 'assets/images/logos/studios-aalsmeer.png' }
+  { name: "Studio's Aalsmeer", category: 'Diverse feesten', logo: 'assets/images/logos/studios-aalsmeer.png' },
+  { name: 'OPCW', category: 'Zomerfeest', logo: 'assets/images/logos/opcw.png' }
 ];
 
 export const wallOfFameRow2 = [
@@ -38,7 +39,8 @@ export const wallOfFameRow2 = [
   { name: 'AFAS Software', category: 'Diverse congressen', logo: 'assets/images/logos/afas-software.png' },
   { name: 'Trekpleister', category: 'Jubileum feest', logo: 'assets/images/logos/trekpleister.svg' },
   { name: 'Noorderslag', category: 'Eigen werk optreden', logo: 'assets/images/logos/noorderslag.png' },
-  { name: 'Carré', category: 'Knoopgala', logo: 'assets/images/logos/carre.png' }
+  { name: 'Carré', category: 'Knoopgala', logo: 'assets/images/logos/carre.png' },
+  { name: 'Shell', category: 'Diverse feesten', logo: 'assets/images/logos/shell.png' }
 ];
 
 function getRepeatedItems(items, minCount = 8) {
