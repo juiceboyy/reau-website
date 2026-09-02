@@ -21,7 +21,8 @@ export const wallOfFameRow1 = [
   { name: 'Kasteel Doornenburg', category: 'Bruiloft', logo: 'assets/images/logos/kasteel-doornenburg.png' },
   { name: 'Paradiso', category: 'Eigen werk optreden', logo: 'assets/images/logos/paradiso.svg' },
   { name: "Studio's Aalsmeer", category: 'Diverse feesten', logo: 'assets/images/logos/studios-aalsmeer.png' },
-  { name: 'OPCW', category: 'Zomerfeest', logo: 'assets/images/logos/opcw.png' }
+  { name: 'OPCW', category: 'Zomerfeest', logo: 'assets/images/logos/opcw.png' },
+  { name: 'Extinction Rebellion (XR)', category: 'Symposium', logo: 'assets/images/logos/extinction-rebellion.svg' }
 ];
 
 export const wallOfFameRow2 = [
