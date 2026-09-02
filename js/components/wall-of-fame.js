@@ -190,14 +190,11 @@ export function renderWallOfFame(container) {
   const row2All = row2Html + row2Html + row2Html;
 
   container.innerHTML = `
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 text-center">
       <span class="text-xs uppercase tracking-widest text-terracotta font-semibold">Waar heb ik gespeeld?</span>
       <h3 class="font-serif text-2xl sm:text-3xl text-espresso mt-2">Wall of Fame</h3>
       <p class="text-xs sm:text-sm text-espresso-muted mt-1.5 max-w-xl mx-auto">
         Gespeeld voor toonaangevende bedrijven, culturele podia en particuliere opdrachtgevers — solo en met professionele akoestische coveracts.
-      </p>
-      <p class="text-xs text-terracotta font-medium tracking-wide mt-2.5 flex items-center justify-center gap-1.5 opacity-85">
-        <span>&larr;</span> Sleep met de muis of swipe oneindig door alle referenties <span>&rarr;</span>
       </p>
     </div>
 
