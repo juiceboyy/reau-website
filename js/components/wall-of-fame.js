@@ -69,6 +69,9 @@ function setupInfiniteDragToScroll(slider, initialOffset = 0) {
 
   let isDown = false;
   let lastX = 0;
+  let lastTime = 0;
+  let velocity = 0;
+  let momentumId = null;
   let hasMoved = false;
   let isWrapping = false;
 
@@ -104,17 +107,49 @@ function setupInfiniteDragToScroll(slider, initialOffset = 0) {
     }
   });
 
+  // Vloeiende inertie / momentum uitloop (ease-out) bij loslaten
+  const applyMomentum = () => {
+    if (momentumId) cancelAnimationFrame(momentumId);
+
+    // Als de gebruiker al even stilstond voor het loslaten, rustig stoppen
+    if (performance.now() - lastTime > 80) {
+      velocity = 0;
+      return;
+    }
+
+    const friction = 0.94;
+
+    const step = () => {
+      if (Math.abs(velocity) < 0.04 || isDown) {
+        velocity = 0;
+        return;
+      }
+      slider.scrollLeft -= velocity * 16;
+      velocity *= friction;
+      momentumId = requestAnimationFrame(step);
+    };
+
+    momentumId = requestAnimationFrame(step);
+  };
+
   // Desktop Muis-drag interactie
   slider.addEventListener('mousedown', (e) => {
+    if (momentumId) cancelAnimationFrame(momentumId);
     isDown = true;
     hasMoved = false;
+    velocity = 0;
     slider.classList.add('is-dragging');
     lastX = e.pageX;
+    lastTime = performance.now();
   });
 
   const stopDrag = () => {
+    if (!isDown) return;
     isDown = false;
     slider.classList.remove('is-dragging');
+    if (hasMoved) {
+      applyMomentum();
+    }
   };
 
   slider.addEventListener('mouseleave', stopDrag);
@@ -123,10 +158,16 @@ function setupInfiniteDragToScroll(slider, initialOffset = 0) {
   slider.addEventListener('mousemove', (e) => {
     if (!isDown) return;
     e.preventDefault();
+    const now = performance.now();
+    const dt = Math.max(now - lastTime, 1);
     const delta = e.pageX - lastX;
+
     if (Math.abs(delta) > 0) {
-      slider.scrollLeft -= delta * 1.5;
+      slider.scrollLeft -= delta * 1.3;
+      // Vloeiende snelheidsmeting voor een natuurlijke uitloop
+      velocity = (delta / dt) * 0.75 + velocity * 0.25;
       lastX = e.pageX;
+      lastTime = now;
       hasMoved = true;
     }
   });
