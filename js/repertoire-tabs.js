@@ -26,7 +26,7 @@ export const repertoireData = {
     {
       title: "Redemption Song / One Love / No Woman No Cry",
       artist: "Bob Marley",
-      mood: "Feelgood & Roots",
+      mood: "Reggae & Roots",
       style: "Akoestische reggae met veel soul en lekker meezingen"
     },
     {
