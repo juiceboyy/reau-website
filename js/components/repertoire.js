@@ -9,7 +9,7 @@ export function renderRepertoire(container) {
       <div class="text-center max-w-2xl mx-auto mb-12">
         <span class="text-xs uppercase tracking-widest text-terracotta font-semibold">Wat kun je verwachten</span>
         <h2 class="font-serif text-3xl sm:text-4xl text-espresso mt-2">Repertoire</h2>
-        <p class="text-espresso-muted mt-3 text-sm sm:text-base">Een warme samensmelting van herkenbare akoestische klassiekers en zorgvuldig geselecteerde eigen songs. Perfect afgestemd op de sfeer van een borrel, receptie of intiem diner.</p>
+        <p class="text-espresso-muted mt-3 text-sm sm:text-base">Een mix van herkenbare akoestische klassiekers en eigen songs. Perfect afgestemd op de sfeer van een borrel, bruiloft of intiem diner.</p>
       </div>
 
       <!-- Dynamic Repertoire Grid -->
