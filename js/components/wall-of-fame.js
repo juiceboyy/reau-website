@@ -40,7 +40,8 @@ export const wallOfFameRow2 = [
   { name: 'Trekpleister', category: 'Jubileum feest', logo: 'assets/images/logos/trekpleister.svg' },
   { name: 'Noorderslag', category: 'Eigen werk optreden', logo: 'assets/images/logos/noorderslag.png' },
   { name: 'Carré', category: 'Knoopgala', logo: 'assets/images/logos/carre.png' },
-  { name: 'Shell', category: 'Diverse feesten', logo: 'assets/images/logos/shell.png' }
+  { name: 'Shell', category: 'Diverse feesten', logo: 'assets/images/logos/shell.png' },
+  { name: 'Nationale Politie', category: 'Netwerkborrel', logo: 'assets/images/logos/politie.svg' }
 ];
 
 function getRepeatedItems(items, minCount = 8) {
