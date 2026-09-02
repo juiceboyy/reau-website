@@ -129,10 +129,6 @@ export function renderContact(container) {
         </form>
       </div>
 
-      <div class="mt-8 text-center text-xs text-espresso-muted">
-        Ontdek ook de overige projecten en releases op <a href="https://rohalfhide.com" target="_blank" rel="noopener noreferrer" class="text-terracotta underline font-medium">rohalfhide.com</a>
-      </div>
-
     </div>
   `;
 }
