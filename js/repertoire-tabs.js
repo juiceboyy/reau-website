@@ -8,7 +8,7 @@ export const repertoireData = {
     {
       title: "Ain't No Sunshine / Lean On Me / Just the Two of Us",
       artist: "Bill Withers",
-      mood: "Soul & Warmte",
+      mood: "Soul & Pop",
       style: "Akoestische groove, soulvolle dynamiek en vocale bezieling"
     },
     {
