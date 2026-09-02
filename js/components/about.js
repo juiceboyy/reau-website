@@ -26,20 +26,26 @@ export function renderAbout(container) {
         </div>
 
         <div class="grid grid-cols-1 gap-4">
-          <div class="p-6 rounded-2xl bg-white border border-espresso/10 hover-lift">
-            <div class="w-10 h-10 rounded-xl bg-terracotta/10 text-terracotta flex items-center justify-center font-serif text-xl mb-3">1</div>
-            <h4 class="font-serif text-xl text-espresso mb-1">Intieme Connectie</h4>
-            <p class="text-sm text-espresso-muted">Geen afstand tussen artiest en publiek. Pure akoestische beleving die raakt en verbindt.</p>
+          <div class="p-6 rounded-2xl bg-white border border-espresso/10 hover-lift flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-terracotta/10 text-terracotta flex items-center justify-center font-serif text-xl shrink-0 mt-0.5">1</div>
+            <div>
+              <h4 class="font-serif text-xl text-espresso mb-1">Intieme Connectie</h4>
+              <p class="text-sm text-espresso-muted leading-relaxed">Geen afstand tussen artiest en publiek. Pure akoestische beleving die raakt en verbindt.</p>
+            </div>
           </div>
-          <div class="p-6 rounded-2xl bg-white border border-espresso/10 hover-lift">
-            <div class="w-10 h-10 rounded-xl bg-terracotta/10 text-terracotta flex items-center justify-center font-serif text-xl mb-3">2</div>
-            <h4 class="font-serif text-xl text-espresso mb-1">Soul & Singalongs</h4>
-            <p class="text-sm text-espresso-muted">Van intieme akoestische klassiekers tot aanstekelijke singalongs en eigen nummers.</p>
+          <div class="p-6 rounded-2xl bg-white border border-espresso/10 hover-lift flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-terracotta/10 text-terracotta flex items-center justify-center font-serif text-xl shrink-0 mt-0.5">2</div>
+            <div>
+              <h4 class="font-serif text-xl text-espresso mb-1">Soul & Singalongs</h4>
+              <p class="text-sm text-espresso-muted leading-relaxed">Van intieme akoestische klassiekers tot aanstekelijke singalongs en eigen nummers.</p>
+            </div>
           </div>
-          <div class="p-6 rounded-2xl bg-white border border-espresso/10 hover-lift">
-            <div class="w-10 h-10 rounded-xl bg-terracotta/10 text-terracotta flex items-center justify-center font-serif text-xl mb-3">3</div>
-            <h4 class="font-serif text-xl text-espresso mb-1">100% Vrij & Mobiel</h4>
-            <p class="text-sm text-espresso-muted">Eigen compacte apparatuur zonder stopcontacten of kabels. Speelt overal — in de tuin, salon of tussen de gasten.</p>
+          <div class="p-6 rounded-2xl bg-white border border-espresso/10 hover-lift flex items-start gap-4">
+            <div class="w-10 h-10 rounded-xl bg-terracotta/10 text-terracotta flex items-center justify-center font-serif text-xl shrink-0 mt-0.5">3</div>
+            <div>
+              <h4 class="font-serif text-xl text-espresso mb-1">100% Vrij & Mobiel</h4>
+              <p class="text-sm text-espresso-muted leading-relaxed">Eigen compacte apparatuur zonder stopcontacten of kabels. Speelt overal — in de tuin, salon of tussen de gasten.</p>
+            </div>
           </div>
         </div>
       </div>
