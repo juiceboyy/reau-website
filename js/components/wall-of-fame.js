@@ -180,5 +180,57 @@ export function renderWallOfFame(container) {
 
   setupInfiniteDragToScroll(row1, 0);
   setupInfiniteDragToScroll(row2, 120);
+
+  // Korte, uitnodigende draai aan beide rijen zodra de sectie in beeld komt
+  setupViewportNudge(container, row1, row2);
+}
+
+function setupViewportNudge(container, row1, row2) {
+  let hasTriggered = false;
+
+  const performNudge = (slider, distance, duration = 1500) => {
+    if (!slider) return;
+    let animId = null;
+    let startTime = null;
+    const startScroll = slider.scrollLeft;
+
+    const cancel = () => {
+      if (animId) cancelAnimationFrame(animId);
+    };
+
+    slider.addEventListener('mousedown', cancel, { once: true });
+    slider.addEventListener('touchstart', cancel, { once: true, passive: true });
+
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      // Vloeiende quartische vertraging (ease-out)
+      const ease = 1 - Math.pow(1 - progress, 4);
+      slider.scrollLeft = startScroll + distance * ease;
+
+      if (progress < 1) {
+        animId = requestAnimationFrame(step);
+      }
+    }
+
+    animId = requestAnimationFrame(step);
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && !hasTriggered) {
+        hasTriggered = true;
+        observer.disconnect();
+
+        // Korte, subtiele vertraging nadat de sectie in beeld scrolt
+        setTimeout(() => {
+          performNudge(row1, 180, 1600);
+          performNudge(row2, -180, 1600);
+        }, 200);
+      }
+    });
+  }, { threshold: 0.25 });
+
+  observer.observe(container);
 }
 
