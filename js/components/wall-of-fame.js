@@ -84,7 +84,7 @@ export function renderWallOfFame(container) {
 
   container.innerHTML = `
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 text-center">
-      <span class="text-xs uppercase tracking-widest text-terracotta font-semibold">Referenties & Podia</span>
+      <span class="text-xs uppercase tracking-widest text-terracotta font-semibold">Waar heb ik gespeeld?</span>
       <h3 class="font-serif text-2xl sm:text-3xl text-espresso mt-2">Wall of Fame</h3>
       <p class="text-xs sm:text-sm text-espresso-muted mt-1.5 max-w-xl mx-auto">
         Gespeeld voor toonaangevende bedrijven, culturele podia en particuliere opdrachtgevers — solo en met professionele akoestische coveracts.
