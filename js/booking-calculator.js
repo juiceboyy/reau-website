@@ -68,6 +68,7 @@ export function initBookingCalculator() {
   let currentFormat = 'duo';
   let currentSets = 3;
   let currentOccasion = 'particulier';
+  let userHasInteracted = false;
 
   function updateCalculation() {
     const formatData = rateConfig[currentFormat] || rateConfig.solo;
@@ -191,15 +192,19 @@ export function initBookingCalculator() {
 
     const formSummaryEl = document.getElementById('form-calculator-summary');
     if (formSummaryEl) {
-      const conditionNote = currentOccasion === 'particulier' ? 'inclusief reiskosten' : 'excl. 9% BTW • incl. reiskosten';
-      formSummaryEl.innerHTML = `
-        <div class="flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-          <span><strong>Gekozen configuratie:</strong> ${formatName} • ${sets} set(s) • ${occasionValue}</span>
-        </div>
-        <span class="font-serif font-bold text-terracotta text-sm">Indicatie: € ${price},- (${conditionNote})</span>
-      `;
-      formSummaryEl.classList.remove('hidden');
+      if (!userHasInteracted) {
+        formSummaryEl.classList.add('hidden');
+      } else {
+        const conditionNote = currentOccasion === 'particulier' ? 'inclusief reiskosten' : 'excl. 9% BTW • incl. reiskosten';
+        formSummaryEl.innerHTML = `
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span><strong>Gekozen configuratie:</strong> ${formatName} • ${sets} set(s) • ${occasionValue}</span>
+          </div>
+          <span class="font-serif font-bold text-terracotta text-sm">Indicatie: € ${price},- (${conditionNote})</span>
+        `;
+        formSummaryEl.classList.remove('hidden');
+      }
     }
   }
 
@@ -207,6 +212,7 @@ export function initBookingCalculator() {
   formatCards.forEach(card => {
     card.addEventListener('click', () => {
       currentFormat = card.dataset.formatCard;
+      userHasInteracted = true;
       updateCalculation();
     });
   });
@@ -215,6 +221,7 @@ export function initBookingCalculator() {
   setButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       currentSets = parseInt(btn.dataset.setsBtn, 10);
+      userHasInteracted = true;
       updateCalculation();
     });
   });
@@ -224,6 +231,7 @@ export function initBookingCalculator() {
     if (currentSets <= 4) {
       currentSets = 5;
     }
+    userHasInteracted = true;
     updateCalculation();
   });
 
@@ -234,12 +242,14 @@ export function initBookingCalculator() {
     } else if (currentSets === 5) {
       currentSets = 4;
     }
+    userHasInteracted = true;
     updateCalculation();
   });
 
   stepperPlus?.addEventListener('click', () => {
     if (currentSets < 10) {
       currentSets += 1;
+      userHasInteracted = true;
       updateCalculation();
     }
   });
@@ -248,6 +258,7 @@ export function initBookingCalculator() {
   occasionCards.forEach(card => {
     card.addEventListener('click', () => {
       currentOccasion = card.dataset.occasionCard;
+      userHasInteracted = true;
       updateCalculation();
     });
   });
@@ -255,12 +266,14 @@ export function initBookingCalculator() {
   // Contact form listeners to keep calculator updated if user changes form directly
   formFormatSelect?.addEventListener('change', (e) => {
     currentFormat = e.target.value;
+    userHasInteracted = true;
     updateCalculation();
   });
 
   formSetsSelect?.addEventListener('change', (e) => {
     const val = e.target.value;
     currentSets = val === '5+' ? 5 : parseInt(val, 10);
+    userHasInteracted = true;
     updateCalculation();
   });
 
@@ -271,6 +284,7 @@ export function initBookingCalculator() {
     } else {
       currentOccasion = 'particulier';
     }
+    userHasInteracted = true;
     updateCalculation();
   });
 
