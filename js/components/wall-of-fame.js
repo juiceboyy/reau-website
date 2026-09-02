@@ -45,22 +45,13 @@ export const wallOfFameRow2 = [
   { name: 'Nationale Politie', category: 'Netwerkborrel', logo: 'assets/images/logos/politie.svg' }
 ];
 
-function getRepeatedItems(items, minCount = 8) {
-  if (!items.length) return [];
-  let result = [];
-  while (result.length < minCount) {
-    result = result.concat(items);
-  }
-  return result;
-}
-
 function renderCard(item) {
   const initials = item.name.split(' ').map(w => w[0]).slice(0, 2).join('');
   const logoContent = item.logo
     ? `<div class="h-9 min-w-[36px] max-w-[120px] flex items-center justify-center shrink-0">
-         <img src="${item.logo}" alt="${item.name}" class="max-h-8 max-w-[120px] w-auto h-auto object-contain shrink-0">
+         <img src="${item.logo}" alt="${item.name}" class="max-h-8 max-w-[120px] w-auto h-auto object-contain shrink-0 pointer-events-none select-none" draggable="false">
        </div>`
-    : `<div class="w-9 h-9 rounded-xl bg-terracotta/10 text-terracotta flex items-center justify-center font-semibold text-xs tracking-wider shrink-0">${initials}</div>`;
+    : `<div class="w-9 h-9 rounded-xl bg-terracotta/10 text-terracotta flex items-center justify-center font-semibold text-xs tracking-wider shrink-0 select-none">${initials}</div>`;
 
   return `
     <div class="inline-flex items-center gap-4 px-6 py-4 rounded-2xl bg-white border border-espresso/10 shadow-sm shrink-0 whitespace-nowrap hover:border-terracotta/40 hover:shadow-md transition-all select-none" style="min-width: max-content;">
@@ -73,43 +64,92 @@ function renderCard(item) {
   `;
 }
 
+function setupDragToScroll(slider) {
+  if (!slider) return;
+
+  let isDown = false;
+  let startX = 0;
+  let scrollLeft = 0;
+  let hasMoved = false;
+
+  slider.addEventListener('mousedown', (e) => {
+    isDown = true;
+    hasMoved = false;
+    slider.classList.add('is-dragging');
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+  });
+
+  slider.addEventListener('mouseleave', () => {
+    isDown = false;
+    slider.classList.remove('is-dragging');
+  });
+
+  slider.addEventListener('mouseup', () => {
+    isDown = false;
+    slider.classList.remove('is-dragging');
+  });
+
+  slider.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    slider.scrollLeft = scrollLeft - walk;
+    hasMoved = true;
+  });
+
+  // Voorkom onbedoelde interacties tijdens slepen
+  slider.addEventListener('click', (e) => {
+    if (hasMoved) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  });
+}
+
 export function renderWallOfFame(container) {
   if (!container) return;
 
-  const row1Data = getRepeatedItems(wallOfFameRow1, 8);
-  const row2Data = getRepeatedItems(wallOfFameRow2, 8);
-
-  const row1Html = row1Data.map(renderCard).join('');
-  const row2Html = row2Data.map(renderCard).join('');
+  const row1Html = wallOfFameRow1.map(renderCard).join('');
+  const row2Html = wallOfFameRow2.map(renderCard).join('');
 
   container.innerHTML = `
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 text-center">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center">
       <span class="text-xs uppercase tracking-widest text-terracotta font-semibold">Waar heb ik gespeeld?</span>
       <h3 class="font-serif text-2xl sm:text-3xl text-espresso mt-2">Wall of Fame</h3>
       <p class="text-xs sm:text-sm text-espresso-muted mt-1.5 max-w-xl mx-auto">
         Gespeeld voor toonaangevende bedrijven, culturele podia en particuliere opdrachtgevers — solo en met professionele akoestische coveracts.
       </p>
+      <p class="text-xs text-terracotta font-medium tracking-wide mt-2.5 flex items-center justify-center gap-1.5 opacity-85">
+        <span>&larr;</span> Sleep met de muis of swipe horizontaal om alle referenties te zien <span>&rarr;</span>
+      </p>
     </div>
 
-    <!-- Marquee Row 1 (Links) -->
-    <div class="marquee-container py-2" title="Pauzeer door eroverheen te bewegen">
-      <div class="marquee-track">
-        ${row1Html}
-      </div>
-      <div class="marquee-track" aria-hidden="true">
+    <!-- Rij 1 -->
+    <div class="wof-slider-container py-2" id="wof-row-1" title="Sleep met de muis of swipe om te bladeren">
+      <div class="wof-slider-track">
         ${row1Html}
       </div>
     </div>
 
-    <!-- Marquee Row 2 (Rechts) -->
-    <div class="marquee-container py-2 mt-1" title="Pauzeer door eroverheen te bewegen">
-      <div class="marquee-track marquee-track-reverse">
-        ${row2Html}
-      </div>
-      <div class="marquee-track marquee-track-reverse" aria-hidden="true">
+    <!-- Rij 2 -->
+    <div class="wof-slider-container py-2 mt-1" id="wof-row-2" title="Sleep met de muis of swipe om te bladeren">
+      <div class="wof-slider-track">
         ${row2Html}
       </div>
     </div>
   `;
+
+  const row1 = container.querySelector('#wof-row-1');
+  const row2 = container.querySelector('#wof-row-2');
+
+  setupDragToScroll(row1);
+  setupDragToScroll(row2);
+
+  // Verspring rij 2 subtiel bij start voor een speels, uitnodigend effect
+  if (row2) {
+    row2.scrollLeft = 80;
+  }
 }
 
