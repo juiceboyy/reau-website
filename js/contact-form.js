@@ -4,7 +4,7 @@
  * input validation, loading states, calculations, and UI feedback.
  */
 
-import { calculateRate, rateConfig } from './booking-calculator.js';
+import { formatConfig } from './live-formats-selector.js';
 
 export function initContactForm() {
   const form = document.getElementById('booking-form');
@@ -86,21 +86,14 @@ export function initContactForm() {
       const sets = document.getElementById('form-sets')?.value || '3';
       const eventType = document.getElementById('form-event-type')?.value || 'Particulier';
 
-      const formatName = rateConfig[format]?.name || format;
+      const formatName = formatConfig[format]?.name || format;
       const numSets = sets === '5+' ? 5 : parseInt(sets, 10);
-      const price = calculateRate(format, numSets);
-      const isParticulier = eventType.includes('Particulier');
-      const conditionNote = isParticulier ? '(inclusief reiskosten)' : '(excl. 9% BTW • inclusief reiskosten)';
+      const configSummary = `${formatName} • ${sets} set(s) (± ${numSets * 45} min) • ${eventType}`;
 
       // Populate hidden inputs for Netlify Form Submission
-      const calculatedRateEl = document.getElementById('form-calculated-rate');
       const calculatedConfigEl = document.getElementById('form-calculated-config');
-      
-      if (calculatedRateEl) {
-        calculatedRateEl.value = `€ ${price},- ${conditionNote}`;
-      }
       if (calculatedConfigEl) {
-        calculatedConfigEl.value = `${formatName} • ${sets} set(s) (± ${numSets * 45} min) • ${eventType}`;
+        calculatedConfigEl.value = configSummary;
       }
 
       setSubmittingState(true);
@@ -114,8 +107,7 @@ export function initContactForm() {
         event_type: eventType,
         format: formatName,
         sets: `${sets} set(s) (± ${numSets * 45} min)`,
-        indicatie_tarief: `€ ${price},- ${conditionNote}`,
-        gekozen_configuratie: `${formatName} • ${sets} set(s) (± ${numSets * 45} min) • ${eventType}`,
+        gekozen_configuratie: configSummary,
         message: document.getElementById('form-message')?.value.trim() || ''
       };
 

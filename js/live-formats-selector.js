@@ -18,7 +18,7 @@ export const formatConfig = {
   }
 };
 
-export function initBookingCalculator() {
+export function initLiveFormatsSelector() {
   const formatButtons = document.querySelectorAll('.format-select-btn');
   const formFormatSelect = document.getElementById('form-format');
 

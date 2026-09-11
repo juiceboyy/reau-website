@@ -16,15 +16,6 @@ export function renderContact(container) {
 
       <div class="bg-white rounded-3xl p-6 sm:p-10 border border-espresso/10 shadow-xl">
         
-        <!-- Live Calculator Preset Banner -->
-        <div id="form-calculator-summary" class="hidden mb-6 p-4 rounded-2xl bg-terracotta/10 border border-terracotta/25 text-xs text-espresso flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-          <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
-            <span><strong>Gekozen configuratie:</strong> Duo (+ Bassist) • 3 sets (± 135 min) • Particulier</span>
-          </div>
-          <span class="font-serif font-bold text-terracotta text-sm">Indicatie: € 750,-</span>
-        </div>
-
         <!-- Inline Success Feedback Card -->
         <div id="form-success-card" class="hidden py-8 sm:py-12 text-center flex flex-col items-center">
           <div class="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center text-3xl font-bold mb-4 shadow-sm">
@@ -46,12 +37,11 @@ export function renderContact(container) {
 
         <form id="booking-form" name="booking-form" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" class="space-y-6">
           
-          <!-- Netlify Forms Hidden Identifiers & Calculations -->
+          <!-- Netlify Forms Hidden Identifiers -->
           <input type="hidden" name="form-name" value="booking-form">
           <p class="hidden">
             <label>Niet invullen indien menselijk: <input name="bot-field"></label>
           </p>
-          <input type="hidden" id="form-calculated-rate" name="indicatie_tarief" value="">
           <input type="hidden" id="form-calculated-config" name="gekozen_configuratie" value="">
           
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">

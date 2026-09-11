@@ -59,7 +59,6 @@ exports.handler = async (event) => {
       format = 'Duo',
       sets = '3 sets',
       message = '',
-      indicatie_tarief = 'Op aanvraag',
       gekozen_configuratie = ''
     } = data;
 
@@ -106,10 +105,6 @@ exports.handler = async (event) => {
             <td style="padding: 10px 0; font-weight: bold; color: #6B6059;">Configuratie:</td>
             <td style="padding: 10px 0; color: #251D1A;">${escapeHtml(configLabel)}</td>
           </tr>
-          <tr style="border-bottom: 1px solid #EAE1D2;">
-            <td style="padding: 10px 0; font-weight: bold; color: #6B6059;">Tariefindicatie:</td>
-            <td style="padding: 10px 0; color: #C86D51; font-weight: bold; font-size: 15px;">${escapeHtml(indicatie_tarief)}</td>
-          </tr>
         </table>
 
         <div style="background-color: #FFFFFF; padding: 16px; border-radius: 8px; border: 1px solid #EAE1D2; margin-bottom: 20px;">
@@ -142,7 +137,6 @@ exports.handler = async (event) => {
             <li><strong>Datum:</strong> ${escapeHtml(event_date)}</li>
             <li><strong>Locatie:</strong> ${escapeHtml(location)}</li>
             <li><strong>Configuratie:</strong> ${escapeHtml(configLabel)}</li>
-            <li><strong>Indicatie:</strong> ${escapeHtml(indicatie_tarief)}</li>
           </ul>
         </div>
 

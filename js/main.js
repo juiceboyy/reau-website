@@ -13,7 +13,7 @@ import { renderContact } from './components/contact.js';
 
 import { initNavigation } from './navigation.js';
 import { initRepertoireTabs } from './repertoire-tabs.js';
-import { initBookingCalculator } from './booking-calculator.js';
+import { initLiveFormatsSelector } from './live-formats-selector.js';
 import { initContactForm } from './contact-form.js';
 
 function init() {
@@ -29,7 +29,7 @@ function init() {
   // 2. Initialize interactive controllers
   initNavigation();
   initRepertoireTabs();
-  initBookingCalculator();
+  initLiveFormatsSelector();
   initContactForm();
 
   // 3. Dynamic current year in footer
