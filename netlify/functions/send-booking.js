@@ -56,7 +56,7 @@ exports.handler = async (event) => {
       event_date = 'Nader te bepalen',
       location = 'Niet opgegeven',
       event_type = 'Particulier',
-      format = 'Duo',
+      format = 'Solo',
       sets = '3 sets',
       message = '',
       gekozen_configuratie = ''

@@ -40,13 +40,10 @@ export function renderLiveFormats(container) {
         </div>
 
         <!-- Duo Card -->
-        <div class="bg-white rounded-3xl p-7 sm:p-8 border-2 border-terracotta/50 shadow-lg relative hover-lift transition-all flex flex-col justify-between">
-          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-terracotta text-white text-[10px] uppercase font-bold tracking-widest px-4 py-1 rounded-full shadow-sm">
-            Warme Groove • Aanrader
-          </div>
+        <div class="bg-white rounded-3xl p-7 sm:p-8 border-2 border-espresso/10 hover:border-terracotta/40 hover-lift transition-all flex flex-col justify-between">
           <div>
-            <div class="flex justify-between items-start pt-1">
-              <span class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-600/10 text-amber-700">Meest Gekozen</span>
+            <div class="flex justify-between items-start">
+              <span class="px-3 py-1 rounded-full text-xs font-semibold bg-terracotta/10 text-terracotta">Warme Groove</span>
             </div>
             <h3 class="font-serif text-3xl text-espresso mt-4">Duo (+ Bassist)</h3>
             <p class="text-xs font-semibold uppercase tracking-wider text-terracotta mt-1">Reau + akoestische bas & zang</p>
@@ -55,7 +52,7 @@ export function renderLiveFormats(container) {
             </p>
           </div>
           <div class="mt-8 pt-6 border-t border-espresso/10">
-            <button type="button" data-format-select="duo" class="format-select-btn w-full py-3.5 rounded-xl bg-terracotta text-white hover:bg-terracotta-dark text-xs font-semibold uppercase tracking-wider transition-all text-center shadow-md shadow-terracotta/20">
+            <button type="button" data-format-select="duo" class="format-select-btn w-full py-3.5 rounded-xl border border-espresso/15 hover:border-terracotta hover:bg-terracotta hover:text-white text-espresso text-xs font-semibold uppercase tracking-wider transition-all text-center">
               Kies Duo
             </button>
           </div>

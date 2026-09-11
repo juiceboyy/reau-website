@@ -83,7 +83,7 @@ export function renderContact(container) {
               <label for="form-format" class="block text-xs uppercase tracking-wider font-semibold text-espresso mb-2">Gewenste Bezetting</label>
               <select id="form-format" name="format" class="w-full px-4 py-3 rounded-xl border border-espresso/15 bg-canvas focus:bg-white text-espresso text-sm transition-all">
                 <option value="solo">Solo (Reau)</option>
-                <option value="duo" selected>Duo (+ Bassist)</option>
+                <option value="duo">Duo (+ Bassist)</option>
                 <option value="trio">Trio (+ Percussie)</option>
               </select>
             </div>

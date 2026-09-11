@@ -82,7 +82,7 @@ export function initContactForm() {
         return;
       }
 
-      const format = document.getElementById('form-format')?.value || 'duo';
+      const format = document.getElementById('form-format')?.value || 'solo';
       const sets = document.getElementById('form-sets')?.value || '3';
       const eventType = document.getElementById('form-event-type')?.value || 'Particulier';
 
