@@ -62,7 +62,7 @@ export function renderLiveFormats(container) {
         <div class="bg-white rounded-3xl p-7 sm:p-8 border-2 border-espresso/10 hover:border-terracotta/40 hover-lift transition-all flex flex-col justify-between">
           <div>
             <div class="flex justify-between items-start">
-              <span class="px-3 py-1 rounded-full text-xs font-semibold bg-olive/10 text-olive">Dansbaar & Dynamisch</span>
+              <span class="px-3 py-1 rounded-full text-xs font-semibold bg-terracotta/10 text-terracotta">Dansbaar & Dynamisch</span>
             </div>
             <h3 class="font-serif text-3xl text-espresso mt-4">Trio (+ Percussie)</h3>
             <p class="text-xs font-semibold uppercase tracking-wider text-terracotta mt-1">Reau + bassist + percussie</p>
