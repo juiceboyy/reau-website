@@ -1,48 +1,12 @@
 /**
  * Reau Website - Wall of Fame Component
- * Speelse, oneindige marquee met bedrijven, organisaties en podia waar Reau / Ro heeft gespeeld.
- * Voeg hier eenvoudig nieuwe organisaties aan toe (inclusief optionele logo-url).
+ * Twee interactieve, oneindig doordraaibare rijen met logo's en referenties.
+ * Inclusief uitnodigende 'viewport-nudge' bij het in beeld komen en vloeiende momentum drag.
  */
 
-export const wallOfFameRow1 = [
-  { name: 'Louwman Museum', category: 'Bedrijfsevent', logo: 'assets/images/logos/louwman-museum.svg' },
-  { name: 'BOVAG', category: 'Netwerkborrel', logo: 'assets/images/logos/bovag.png' },
-  { name: 'Landgoedhotel De Wilmersberg', category: 'Paasdiner', logo: 'assets/images/logos/wilmersberg.svg' },
-  { name: 'Leroy Seafood', category: 'Nieuwjaarsfeest', logo: 'assets/images/logos/leroy-seafood.svg' },
-  { name: 'Woonbron', category: 'Nieuwjaarsreceptie', logo: 'assets/images/logos/woonbron.svg' },
-  { name: 'Provincie Overijssel', category: 'Nieuwjaarsreceptie', logo: 'assets/images/logos/provincie-overijssel.svg' },
-  { name: 'Gemeente Meppel', category: 'Straat optreden', logo: 'assets/images/logos/gemeente-meppel.svg' },
-  { name: 'Mercedes-Benz Benelux', category: 'Kerstdiner', logo: 'assets/images/logos/mercedes-benz.svg' },
-  { name: 'Robin Radar', category: 'Personeelsfeest', logo: 'assets/images/logos/robin-radar.svg' },
-  { name: 'ESA', category: 'Congres', logo: 'assets/images/logos/esa.svg' },
-  { name: 'Prodentfabriek', category: 'Diverse congressen', logo: 'assets/images/logos/prodentfabriek.svg' },
-  { name: 'Ministerie van IenW', category: 'Diverse congressen', logo: 'assets/images/logos/ministerie-ienw.svg' },
-  { name: 'Koninklijke Saan', category: 'Opening Laadplein', logo: 'assets/images/logos/koninklijke-saan.svg' },
-  { name: 'Kasteel Doornenburg', category: 'Bruiloft', logo: 'assets/images/logos/kasteel-doornenburg.png' },
-  { name: 'Paradiso', category: 'Eigen werk optreden', logo: 'assets/images/logos/paradiso.svg' },
-  { name: "Studio's Aalsmeer", category: 'Diverse feesten', logo: 'assets/images/logos/studios-aalsmeer.png' },
-  { name: 'OPCW', category: 'Zomerfeest', logo: 'assets/images/logos/opcw.png' }
-];
+import { wallOfFameRow1, wallOfFameRow2 } from '../wall-of-fame-data.js';
 
-export const wallOfFameRow2 = [
-  { name: 'Bram Ladage', category: 'Verjaardag', logo: 'assets/images/logos/bram-ladage.png' },
-  { name: 'researchED Nederland', category: 'Onderwijscongres', logo: 'assets/images/logos/researched-nederland.png' },
-  { name: 'Beatrix Theater', category: 'Diverse congressen', logo: 'assets/images/logos/beatrix-theater.svg' },
-  { name: 'Stichting New Energy Coalition', category: 'Nieuwjaarsreceptie', logo: 'assets/images/logos/new-energy-coalition.svg' },
-  { name: 'Theater Rotterdam', category: 'Nieuwjaarsreceptie', logo: 'assets/images/logos/theater-rotterdam.svg' },
-  { name: 'Landhuishotel De Bloemenbeek', category: 'Oud & Nieuw feest', logo: 'assets/images/logos/bloemenbeek.png' },
-  { name: 'Urenco', category: 'Kerstdiner', logo: 'assets/images/logos/urenco.svg' },
-  { name: 'Stichting Duurzaam Repareren', category: 'Kerstdiner', logo: 'assets/images/logos/duurzaam-repareren.png' },
-  { name: 'Het Wapen van Beckum', category: 'Diverse feesten', logo: 'assets/images/logos/wapen-van-beckum.png' },
-  { name: 'Industrieele Groote Club', category: 'Verjaardag', logo: 'assets/images/logos/industrieele-groote-club.svg' },
-  { name: 'Bodembeheer NL', category: 'Congres', logo: 'assets/images/logos/bodembeheer-nl.png' },
-  { name: 'AFAS Software', category: 'Diverse congressen', logo: 'assets/images/logos/afas-software.png' },
-  { name: 'Trekpleister', category: 'Jubileum feest', logo: 'assets/images/logos/trekpleister.svg' },
-  { name: 'Noorderslag', category: 'Eigen werk optreden', logo: 'assets/images/logos/noorderslag.png' },
-  { name: 'Carré', category: 'Knoopgala', logo: 'assets/images/logos/carre.png' },
-  { name: 'Shell', category: 'Diverse feesten', logo: 'assets/images/logos/shell.png' },
-  { name: 'Nationale Politie', category: 'Netwerkborrel', logo: 'assets/images/logos/politie.svg' }
-];
+export { wallOfFameRow1, wallOfFameRow2 };
 
 function renderCard(item) {
   const initials = item.name.split(' ').map(w => w[0]).slice(0, 2).join('');
@@ -73,21 +37,23 @@ function setupInfiniteDragToScroll(slider, initialOffset = 0) {
   let momentumId = null;
   let hasMoved = false;
   let isWrapping = false;
+  let hasInitialized = false;
 
   const getSingleWidth = () => slider.scrollWidth / 3;
 
   const initPosition = () => {
+    if (hasInitialized) return;
     const singleWidth = getSingleWidth();
     if (singleWidth > 100) {
       isWrapping = true;
       slider.scrollLeft = singleWidth + initialOffset;
       isWrapping = false;
+      hasInitialized = true;
     }
   };
 
   requestAnimationFrame(initPosition);
   setTimeout(initPosition, 100);
-  setTimeout(initPosition, 300);
 
   // Oneindig naadloos doorlopen bij elke scroll (touch, trackpad, drag, muiswiel)
   slider.addEventListener('scroll', () => {
@@ -180,6 +146,100 @@ function setupInfiniteDragToScroll(slider, initialOffset = 0) {
   });
 }
 
+function setupViewportNudge(container, row1, row2) {
+  let isAnimating = false;
+  let lastTriggerTime = 0;
+  let hasScrolledAway = true;
+
+  const performNudge = (slider, distance, duration = 1700) => {
+    if (!slider) return;
+    let animId = null;
+    let startTime = null;
+    const startScroll = slider.scrollLeft;
+
+    const cancel = () => {
+      if (animId) {
+        cancelAnimationFrame(animId);
+        animId = null;
+      }
+    };
+
+    slider.addEventListener('mousedown', cancel, { once: true });
+    slider.addEventListener('touchstart', cancel, { once: true, passive: true });
+
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      // Vloeiende kubische vertraging (ease-out): duidelijke en uitnodigende draai
+      const ease = 1 - Math.pow(1 - progress, 3);
+      slider.scrollLeft = startScroll + distance * ease;
+
+      if (progress < 1) {
+        animId = requestAnimationFrame(step);
+      }
+    }
+
+    animId = requestAnimationFrame(step);
+  };
+
+  const triggerNudge = () => {
+    const now = Date.now();
+    if (isAnimating || !hasScrolledAway || now - lastTriggerTime < 3500) return;
+
+    // Voorkom vroege trigger wanneer de bezoeker nog bovenin de pagina (hero) staat
+    if (window.scrollY < 180) return;
+
+    const rect = container.getBoundingClientRect();
+    const isInView = rect.top < window.innerHeight * 0.85 && rect.bottom > window.innerHeight * 0.15;
+    if (!isInView) return;
+
+    isAnimating = true;
+    hasScrolledAway = false;
+    lastTriggerTime = now;
+
+    // Duidelijke, opvallende draai van ~1.5 kaart aan beide kanten
+    performNudge(row1, 380, 1700);
+    performNudge(row2, -380, 1700);
+
+    setTimeout(() => {
+      isAnimating = false;
+    }, 1800);
+  };
+
+  let scrollTimeout = null;
+  const onScroll = () => {
+    const rect = container.getBoundingClientRect();
+    // Als de bezoeker ruim voorbij of boven de sectie scrolt, reset status voor volgende passage
+    if (rect.bottom < -150 || rect.top > window.innerHeight + 150) {
+      hasScrolledAway = true;
+    }
+
+    if (!scrollTimeout) {
+      scrollTimeout = setTimeout(() => {
+        scrollTimeout = null;
+        triggerNudge();
+      }, 60);
+    }
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        triggerNudge();
+      } else {
+        hasScrolledAway = true;
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  observer.observe(container);
+}
+
 export function renderWallOfFame(container) {
   if (!container) return;
 
@@ -221,53 +281,3 @@ export function renderWallOfFame(container) {
   // Korte, uitnodigende draai aan beide rijen zodra de sectie in beeld komt
   setupViewportNudge(container, row1, row2);
 }
-
-function setupViewportNudge(container, row1, row2) {
-  let hasTriggered = false;
-
-  const performNudge = (slider, distance, duration = 1500) => {
-    if (!slider) return;
-    let animId = null;
-    let startTime = null;
-    const startScroll = slider.scrollLeft;
-
-    const cancel = () => {
-      if (animId) cancelAnimationFrame(animId);
-    };
-
-    slider.addEventListener('mousedown', cancel, { once: true });
-    slider.addEventListener('touchstart', cancel, { once: true, passive: true });
-
-    function step(timestamp) {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      // Vloeiende quartische vertraging (ease-out)
-      const ease = 1 - Math.pow(1 - progress, 4);
-      slider.scrollLeft = startScroll + distance * ease;
-
-      if (progress < 1) {
-        animId = requestAnimationFrame(step);
-      }
-    }
-
-    animId = requestAnimationFrame(step);
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && !hasTriggered) {
-        hasTriggered = true;
-        observer.disconnect();
-
-        // Korte, subtiele vertraging nadat de sectie in beeld scrolt
-        setTimeout(() => {
-          performNudge(row1, 180, 1600);
-          performNudge(row2, -180, 1600);
-        }, 200);
-      }
-    });
-  }, { threshold: 0.25 });
-
-  observer.observe(container);
-}
-
