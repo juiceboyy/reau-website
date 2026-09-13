@@ -16,15 +16,6 @@ export function renderContact(container) {
 
       <div class="bg-white rounded-3xl p-6 sm:p-10 border border-espresso/10 shadow-xl">
         
-        <!-- Live Calculator Preset Banner -->
-        <div id="form-calculator-summary" class="hidden mb-6 p-4 rounded-2xl bg-terracotta/10 border border-terracotta/25 text-xs text-espresso flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-          <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
-            <span><strong>Gekozen configuratie:</strong> Duo (+ Bassist) • 3 sets (± 135 min) • Particulier</span>
-          </div>
-          <span class="font-serif font-bold text-terracotta text-sm">Indicatie: € 750,-</span>
-        </div>
-
         <!-- Inline Success Feedback Card -->
         <div id="form-success-card" class="hidden py-8 sm:py-12 text-center flex flex-col items-center">
           <div class="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center text-3xl font-bold mb-4 shadow-sm">
@@ -46,12 +37,11 @@ export function renderContact(container) {
 
         <form id="booking-form" name="booking-form" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" class="space-y-6">
           
-          <!-- Netlify Forms Hidden Identifiers & Calculations -->
+          <!-- Netlify Forms Hidden Identifiers -->
           <input type="hidden" name="form-name" value="booking-form">
           <p class="hidden">
             <label>Niet invullen indien menselijk: <input name="bot-field"></label>
           </p>
-          <input type="hidden" id="form-calculated-rate" name="indicatie_tarief" value="">
           <input type="hidden" id="form-calculated-config" name="gekozen_configuratie" value="">
           
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -93,19 +83,20 @@ export function renderContact(container) {
               <label for="form-format" class="block text-xs uppercase tracking-wider font-semibold text-espresso mb-2">Gewenste Bezetting</label>
               <select id="form-format" name="format" class="w-full px-4 py-3 rounded-xl border border-espresso/15 bg-canvas focus:bg-white text-espresso text-sm transition-all">
                 <option value="solo">Solo (Reau)</option>
-                <option value="duo" selected>Duo (+ Bassist)</option>
+                <option value="duo">Duo (+ Bassist)</option>
                 <option value="trio">Trio (+ Percussie)</option>
               </select>
             </div>
             <div>
-              <label for="form-sets" class="block text-xs uppercase tracking-wider font-semibold text-espresso mb-2">Aantal Sets</label>
+              <label for="form-sets" class="block text-xs uppercase tracking-wider font-semibold text-espresso mb-2">Speelduur</label>
               <select id="form-sets" name="sets" class="w-full px-4 py-3 rounded-xl border border-espresso/15 bg-canvas focus:bg-white text-espresso text-sm transition-all">
-                <option value="1">1 Set (± 45 min)</option>
-                <option value="2">2 Sets (± 90 min)</option>
-                <option value="3" selected>3 Sets (± 135 min)</option>
-                <option value="4">4 Sets (± 180 min)</option>
-                <option value="5+">5+ Sets (Maatwerk)</option>
+                <option value="1">1 uur</option>
+                <option value="2">2 uur</option>
+                <option value="3" selected>3 uur</option>
+                <option value="4">4 uur</option>
+                <option value="5+">5+ uur (Maatwerk)</option>
               </select>
+              <p class="text-[11px] text-espresso-muted mt-1.5">Elk uur heeft een kwartier pauze</p>
             </div>
           </div>
 
@@ -127,10 +118,6 @@ export function renderContact(container) {
           </div>
 
         </form>
-      </div>
-
-      <div class="mt-8 text-center text-xs text-espresso-muted">
-        Ontdek ook de overige projecten en releases op <a href="https://rohalfhide.com" target="_blank" rel="noopener noreferrer" class="text-terracotta underline font-medium">rohalfhide.com</a>
       </div>
 
     </div>

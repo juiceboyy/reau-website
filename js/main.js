@@ -7,15 +7,12 @@ import { renderTop } from './components/top.js';
 import { renderAbout } from './components/about.js';
 import { renderWallOfFame } from './components/wall-of-fame.js';
 import { renderRepertoire } from './components/repertoire.js';
-import { renderPlayerView } from './components/player-view.js';
 import { renderLiveFormats } from './components/live-formats.js';
-import { renderMedia } from './components/media.js';
 import { renderContact } from './components/contact.js';
 
 import { initNavigation } from './navigation.js';
-import { initAudioPlayer } from './audio-player.js';
 import { initRepertoireTabs } from './repertoire-tabs.js';
-import { initBookingCalculator } from './booking-calculator.js';
+import { initLiveFormatsSelector } from './live-formats-selector.js';
 import { initContactForm } from './contact-form.js';
 
 function init() {
@@ -24,16 +21,13 @@ function init() {
   renderAbout(document.getElementById('about'));
   renderWallOfFame(document.getElementById('wall-of-fame'));
   renderRepertoire(document.getElementById('repertoire'));
-  renderPlayerView(document.getElementById('muziek'));
   renderLiveFormats(document.getElementById('live'));
-  renderMedia(document.getElementById('media'));
   renderContact(document.getElementById('contact'));
 
   // 2. Initialize interactive controllers
   initNavigation();
-  initAudioPlayer();
   initRepertoireTabs();
-  initBookingCalculator();
+  initLiveFormatsSelector();
   initContactForm();
 
   // 3. Dynamic current year in footer
