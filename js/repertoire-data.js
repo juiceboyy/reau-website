@@ -70,6 +70,35 @@ export const repertoireList = [
     videoPreviewSrc: "assets/video/reau-blue-suede-shoes-preview.mp4",
     videoPoster: "assets/images/video-poster-blue-suede-shoes.jpg"
   },
+  // Origineel werk (met video)
+  {
+    id: 'your-morning-smile',
+    type: 'original',
+    title: "Your Morning Smile",
+    tag: "Origineel",
+    subtitle: "Live in PX Volendam",
+    duration: "2:00",
+    style: "Live optreden in popzaal PX in Volendam; speelse jazzy timing en warm akoestisch gitaarspel.",
+    audioSrc: null,
+    videoSrc: "assets/video/reau-your-morning-smile.mp4",
+    videoPreviewSrc: "assets/video/reau-your-morning-smile-preview.mp4",
+    videoPoster: "assets/images/video-poster-your-morning-smile.jpg"
+  },
+  {
+    id: 'maybe',
+    type: 'original',
+    title: "Maybe",
+    tag: "Origineel",
+    subtitle: "Live in Toulouse",
+    duration: "1:28",
+    style: "Café optreden in Toulouse, Frankrijk; puur eigen werk met gitaar en zang.",
+    audioSrc: null,
+    videoSrc: "assets/video/reau-maybe.mp4",
+    videoPreviewSrc: "assets/video/reau-maybe-preview.mp4",
+    videoPoster: "assets/images/video-poster-maybe.jpg"
+  },
+
+  // Akoestisch repertoire (zonder video)
   {
     id: 'easy',
     type: 'cover',
@@ -99,33 +128,5 @@ export const repertoireList = [
     duration: "Live fragment",
     style: "Akoestische reggae met veel soul en lekker meezingen.",
     audioSrc: null
-  },
-
-  // Origineel werk
-  {
-    id: 'your-morning-smile',
-    type: 'original',
-    title: "Your Morning Smile",
-    tag: "Origineel",
-    subtitle: "Live in PX Volendam",
-    duration: "2:00",
-    style: "Live optreden in popzaal PX in Volendam; speelse jazzy timing en warm akoestisch gitaarspel.",
-    audioSrc: null,
-    videoSrc: "assets/video/reau-your-morning-smile.mp4",
-    videoPreviewSrc: "assets/video/reau-your-morning-smile-preview.mp4",
-    videoPoster: "assets/images/video-poster-your-morning-smile.jpg"
-  },
-  {
-    id: 'maybe',
-    type: 'original',
-    title: "Maybe",
-    tag: "Origineel",
-    subtitle: "Live in Toulouse",
-    duration: "1:28",
-    style: "Café optreden in Toulouse, Frankrijk; puur eigen werk met gitaar en zang.",
-    audioSrc: null,
-    videoSrc: "assets/video/reau-maybe.mp4",
-    videoPreviewSrc: "assets/video/reau-maybe-preview.mp4",
-    videoPoster: "assets/images/video-poster-maybe.jpg"
   }
 ];
