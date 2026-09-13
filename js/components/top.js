@@ -65,13 +65,6 @@ export function renderTop(container) {
           >
             Boek Reau
           </a>
-          <a 
-            href="#muziek" 
-            class="px-8 py-4 rounded-full font-medium text-center text-sm text-white bg-white/10 hover:bg-white/20 backdrop-blur-md shadow-[0_0_0_1px_rgba(255,255,255,0.18)] flex items-center justify-center gap-2.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-terracotta"
-          >
-            <span class="w-2 h-2 rounded-full bg-terracotta"></span>
-            Luister Muziek
-          </a>
         </div>
       </div>
 
