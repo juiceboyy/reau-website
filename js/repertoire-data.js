@@ -10,10 +10,13 @@ export const repertoireList = [
     type: 'original',
     title: "Your Morning Smile",
     tag: "Origineel",
-    subtitle: "Jazzy Singer-Songwriter",
-    duration: "3:20",
-    style: "Speelse jazzy timing, warm akoestisch gitaarspel en een opgewekte melodie.",
-    audioSrc: "assets/audio/your-morning-smile.mp3"
+    subtitle: "Live in PX Volendam",
+    duration: "2:00",
+    style: "Live optreden in popzaal PX in Volendam; speelse jazzy timing en warm akoestisch gitaarspel.",
+    audioSrc: null,
+    videoSrc: "assets/video/reau-your-morning-smile.mp4",
+    videoPreviewSrc: "assets/video/reau-your-morning-smile-preview.mp4",
+    videoPoster: "assets/images/video-poster-your-morning-smile.jpg"
   },
   {
     id: 'rise-up-and-start-singing',
