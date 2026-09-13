@@ -4,35 +4,20 @@
  */
 
 export const repertoireList = [
-  // Originals (3 selected tracks)
+  // Herkenbare covers & sfeermakers (bruiloften, tuinfeesten, cafés)
   {
-    id: 'your-morning-smile',
-    type: 'original',
-    title: "Your Morning Smile",
-    tag: "Origineel",
-    subtitle: "Live in PX Volendam",
-    duration: "2:00",
-    style: "Live optreden in popzaal PX in Volendam; speelse jazzy timing en warm akoestisch gitaarspel.",
+    id: 'dancing-queen',
+    type: 'cover',
+    title: "Dancing Queen",
+    tag: "Cover • ABBA",
+    subtitle: "Bruiloft Live • Kasteel",
+    duration: "0:26",
+    style: "Live op een bruiloft in een kasteel met band Moon About; het publiek zingt lekker mee.",
     audioSrc: null,
-    videoSrc: "assets/video/reau-your-morning-smile.mp4",
-    videoPreviewSrc: "assets/video/reau-your-morning-smile-preview.mp4",
-    videoPoster: "assets/images/video-poster-your-morning-smile.jpg"
+    videoSrc: "assets/video/reau-dancing-queen.mp4",
+    videoPreviewSrc: "assets/video/reau-dancing-queen-preview.mp4",
+    videoPoster: "assets/images/video-poster-dancing-queen.jpg"
   },
-  {
-    id: 'maybe',
-    type: 'original',
-    title: "Maybe",
-    tag: "Origineel",
-    subtitle: "Live in Toulouse",
-    duration: "1:28",
-    style: "Café optreden in Toulouse, Frankrijk; puur eigen werk met gitaar en zang.",
-    audioSrc: null,
-    videoSrc: "assets/video/reau-maybe.mp4",
-    videoPreviewSrc: "assets/video/reau-maybe-preview.mp4",
-    videoPoster: "assets/images/video-poster-maybe.jpg"
-  },
-
-  // Reimagined Covers
   {
     id: 'my-baby-just-cares',
     type: 'cover',
@@ -60,19 +45,6 @@ export const repertoireList = [
     videoPoster: "assets/images/video-poster-sweet-dreams.jpg"
   },
   {
-    id: 'blue-suede-shoes',
-    type: 'cover',
-    title: "Blue Suede Shoes",
-    tag: "Cover • Rock & Roll",
-    subtitle: "Bruiloft Live • Volledige Band",
-    duration: "2:15",
-    style: "Live op een bruiloft in Zeeland met band Moon About; energieke rock & roll in volledige bezetting.",
-    audioSrc: null,
-    videoSrc: "assets/video/reau-blue-suede-shoes.mp4",
-    videoPreviewSrc: "assets/video/reau-blue-suede-shoes-preview.mp4",
-    videoPoster: "assets/images/video-poster-blue-suede-shoes.jpg"
-  },
-  {
     id: 'be-bop-a-lula-pretty-woman',
     type: 'cover',
     title: "Be Bop A Lula / Pretty Woman",
@@ -86,17 +58,27 @@ export const repertoireList = [
     videoPoster: "assets/images/video-poster-be-bop-a-lula-pretty-woman.jpg"
   },
   {
-    id: 'dancing-queen',
+    id: 'blue-suede-shoes',
     type: 'cover',
-    title: "Dancing Queen",
-    tag: "Cover • ABBA",
-    subtitle: "Bruiloft Live • Kasteel",
-    duration: "0:26",
-    style: "Live op een bruiloft in een kasteel met band Moon About; het publiek zingt lekker mee.",
+    title: "Blue Suede Shoes",
+    tag: "Cover • Rock & Roll",
+    subtitle: "Bruiloft Live • Volledige Band",
+    duration: "2:15",
+    style: "Live op een bruiloft in Zeeland met band Moon About; energieke rock & roll in volledige bezetting.",
     audioSrc: null,
-    videoSrc: "assets/video/reau-dancing-queen.mp4",
-    videoPreviewSrc: "assets/video/reau-dancing-queen-preview.mp4",
-    videoPoster: "assets/images/video-poster-dancing-queen.jpg"
+    videoSrc: "assets/video/reau-blue-suede-shoes.mp4",
+    videoPreviewSrc: "assets/video/reau-blue-suede-shoes-preview.mp4",
+    videoPoster: "assets/images/video-poster-blue-suede-shoes.jpg"
+  },
+  {
+    id: 'easy',
+    type: 'cover',
+    title: "Easy",
+    tag: "Cover • Lionel Richie",
+    subtitle: "Smooth Soul",
+    duration: "Live fragment",
+    style: "Ontspannen soulklassieker in een warm akoestisch jasje.",
+    audioSrc: null
   },
   {
     id: 'my-girl',
@@ -118,14 +100,32 @@ export const repertoireList = [
     style: "Akoestische reggae met veel soul en lekker meezingen.",
     audioSrc: null
   },
+
+  // Origineel werk
   {
-    id: 'easy',
-    type: 'cover',
-    title: "Easy",
-    tag: "Cover • Lionel Richie",
-    subtitle: "Smooth Soul",
-    duration: "Live fragment",
-    style: "Ontspannen soulklassieker in een warm akoestisch jasje.",
-    audioSrc: null
+    id: 'your-morning-smile',
+    type: 'original',
+    title: "Your Morning Smile",
+    tag: "Origineel",
+    subtitle: "Live in PX Volendam",
+    duration: "2:00",
+    style: "Live optreden in popzaal PX in Volendam; speelse jazzy timing en warm akoestisch gitaarspel.",
+    audioSrc: null,
+    videoSrc: "assets/video/reau-your-morning-smile.mp4",
+    videoPreviewSrc: "assets/video/reau-your-morning-smile-preview.mp4",
+    videoPoster: "assets/images/video-poster-your-morning-smile.jpg"
+  },
+  {
+    id: 'maybe',
+    type: 'original',
+    title: "Maybe",
+    tag: "Origineel",
+    subtitle: "Live in Toulouse",
+    duration: "1:28",
+    style: "Café optreden in Toulouse, Frankrijk; puur eigen werk met gitaar en zang.",
+    audioSrc: null,
+    videoSrc: "assets/video/reau-maybe.mp4",
+    videoPreviewSrc: "assets/video/reau-maybe-preview.mp4",
+    videoPoster: "assets/images/video-poster-maybe.jpg"
   }
 ];
