@@ -124,7 +124,8 @@ function renderRepertoireItems(container) {
     if (hasVideo) {
       const videoTrigger = card.querySelector('.video-preview-trigger');
       const triggerModal = () => {
-        openVideoModal(item.videoSrc, `${item.title} (Nina Simone cover)`, () => {
+        const modalHeading = item.tag ? `${item.title} (${item.tag})` : `${item.title} (Live video)`;
+        openVideoModal(item.videoSrc, modalHeading, () => {
           if (globalAudio && !globalAudio.paused) {
             globalAudio.pause();
           }

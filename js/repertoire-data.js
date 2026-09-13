@@ -61,6 +61,19 @@ export const repertoireList = [
     videoPoster: "assets/images/video-poster-nina-simone.jpg"
   },
   {
+    id: 'sweet-dreams',
+    type: 'cover',
+    title: "Sweet Dreams",
+    tag: "Cover • Eurythmics",
+    subtitle: "Café Live • Met Percussie",
+    duration: "0:20",
+    style: "Intiem café optreden in dynamische duo-bezetting met percussionist en een stuwende akoestische pop-groove.",
+    audioSrc: null,
+    videoSrc: "assets/video/reau-sweet-dreams.mp4",
+    videoPreviewSrc: "assets/video/reau-sweet-dreams-preview.mp4",
+    videoPoster: "assets/images/video-poster-sweet-dreams.jpg"
+  },
+  {
     id: 'my-girl',
     type: 'cover',
     title: "My Girl",
