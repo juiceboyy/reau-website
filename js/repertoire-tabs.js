@@ -58,7 +58,7 @@ function renderRepertoireItems(container) {
           hasVideo
             ? `
           <div class="video-preview-trigger relative w-full aspect-[16/10] rounded-xl overflow-hidden mb-4 cursor-pointer group bg-espresso/5 border border-espresso/10 shadow-sm" role="button" tabindex="0" aria-label="Bekijk live video van ${item.title}">
-            <video src="${item.videoPreviewSrc}" poster="${item.videoPoster}" autoplay muted loop playsinline class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></video>
+            <video src="${item.videoPreviewSrc}" poster="${item.videoPoster}" muted loop playsinline preload="metadata" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"></video>
             <div class="absolute inset-0 bg-espresso/25 group-hover:bg-espresso/15 transition-colors flex items-center justify-center">
               <span class="w-11 h-11 rounded-full bg-white/95 text-terracotta flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                 <svg class="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -123,6 +123,21 @@ function renderRepertoireItems(container) {
 
     if (hasVideo) {
       const videoTrigger = card.querySelector('.video-preview-trigger');
+      const previewVideo = card.querySelector('video');
+
+      // Play video preview only when hovering over the card
+      card.addEventListener('mouseenter', () => {
+        if (previewVideo) {
+          previewVideo.play().catch(() => {});
+        }
+      });
+
+      card.addEventListener('mouseleave', () => {
+        if (previewVideo) {
+          previewVideo.pause();
+        }
+      });
+
       const triggerModal = () => {
         const modalHeading = item.tag ? `${item.title} (${item.tag})` : `${item.title} (Live video)`;
         openVideoModal(item.videoSrc, modalHeading, () => {
