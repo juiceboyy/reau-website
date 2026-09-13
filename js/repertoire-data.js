@@ -118,15 +118,5 @@ export const repertoireList = [
     duration: "Live fragment",
     style: "Tijdloze Motown klassieker in een gestript, warm akoestisch jasje.",
     audioSrc: null
-  },
-  {
-    id: 'redemption-song',
-    type: 'cover',
-    title: "Redemption Song / One Love",
-    tag: "Cover • Bob Marley",
-    subtitle: "Reggae & Roots",
-    duration: "Live fragment",
-    style: "Akoestische reggae met veel soul en lekker meezingen.",
-    audioSrc: null
   }
 ];
