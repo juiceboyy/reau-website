@@ -103,17 +103,17 @@ export const repertoireList = [
     videoPoster: "assets/images/video-poster-blue-suede-shoes.jpg"
   },
   {
-    id: 'be-bop-a-lula',
+    id: 'be-bop-a-lula-pretty-woman',
     type: 'cover',
-    title: "Be Bop A Lula",
+    title: "Be Bop A Lula / Pretty Woman",
     tag: "Cover • Rock & Roll",
     subtitle: "Live met Band • Dansvloer",
-    duration: "0:26",
+    duration: "1:13",
     style: "Rock & roll met band Moon About en een dansend publiek.",
     audioSrc: null,
-    videoSrc: "assets/video/reau-be-bop-a-lula.mp4",
-    videoPreviewSrc: "assets/video/reau-be-bop-a-lula-preview.mp4",
-    videoPoster: "assets/images/video-poster-be-bop-a-lula.jpg"
+    videoSrc: "assets/video/reau-be-bop-a-lula-pretty-woman.mp4",
+    videoPreviewSrc: "assets/video/reau-be-bop-a-lula-pretty-woman-preview.mp4",
+    videoPoster: "assets/images/video-poster-be-bop-a-lula-pretty-woman.jpg"
   },
   {
     id: 'my-girl',
