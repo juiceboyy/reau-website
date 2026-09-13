@@ -109,7 +109,7 @@ export const repertoireList = [
     tag: "Cover • Rock & Roll",
     subtitle: "Live met Band • Dansvloer",
     duration: "0:26",
-    style: "Aanstekelijke rock & roll met band Moon About; let op het enthousiast dansende publiek!",
+    style: "Rock & roll met band Moon About en een dansend publiek.",
     audioSrc: null,
     videoSrc: "assets/video/reau-be-bop-a-lula.mp4",
     videoPreviewSrc: "assets/video/reau-be-bop-a-lula-preview.mp4",
