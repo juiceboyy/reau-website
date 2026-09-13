@@ -35,6 +35,19 @@ export const repertoireList = [
     style: "Puur liedjesmakerschap geïnspireerd door klassieke soul en jazzy akkoorden.",
     audioSrc: "assets/audio/think-that-i-must-be-in-love.mp3"
   },
+  {
+    id: 'maybe',
+    type: 'original',
+    title: "Maybe",
+    tag: "Origineel",
+    subtitle: "Live in Toulouse",
+    duration: "1:28",
+    style: "Café optreden in Toulouse, Frankrijk; puur eigen werk met gitaar en zang.",
+    audioSrc: null,
+    videoSrc: "assets/video/reau-maybe.mp4",
+    videoPreviewSrc: "assets/video/reau-maybe-preview.mp4",
+    videoPoster: "assets/images/video-poster-maybe.jpg"
+  },
 
   // Reimagined Covers
   {
