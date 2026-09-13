@@ -103,6 +103,19 @@ export const repertoireList = [
     videoPoster: "assets/images/video-poster-blue-suede-shoes.jpg"
   },
   {
+    id: 'be-bop-a-lula',
+    type: 'cover',
+    title: "Be Bop A Lula",
+    tag: "Cover • Rock & Roll",
+    subtitle: "Live met Band • Dansvloer",
+    duration: "0:26",
+    style: "Aanstekelijke rock & roll met band Moon About; let op het enthousiast dansende publiek!",
+    audioSrc: null,
+    videoSrc: "assets/video/reau-be-bop-a-lula.mp4",
+    videoPreviewSrc: "assets/video/reau-be-bop-a-lula-preview.mp4",
+    videoPoster: "assets/images/video-poster-be-bop-a-lula.jpg"
+  },
+  {
     id: 'my-girl',
     type: 'cover',
     title: "My Girl",
