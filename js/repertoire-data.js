@@ -34,16 +34,6 @@ export const repertoireList = [
 
   // Reimagined Covers
   {
-    id: 'aint-no-sunshine',
-    type: 'cover',
-    title: "Ain't No Sunshine / Lean On Me",
-    tag: "Cover • Bill Withers",
-    subtitle: "Soul & Pop",
-    duration: "Live fragment",
-    style: "Akoestische groove, soulvolle dynamiek en vocale bezieling.",
-    audioSrc: null
-  },
-  {
     id: 'my-baby-just-cares',
     type: 'cover',
     title: "My Baby Just Cares for Me",
@@ -135,7 +125,7 @@ export const repertoireList = [
     tag: "Cover • Lionel Richie",
     subtitle: "Smooth Soul",
     duration: "Live fragment",
-    style: "Zijdezachte vocalen met een natuurlijke warme klankkleur en pure feelgood.",
+    style: "Ontspannen soulklassieker in een warm akoestisch jasje.",
     audioSrc: null
   }
 ];
