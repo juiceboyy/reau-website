@@ -96,6 +96,19 @@ export const repertoireList = [
     videoPoster: "assets/images/video-poster-be-bop-a-lula-pretty-woman.jpg"
   },
   {
+    id: 'dancing-queen',
+    type: 'cover',
+    title: "Dancing Queen",
+    tag: "Cover • ABBA",
+    subtitle: "Bruiloft Live • Kasteel",
+    duration: "0:26",
+    style: "Live op een bruiloft in een kasteel met band Moon About; het publiek zingt lekker mee.",
+    audioSrc: null,
+    videoSrc: "assets/video/reau-dancing-queen.mp4",
+    videoPreviewSrc: "assets/video/reau-dancing-queen-preview.mp4",
+    videoPoster: "assets/images/video-poster-dancing-queen.jpg"
+  },
+  {
     id: 'my-girl',
     type: 'cover',
     title: "My Girl",
