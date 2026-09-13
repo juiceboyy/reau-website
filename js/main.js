@@ -8,7 +8,6 @@ import { renderAbout } from './components/about.js';
 import { renderWallOfFame } from './components/wall-of-fame.js';
 import { renderRepertoire } from './components/repertoire.js';
 import { renderLiveFormats } from './components/live-formats.js';
-import { renderMedia } from './components/media.js';
 import { renderContact } from './components/contact.js';
 
 import { initNavigation } from './navigation.js';
@@ -23,7 +22,6 @@ function init() {
   renderWallOfFame(document.getElementById('wall-of-fame'));
   renderRepertoire(document.getElementById('repertoire'));
   renderLiveFormats(document.getElementById('live'));
-  renderMedia(document.getElementById('media'));
   renderContact(document.getElementById('contact'));
 
   // 2. Initialize interactive controllers
