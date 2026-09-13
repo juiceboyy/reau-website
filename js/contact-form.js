@@ -87,8 +87,8 @@ export function initContactForm() {
       const eventType = document.getElementById('form-event-type')?.value || 'Particulier';
 
       const formatName = formatConfig[format]?.name || format;
-      const numSets = sets === '5+' ? 5 : parseInt(sets, 10);
-      const configSummary = `${formatName} • ${sets} set(s) (± ${numSets * 45} min) • ${eventType}`;
+      const durationText = sets === '5+' ? '5+ uur (Maatwerk)' : `${sets} uur`;
+      const configSummary = `${formatName} • ${durationText} • ${eventType}`;
 
       // Populate hidden inputs for Netlify Form Submission
       const calculatedConfigEl = document.getElementById('form-calculated-config');
@@ -106,7 +106,7 @@ export function initContactForm() {
         location: document.getElementById('form-location')?.value.trim() || 'Niet opgegeven',
         event_type: eventType,
         format: formatName,
-        sets: `${sets} set(s) (± ${numSets * 45} min)`,
+        sets: durationText,
         gekozen_configuratie: configSummary,
         message: document.getElementById('form-message')?.value.trim() || ''
       };

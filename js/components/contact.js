@@ -88,14 +88,15 @@ export function renderContact(container) {
               </select>
             </div>
             <div>
-              <label for="form-sets" class="block text-xs uppercase tracking-wider font-semibold text-espresso mb-2">Aantal Sets</label>
+              <label for="form-sets" class="block text-xs uppercase tracking-wider font-semibold text-espresso mb-2">Speelduur</label>
               <select id="form-sets" name="sets" class="w-full px-4 py-3 rounded-xl border border-espresso/15 bg-canvas focus:bg-white text-espresso text-sm transition-all">
-                <option value="1">1 Set (± 45 min)</option>
-                <option value="2">2 Sets (± 90 min)</option>
-                <option value="3" selected>3 Sets (± 135 min)</option>
-                <option value="4">4 Sets (± 180 min)</option>
-                <option value="5+">5+ Sets (Maatwerk)</option>
+                <option value="1">1 uur</option>
+                <option value="2">2 uur</option>
+                <option value="3" selected>3 uur</option>
+                <option value="4">4 uur</option>
+                <option value="5+">5+ uur (Maatwerk)</option>
               </select>
+              <p class="text-[11px] text-espresso-muted mt-1.5">Elk uur heeft een kwartier pauze</p>
             </div>
           </div>
 
