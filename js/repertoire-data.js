@@ -90,6 +90,19 @@ export const repertoireList = [
     videoPoster: "assets/images/video-poster-sweet-dreams.jpg"
   },
   {
+    id: 'blue-suede-shoes',
+    type: 'cover',
+    title: "Blue Suede Shoes",
+    tag: "Cover • Rock & Roll",
+    subtitle: "Bruiloft Live • Volledige Band",
+    duration: "2:15",
+    style: "Live op een bruiloft in Zeeland met band Moon About; energieke rock & roll in volledige bezetting.",
+    audioSrc: null,
+    videoSrc: "assets/video/reau-blue-suede-shoes.mp4",
+    videoPreviewSrc: "assets/video/reau-blue-suede-shoes-preview.mp4",
+    videoPoster: "assets/images/video-poster-blue-suede-shoes.jpg"
+  },
+  {
     id: 'my-girl',
     type: 'cover',
     title: "My Girl",
