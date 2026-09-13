@@ -54,7 +54,7 @@ export const repertoireList = [
     tag: "Cover • Nina Simone",
     subtitle: "Tuin optreden • Swing",
     duration: "0:57",
-    style: "Sfeervol tuin optreden vol smaakvolle syncopes, speelse jazzy harmonieën en akoestische verfijning.",
+    style: "Sfeervol tuin optreden met een jazzy meezing classic.",
     audioSrc: null,
     videoSrc: "assets/video/reau-nina-simone.mp4",
     videoPreviewSrc: "assets/video/reau-nina-simone-preview.mp4",
