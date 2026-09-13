@@ -14,7 +14,7 @@ export function renderTop(container) {
           <source srcset="assets/images/reau-hires.jpg" media="(min-width: 768px)">
           <img 
             src="assets/images/reau-lowres.jpg" 
-            alt="Reau (Ro Halfhide) zanger en gitarist" 
+            alt="Reau (Ro Halfhide) zanger en gitarist (foto: Sjoerd van der Hucht)" 
             class="w-full h-full object-cover object-[center_12%] sm:object-[center_10%] lg:object-center"
           >
         </picture>
