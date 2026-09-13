@@ -4,7 +4,7 @@
  */
 
 export const wallOfFameRow1 = [
-  { name: 'Louwman Museum', category: 'Bedrijfsevent', logo: 'assets/images/logos/louwman-museum.svg' },
+  { name: 'Louwman Museum', category: 'Diverse bedrijfsevents', logo: 'assets/images/logos/louwman-museum.svg' },
   { name: 'BOVAG', category: 'Netwerkborrel', logo: 'assets/images/logos/bovag.png' },
   { name: 'Landgoedhotel De Wilmersberg', category: 'Paasdiner', logo: 'assets/images/logos/wilmersberg.svg' },
   { name: 'Leroy Seafood', category: 'Nieuwjaarsfeest', logo: 'assets/images/logos/leroy-seafood.svg' },
