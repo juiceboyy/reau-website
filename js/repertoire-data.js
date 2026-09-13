@@ -19,26 +19,6 @@ export const repertoireList = [
     videoPoster: "assets/images/video-poster-your-morning-smile.jpg"
   },
   {
-    id: 'rise-up-and-start-singing',
-    type: 'original',
-    title: "Rise Up and Start Singing",
-    tag: "Origineel",
-    subtitle: "Acoustic Pop / Soul",
-    duration: "2:36",
-    style: "Aanstekelijke melodie en optimistische energie vol hoop, verbinding en ritme.",
-    audioSrc: "assets/audio/rise-up-and-start-singing.mp3"
-  },
-  {
-    id: 'think-that-i-must-be-in-love',
-    type: 'original',
-    title: "Think That I Must Be In Love",
-    tag: "Origineel",
-    subtitle: "Acoustic Storytelling",
-    duration: "2:27",
-    style: "Puur liedjesmakerschap geïnspireerd door klassieke soul en jazzy akkoorden.",
-    audioSrc: "assets/audio/think-that-i-must-be-in-love.mp3"
-  },
-  {
     id: 'maybe',
     type: 'original',
     title: "Maybe",
