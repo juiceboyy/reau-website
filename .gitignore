@@ -1,0 +1,7 @@
+.DS_Store
+assets/.DS_Store
+*.mov
+assets/video/*.mov
+.env
+.env.local
+node_modules/
