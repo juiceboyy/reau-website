@@ -1,15 +1,21 @@
 /**
  * Reau Website - Top Section Component
- * Full-bleed high-end editorial hero design
+ * High-end editorial top section:
+ * - Mobile (<sm): Vertical split with dedicated photo canvas (fading smoothly into dark background),
+ *   putting Ro Halfhide & acoustic guitar fully free of text overlay, followed by editorial copy and CTA.
+ * - Desktop/Tablet (>=sm): Asymmetric right-side photography canvas with left feather.
  */
 
 export function renderTop(container) {
   if (!container) return;
   container.innerHTML = `
-    <div class="relative w-full min-h-[85vh] sm:min-h-[90vh] lg:min-h-[calc(100vh-4.5rem)] flex flex-col justify-between p-6 sm:p-10 lg:p-14 bg-[#140F0D] text-[#FDFBF7] overflow-hidden">
+    <div class="relative w-full bg-[#140F0D] text-[#FDFBF7] flex flex-col sm:min-h-[90vh] lg:min-h-[calc(100vh-4.5rem)] sm:justify-between p-0 sm:p-10 lg:p-14 overflow-hidden">
       
-      <!-- Dedicated Right-Side Photography Canvas (Ensures Ro's face is never behind text & full brightness) -->
-      <div class="absolute inset-y-0 right-0 w-full sm:w-3/5 lg:w-[54%] xl:w-[50%] pointer-events-none select-none overflow-hidden">
+      <!-- Photography Canvas:
+           - Mobile: Dedicated upper banner (46vh) with top vignette and bottom fade into #140F0D
+           - Desktop/Tablet: Absolute right-side canvas with left edge feather
+      -->
+      <div class="relative w-full h-[46vh] sm:h-full sm:absolute sm:inset-y-0 sm:right-0 sm:w-3/5 lg:w-[54%] xl:w-[50%] pointer-events-none select-none overflow-hidden">
         <picture>
           <source srcset="assets/images/reau-hires.jpg" media="(min-width: 768px)">
           <img 
@@ -19,21 +25,24 @@ export function renderTop(container) {
           >
         </picture>
         
-        <!-- Seamless Left Edge Feather (Desktop only, leaves face completely untouched) -->
+        <!-- Mobile Top Vignette: Keeps floating micro-bar text and pers button ultra-crisp -->
+        <div class="sm:hidden absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#140F0D]/85 via-[#140F0D]/40 to-transparent"></div>
+
+        <!-- Bottom Edge Feather: Seamless multi-stop fade into dark section background -->
+        <div class="absolute inset-x-0 bottom-0 h-28 sm:h-24 bg-gradient-to-t from-[#140F0D] via-[#140F0D]/75 to-transparent"></div>
+
+        <!-- Left Edge Feather (Desktop only, preserves face brightness & softens split) -->
         <div class="hidden sm:block absolute inset-y-0 left-0 w-24 sm:w-36 lg:w-48 bg-gradient-to-r from-[#140F0D] to-transparent"></div>
-        
-        <!-- Bottom Edge Feather (Blends into bottom bar) -->
-        <div class="absolute inset-x-0 bottom-0 h-16 sm:h-24 bg-gradient-to-t from-[#140F0D] to-transparent"></div>
-        
-        <!-- Mobile-only subtle gradient for bottom text contrast -->
-        <div class="sm:hidden absolute inset-0 bg-gradient-to-t from-[#140F0D] via-[#140F0D]/60 via-45% to-transparent"></div>
       </div>
 
-      <!-- Top Micro-bar: Metadata & Quick Access -->
-      <div class="relative z-10 flex items-center justify-between gap-4 pb-4 border-b border-white/10">
-        <div class="flex items-center gap-3">
+      <!-- Top Micro-bar:
+           - Mobile: Floating gently over photo top with z-20
+           - Desktop: Clean inline header element with bottom border
+      -->
+      <div class="absolute top-0 inset-x-0 z-20 p-5 sm:p-0 sm:relative flex items-center justify-between gap-4 sm:pb-4 sm:border-b sm:border-white/10 pointer-events-auto">
+        <div class="flex items-center gap-2.5 sm:gap-3">
           <span class="w-2 h-2 rounded-full bg-terracotta animate-pulse"></span>
-          <span class="text-xs font-mono uppercase tracking-[0.2em] text-white/70">Zanger / Gitarist • Live Akoestisch</span>
+          <span class="text-[11px] sm:text-xs font-mono uppercase tracking-[0.18em] sm:tracking-[0.2em] text-white/80">Zanger / Gitarist • Live Akoestisch</span>
         </div>
         
         <a 
@@ -47,9 +56,12 @@ export function renderTop(container) {
         </a>
       </div>
 
-      <!-- Middle: Editorial Statement (Constrained width so it NEVER overlaps with Ro on the right) -->
-      <div class="relative z-10 my-auto py-8 sm:py-12 max-w-lg lg:max-w-xl xl:max-w-2xl space-y-6">
-        <h1 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-semibold text-white tracking-[-0.035em] leading-[1.05]">
+      <!-- Editorial Statement & Actions:
+           - Mobile: Flowing calmly below the photo on pure dark canvas (never overlapping face)
+           - Desktop: Vertically centered in left column
+      -->
+      <div class="relative z-10 px-6 pt-2 pb-10 sm:px-0 sm:py-12 sm:my-auto max-w-lg lg:max-w-xl xl:max-w-2xl space-y-5 sm:space-y-6">
+        <h1 class="font-serif text-3xl sm:text-6xl lg:text-7xl font-semibold text-white tracking-[-0.035em] leading-[1.1] sm:leading-[1.05]">
           Acoustic soul, herkenbare covers &amp; <span class="italic font-normal text-terracotta">eigen werk.</span>
         </h1>
         
@@ -65,11 +77,17 @@ export function renderTop(container) {
           >
             Boek Reau
           </a>
+
+          <!-- Minimalist Mobile USP: High calm, no clutter -->
+          <div class="sm:hidden flex items-center justify-center gap-2 pt-1 text-xs font-mono text-white/70">
+            <svg class="w-3.5 h-3.5 text-terracotta shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            <span>Geen stroom nodig (100% mobiel)</span>
+          </div>
         </div>
       </div>
 
-      <!-- Bottom Bar: Asymmetric USP Strip & Live Quote -->
-      <div class="relative z-10 pt-6 border-t border-white/10 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-center">
+      <!-- Bottom Bar: Full Asymmetric USP Strip & Live Quote (Desktop & Tablet) -->
+      <div class="hidden sm:grid relative z-10 pt-6 border-t border-white/10 grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-center">
         <!-- Live USPs -->
         <div class="lg:col-span-7 flex flex-wrap gap-2.5 text-xs font-mono text-white/80">
           <span class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 backdrop-blur-sm shadow-[0_0_0_1px_rgba(255,255,255,0.1)]">
