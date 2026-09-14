@@ -4,6 +4,7 @@
  */
 
 import { openVideoModal } from './components/video-modal.js';
+import { setupVideoPreviewObserver, cancelVideoPreview } from './video-preview-observer.js';
 
 import { repertoireList } from './repertoire-data.js';
 export { repertoireList };
@@ -125,20 +126,29 @@ function renderRepertoireItems(container) {
       const videoTrigger = card.querySelector('.video-preview-trigger');
       const previewVideo = card.querySelector('video');
 
-      // Play video preview only when hovering over the card
+      // Play video preview when hovering over the card on desktop
       card.addEventListener('mouseenter', () => {
+        card._isMouseHovered = true;
         if (previewVideo) {
+          cancelVideoPreview(previewVideo);
+          try {
+            previewVideo.playbackRate = 1.0;
+          } catch (_) {}
           previewVideo.play().catch(() => {});
         }
       });
 
       card.addEventListener('mouseleave', () => {
+        card._isMouseHovered = false;
         if (previewVideo) {
-          previewVideo.pause();
+          cancelVideoPreview(previewVideo);
         }
       });
 
       const triggerModal = () => {
+        if (previewVideo) {
+          cancelVideoPreview(previewVideo);
+        }
         const modalHeading = item.tag ? `${item.title} (${item.tag})` : `${item.title} (Live video)`;
         openVideoModal(item.videoSrc, modalHeading, () => {
           if (globalAudio && !globalAudio.paused) {
@@ -157,6 +167,9 @@ function renderRepertoireItems(container) {
 
     container.appendChild(card);
   });
+
+  // Enable viewport scroll previews with gentle deceleration for touchscreens & mobile
+  setupVideoPreviewObserver(container);
 }
 
 function toggleTrackPlayback(trackId, audioSrc) {
