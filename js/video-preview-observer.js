@@ -1,61 +1,133 @@
 /**
- * Reau Website - Video Preview Viewport & Touch Controller
- * Optimized for iOS Safari, Android & Desktop:
- * - Eliminates gray loading flashes by keeping poster image visible until 'playing' event fires
- * - Countdown only starts ONCE the video is actively playing (guarantees full preview duration)
- * - Cinematic 750ms crossfade between poster and moving video
- * - Seamlessly coordinates with desktop mouse hover
+ * Reau Website - Single Active Video Preview Controller
+ * - Plays video preview when centered in viewport on mobile/touchscreens
+ * - Guarantees STRICTLY ONE active moving preview at any given time
+ * - Stops and restores poster when scrolled almost out of view
+ * - Seamlessly handles desktop mouse hover
  */
 
-const PREVIEW_ACTIVE_DURATION = 3200; // ms to play actively once video starts moving
-const CROSSFADE_DURATION = 750;       // ms for smooth crossfade transition
+let activeCard = null;
+let isHovering = false;
+let rafId = null;
+const visibleCardsSet = new Set();
 
 /**
- * Initializes IntersectionObserver on all video preview cards.
+ * Sets up viewport scroll tracking and single-active preview logic.
  * @param {HTMLElement} container 
  */
 export function setupVideoPreviewObserver(container) {
-  if (!container || !('IntersectionObserver' in window)) return;
+  if (!container) return;
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      const card = entry.target;
-      const previewVideo = card.querySelector('video');
-      const posterImg = card.querySelector('.video-poster-img');
-      if (!previewVideo) return;
+  const videoCards = Array.from(container.querySelectorAll('[id^="track-card-"]')).filter(
+    (card) => card.querySelector('video')
+  );
 
-      if (entry.isIntersecting) {
-        // If card is currently hovered with mouse on desktop, don't override
-        if (card._isMouseHovered) return;
+  if (videoCards.length === 0) return;
 
-        playAndCrossfadePreview(previewVideo, posterImg);
-      } else {
-        // Left viewport: immediately stop and restore poster
-        cancelVideoPreview(previewVideo, posterImg);
+  // Track visibility with IntersectionObserver
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            visibleCardsSet.add(entry.target);
+          } else {
+            visibleCardsSet.delete(entry.target);
+          }
+        });
+        scheduleEvaluation();
+      },
+      {
+        // Triggers as soon as a card is at least 15% in/out of view
+        threshold: [0.15, 0.4, 0.7]
       }
-    });
-  }, {
-    threshold: 0.45 // Trigger when card is substantially visible
-  });
+    );
 
-  const videoCards = container.querySelectorAll('[id^="track-card-"]');
-  videoCards.forEach((card) => {
-    if (card.querySelector('video')) {
-      observer.observe(card);
+    videoCards.forEach((card) => observer.observe(card));
+  }
+
+  // Also listen to window scroll & resize for continuous tracking
+  window.addEventListener('scroll', scheduleEvaluation, { passive: true });
+  window.addEventListener('resize', scheduleEvaluation, { passive: true });
+
+  // Pause preview when tab is hidden
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && activeCard) {
+      stopCardPreview(activeCard);
+      activeCard = null;
+    } else if (!document.hidden) {
+      scheduleEvaluation();
     }
   });
+
+  // Initial evaluation once mounted
+  scheduleEvaluation();
 }
 
 /**
- * Plays preview video and crossfades from/to poster once actually playing.
- * @param {HTMLVideoElement} video 
- * @param {HTMLImageElement} posterImg 
+ * Throttles viewport evaluation using requestAnimationFrame.
  */
-export function playAndCrossfadePreview(video, posterImg) {
+function scheduleEvaluation() {
+  if (isHovering) return; // Desktop mouse hover takes precedence
+  if (rafId) cancelAnimationFrame(rafId);
+  rafId = requestAnimationFrame(evaluateBestVisibleCard);
+}
+
+/**
+ * Finds the card closest to the vertical center of the viewport (with >= 20% visibility)
+ * and ensures ONLY that single card plays.
+ */
+function evaluateBestVisibleCard() {
+  rafId = null;
+  if (isHovering) return;
+
+  const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+  const viewportCenter = viewportHeight / 2;
+
+  let bestCard = null;
+  let minDistance = Infinity;
+
+  visibleCardsSet.forEach((card) => {
+    const rect = card.getBoundingClientRect();
+    const visibleTop = Math.max(0, rect.top);
+    const visibleBottom = Math.min(viewportHeight, rect.bottom);
+    const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+    const visibleRatio = visibleHeight / rect.height;
+
+    // Card must be at least 20% in view (stops when almost out of view)
+    if (visibleRatio >= 0.2) {
+      const cardCenter = rect.top + rect.height / 2;
+      const distance = Math.abs(cardCenter - viewportCenter);
+
+      if (distance < minDistance) {
+        minDistance = distance;
+        bestCard = card;
+      }
+    }
+  });
+
+  if (bestCard !== activeCard) {
+    if (activeCard) {
+      stopCardPreview(activeCard);
+    }
+    if (bestCard) {
+      startCardPreview(bestCard);
+    }
+    activeCard = bestCard;
+  }
+}
+
+/**
+ * Starts video preview and smoothly reveals it once frames are rendering.
+ * @param {HTMLElement} card 
+ */
+function startCardPreview(card) {
+  if (!card) return;
+  const video = card.querySelector('video');
+  const posterImg = card.querySelector('.video-poster-img');
   if (!video) return;
 
-  // Clear any existing preview timers
-  cancelVideoPreview(video, posterImg);
+  clearCardTimers(video);
 
   try {
     video.muted = true;
@@ -63,24 +135,11 @@ export function playAndCrossfadePreview(video, posterImg) {
     video.playbackRate = 1.0;
   } catch (_) {}
 
-  // Reveal video only once frames are actively rendering (prevents iOS gray flash)
+  // Reveal video only once actual frames are playing (prevents gray flash)
   const onPlaying = () => {
     if (posterImg) {
       posterImg.style.opacity = '0';
     }
-
-    // Start timer ONLY after video has buffered and is genuinely playing
-    video._previewTimer = setTimeout(() => {
-      // 1. Crossfade back to crisp poster
-      if (posterImg) {
-        posterImg.style.opacity = '1';
-      }
-
-      // 2. Pause video once covered by poster crossfade
-      video._pauseTimer = setTimeout(() => {
-        video.pause();
-      }, CROSSFADE_DURATION);
-    }, PREVIEW_ACTIVE_DURATION);
   };
 
   video._onPlayingHandler = onPlaying;
@@ -89,99 +148,82 @@ export function playAndCrossfadePreview(video, posterImg) {
   const playPromise = video.play();
   if (playPromise !== undefined) {
     playPromise.catch(() => {
-      // Autoplay prevented: keep poster visible
       if (posterImg) posterImg.style.opacity = '1';
     });
   }
 }
 
 /**
- * Handles desktop mouseenter hover preview.
- * @param {HTMLVideoElement} video 
- * @param {HTMLImageElement} posterImg 
+ * Stops video preview and crossfades back to poster image.
+ * @param {HTMLElement} card 
  */
-export function startHoverPreview(video, posterImg) {
-  if (!video) return;
-  cancelVideoPreview(video, posterImg);
-
-  try {
-    video.muted = true;
-    video.defaultMuted = true;
-    video.playbackRate = 1.0;
-  } catch (_) {}
-
-  const onPlaying = () => {
-    if (posterImg) {
-      posterImg.style.opacity = '0';
-    }
-  };
-  video._onPlayingHandler = onPlaying;
-  video.addEventListener('playing', onPlaying, { once: true });
-
-  const playPromise = video.play();
-  if (playPromise !== undefined) {
-    playPromise.catch(() => {
-      if (posterImg) posterImg.style.opacity = '1';
-    });
-  }
-}
-
-/**
- * Handles desktop mouseleave or leaving viewport.
- * @param {HTMLVideoElement} video 
- * @param {HTMLImageElement} posterImg 
- */
-export function stopHoverPreview(video, posterImg) {
+function stopCardPreview(card) {
+  if (!card) return;
+  const video = card.querySelector('video');
+  const posterImg = card.querySelector('.video-poster-img');
   if (!video) return;
 
-  if (video._previewTimer) {
-    clearTimeout(video._previewTimer);
-    video._previewTimer = null;
-  }
-  if (video._onPlayingHandler) {
-    video.removeEventListener('playing', video._onPlayingHandler);
-    video._onPlayingHandler = null;
-  }
+  clearCardTimers(video);
 
-  // Crossfade back to poster
   if (posterImg) {
     posterImg.style.opacity = '1';
   }
 
+  // Pause video once poster has smoothly faded back over it (400ms)
   video._pauseTimer = setTimeout(() => {
     video.pause();
-  }, CROSSFADE_DURATION);
+  }, 400);
 }
 
 /**
- * Cancels all timers, restores poster, and pauses video immediately.
+ * Clears any pending pause or event handlers on a video.
  * @param {HTMLVideoElement} video 
- * @param {HTMLImageElement} posterImg 
  */
-export function cancelVideoPreview(video, posterImg) {
+function clearCardTimers(video) {
   if (!video) return;
-
-  if (video._previewTimer) {
-    clearTimeout(video._previewTimer);
-    video._previewTimer = null;
-  }
-
   if (video._pauseTimer) {
     clearTimeout(video._pauseTimer);
     video._pauseTimer = null;
   }
-
   if (video._onPlayingHandler) {
     video.removeEventListener('playing', video._onPlayingHandler);
     video._onPlayingHandler = null;
   }
+}
 
-  if (posterImg) {
-    posterImg.style.opacity = '1';
+/**
+ * Desktop hover entry: immediately plays hovered card and pauses any other.
+ * @param {HTMLElement} card 
+ */
+export function startHoverPreview(card) {
+  isHovering = true;
+  if (activeCard && activeCard !== card) {
+    stopCardPreview(activeCard);
   }
+  activeCard = card;
+  startCardPreview(card);
+}
 
-  video.pause();
-  try {
-    video.playbackRate = 1.0;
-  } catch (_) {}
+/**
+ * Desktop hover leave: stops preview and resumes viewport tracking.
+ * @param {HTMLElement} card 
+ */
+export function stopHoverPreview(card) {
+  isHovering = false;
+  if (activeCard === card) {
+    stopCardPreview(card);
+    activeCard = null;
+  }
+  scheduleEvaluation();
+}
+
+/**
+ * Emergency stop for all previews (e.g. when opening a video modal).
+ */
+export function stopAllPreviews() {
+  if (activeCard) {
+    stopCardPreview(activeCard);
+    activeCard = null;
+  }
+  isHovering = false;
 }
