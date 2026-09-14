@@ -2,13 +2,13 @@
  * Reau Website - Video Preview Viewport & Touch Controller
  * Optimized for iOS Safari, Android & Desktop:
  * - Eliminates gray loading flashes by keeping poster image visible until 'playing' event fires
- * - Plays preview for ~2.8 seconds at crisp 1.0x speed when scrolled into view
- * - Gracefully crossfades (300ms) back to the high-res poster image, avoiding stuttery hardware decoders
+ * - Countdown only starts ONCE the video is actively playing (guarantees full preview duration)
+ * - Cinematic 750ms crossfade between poster and moving video
  * - Seamlessly coordinates with desktop mouse hover
  */
 
-const PREVIEW_ACTIVE_DURATION = 2800; // ms to play before crossfading to poster
-const FADE_OUT_DURATION = 300;        // ms for crossfade transition
+const PREVIEW_ACTIVE_DURATION = 3200; // ms to play actively once video starts moving
+const CROSSFADE_DURATION = 750;       // ms for smooth crossfade transition
 
 /**
  * Initializes IntersectionObserver on all video preview cards.
@@ -47,7 +47,7 @@ export function setupVideoPreviewObserver(container) {
 }
 
 /**
- * Plays preview video and crossfades from/to poster without gray flashes.
+ * Plays preview video and crossfades from/to poster once actually playing.
  * @param {HTMLVideoElement} video 
  * @param {HTMLImageElement} posterImg 
  */
@@ -63,11 +63,24 @@ export function playAndCrossfadePreview(video, posterImg) {
     video.playbackRate = 1.0;
   } catch (_) {}
 
-  // Only hide poster image once the video is genuinely emitting frames (prevents iOS gray flash)
+  // Reveal video only once frames are actively rendering (prevents iOS gray flash)
   const onPlaying = () => {
     if (posterImg) {
-      posterImg.classList.add('opacity-0');
+      posterImg.style.opacity = '0';
     }
+
+    // Start timer ONLY after video has buffered and is genuinely playing
+    video._previewTimer = setTimeout(() => {
+      // 1. Crossfade back to crisp poster
+      if (posterImg) {
+        posterImg.style.opacity = '1';
+      }
+
+      // 2. Pause video once covered by poster crossfade
+      video._pauseTimer = setTimeout(() => {
+        video.pause();
+      }, CROSSFADE_DURATION);
+    }, PREVIEW_ACTIVE_DURATION);
   };
 
   video._onPlayingHandler = onPlaying;
@@ -77,22 +90,9 @@ export function playAndCrossfadePreview(video, posterImg) {
   if (playPromise !== undefined) {
     playPromise.catch(() => {
       // Autoplay prevented: keep poster visible
-      if (posterImg) posterImg.classList.remove('opacity-0');
+      if (posterImg) posterImg.style.opacity = '1';
     });
   }
-
-  // Play actively for PREVIEW_ACTIVE_DURATION, then smoothly crossfade back to poster
-  video._previewTimer = setTimeout(() => {
-    // 1. Crossfade back to crisp poster
-    if (posterImg) {
-      posterImg.classList.remove('opacity-0');
-    }
-
-    // 2. Pause video once covered by poster
-    video._pauseTimer = setTimeout(() => {
-      video.pause();
-    }, FADE_OUT_DURATION);
-  }, PREVIEW_ACTIVE_DURATION);
 }
 
 /**
@@ -110,14 +110,18 @@ export function startHoverPreview(video, posterImg) {
     video.playbackRate = 1.0;
   } catch (_) {}
 
-  if (posterImg) {
-    posterImg.classList.add('opacity-0');
-  }
+  const onPlaying = () => {
+    if (posterImg) {
+      posterImg.style.opacity = '0';
+    }
+  };
+  video._onPlayingHandler = onPlaying;
+  video.addEventListener('playing', onPlaying, { once: true });
 
   const playPromise = video.play();
   if (playPromise !== undefined) {
     playPromise.catch(() => {
-      if (posterImg) posterImg.classList.remove('opacity-0');
+      if (posterImg) posterImg.style.opacity = '1';
     });
   }
 }
@@ -128,11 +132,29 @@ export function startHoverPreview(video, posterImg) {
  * @param {HTMLImageElement} posterImg 
  */
 export function stopHoverPreview(video, posterImg) {
-  cancelVideoPreview(video, posterImg);
+  if (!video) return;
+
+  if (video._previewTimer) {
+    clearTimeout(video._previewTimer);
+    video._previewTimer = null;
+  }
+  if (video._onPlayingHandler) {
+    video.removeEventListener('playing', video._onPlayingHandler);
+    video._onPlayingHandler = null;
+  }
+
+  // Crossfade back to poster
+  if (posterImg) {
+    posterImg.style.opacity = '1';
+  }
+
+  video._pauseTimer = setTimeout(() => {
+    video.pause();
+  }, CROSSFADE_DURATION);
 }
 
 /**
- * Cancels all timers, restores poster, and pauses video.
+ * Cancels all timers, restores poster, and pauses video immediately.
  * @param {HTMLVideoElement} video 
  * @param {HTMLImageElement} posterImg 
  */
@@ -155,7 +177,7 @@ export function cancelVideoPreview(video, posterImg) {
   }
 
   if (posterImg) {
-    posterImg.classList.remove('opacity-0');
+    posterImg.style.opacity = '1';
   }
 
   video.pause();
