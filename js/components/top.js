@@ -48,11 +48,11 @@ export function renderTop(container) {
         <a 
           href="pers.html" 
           class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-terracotta text-white text-[11px] font-mono uppercase tracking-wider backdrop-blur-md shadow-[0_0_0_1px_rgba(255,255,255,0.15)] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-terracotta"
-          title="Bekijk & download officiële hires persfoto"
+          title="Bekijk & download officiële hires persfoto en EPK"
         >
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
           <span class="hidden sm:inline">Hires persfoto</span>
-          <span class="sm:hidden">Pers</span>
+          <span class="sm:hidden">Foto/EPK</span>
         </a>
       </div>
 
