@@ -23,3 +23,14 @@ Solo music artist website for **Reau** (Ro Halfhide).
 - **Geen 'hero' voor above-the-fold secties**: Gebruik nooit de term 'hero' voor UI-elementen, URLs, anchor links (`#top`), CSS-classes (`.bg-warm-top`), componenten (`top.js`) of functies (`renderTop`). Gebruik hiervoor altijd 'top' om verwarring bij eindgebruikers te voorkomen. De term 'hero' / 'held' is uitsluitend toegestaan in redactionele copy/teksten wanneer het de letterlijke betekenis betreft.
 - Always push commits to GitHub (`origin/main` / `dev` / `test`).
 
+## E-mail & Boekingen Architectuur (Brevo & Netlify Functions)
+- **Verzending via achtergrondfunctie**: Boekingsaanvragen vanuit het formulier (`js/contact-form.js`) worden via AJAX gepost naar `/.netlify/functions/send-booking` (`netlify/functions/send-booking.js`).
+- **Brevo API koppeling**: De serverless functie stuurt transactionele e-mails aan via de Brevo API (`https://api.brevo.com/v3/smtp/email`) met behulp van de Netlify environment variable `BREVO_API_KEY`.
+- **Dual-delivery per aanvraag**:
+  1. **Notificatie naar artiest**: Volledige aanvraaggegevens (naam, e-mail, telefoon, datum, locatie, gelegenheid, bezetting, speelduur en toelichting) naar `ARTIST_EMAIL` (`boekingen@reaumusic.nl`).
+  2. **Klantbevestiging**: Een automatische ontvangstbevestiging namens Reau naar het e-mailadres van de aanvrager.
+- **Domein, DNS & Forwarding**:
+  - Domein: `reaumusic.nl` (geregistreerd bij `mijn.host`).
+  - Domeinauthenticatie: DKIM, DMARC en SPF records zijn geconfigureerd in DNS voor Brevo.
+  - Inkomende e-mail forwarding: via ImprovMX MX-records worden alle mails naar `@reaumusic.nl` doorgestuurd naar `halfhide@gmail.com`.
+

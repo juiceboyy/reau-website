@@ -36,8 +36,11 @@
 
   <!-- Custom Stylesheet & Favicons -->
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="shortcut icon" href="favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
 </head>
 <body class="bg-canvas text-espresso font-sans antialiased selection:bg-terracotta/20 selection:text-terracotta-dark min-h-screen flex flex-col">
@@ -180,15 +183,19 @@
           <div class="bg-canvas-alt border border-espresso/10 rounded-3xl p-6 flex flex-col justify-between space-y-4">
             <div class="h-32 bg-white rounded-2xl border border-espresso/5 flex items-center justify-center gap-4 p-4">
               <img src="assets/images/apple-touch-icon.png" alt="Reau App Icon" class="w-14 h-14 rounded-2xl shadow-sm border border-espresso/10 object-contain">
-              <img src="assets/images/favicon-32x32.png" alt="Reau Favicon" class="w-8 h-8 object-contain">
+              <img src="assets/images/favicon.svg" alt="Reau Favicon SVG" class="w-9 h-9 rounded-lg shadow-sm border border-espresso/10 object-contain">
+              <img src="assets/images/favicon-32x32.png" alt="Reau Favicon 32x32" class="w-8 h-8 rounded-md shadow-sm border border-espresso/10 object-contain">
             </div>
             <div>
-              <h3 class="font-serif text-base text-espresso">App Icon & Favicon (.ico / .png)</h3>
-              <p class="text-xs text-espresso-muted mt-1">Voor webontwikkelaars, apps en bladwijzers (180x180 & 32x32 multi-ICO).</p>
+              <h3 class="font-serif text-base text-espresso">App Icon &amp; Favicon (.ico / .svg / .png)</h3>
+              <p class="text-xs text-espresso-muted mt-1">Voor webontwikkelaars, apps en bladwijzers (SVG vector, multi-ICO &amp; 180x180 PNG).</p>
             </div>
             <div class="flex gap-2">
               <a href="favicon.ico" download="favicon.ico" class="flex-1 btn-secondary py-2.5 px-3 rounded-xl text-xs font-semibold text-center">
                 .ICO
+              </a>
+              <a href="assets/images/favicon.svg" download="favicon.svg" class="flex-1 btn-secondary py-2.5 px-3 rounded-xl text-xs font-semibold text-center">
+                SVG
               </a>
               <a href="assets/images/apple-touch-icon.png" download="apple-touch-icon.png" class="flex-1 btn-secondary py-2.5 px-3 rounded-xl text-xs font-semibold text-center">
                 App Icon
