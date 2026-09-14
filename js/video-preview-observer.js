@@ -1,13 +1,14 @@
 /**
  * Reau Website - Video Preview Viewport & Touch Controller
- * Controls video previews on touchscreens / scroll:
- * - Plays preview for ~2.5 seconds when scrolled into viewport (teasing live energy)
- * - Decelerates smoothly (playbackRate ramp-down) until coming to a gentle halt
- * - Coordinates cleanly with mouse hover on desktop devices
+ * Optimized for iOS Safari, Android & Desktop:
+ * - Eliminates gray loading flashes by keeping poster image visible until 'playing' event fires
+ * - Plays preview for ~2.8 seconds at crisp 1.0x speed when scrolled into view
+ * - Gracefully crossfades (300ms) back to the high-res poster image, avoiding stuttery hardware decoders
+ * - Seamlessly coordinates with desktop mouse hover
  */
 
-const PREVIEW_ACTIVE_DURATION = 2400; // ms to play at full speed
-const DECELERATION_DURATION = 1000;   // ms to gradually brake to stop
+const PREVIEW_ACTIVE_DURATION = 2800; // ms to play before crossfading to poster
+const FADE_OUT_DURATION = 300;        // ms for crossfade transition
 
 /**
  * Initializes IntersectionObserver on all video preview cards.
@@ -20,16 +21,17 @@ export function setupVideoPreviewObserver(container) {
     entries.forEach((entry) => {
       const card = entry.target;
       const previewVideo = card.querySelector('video');
+      const posterImg = card.querySelector('.video-poster-img');
       if (!previewVideo) return;
 
       if (entry.isIntersecting) {
-        // If card is currently hovered with mouse, don't interfere
+        // If card is currently hovered with mouse on desktop, don't override
         if (card._isMouseHovered) return;
 
-        playAndDeceleratePreview(previewVideo);
+        playAndCrossfadePreview(previewVideo, posterImg);
       } else {
-        // Left viewport: immediately stop and reset
-        cancelVideoPreview(previewVideo);
+        // Left viewport: immediately stop and restore poster
+        cancelVideoPreview(previewVideo, posterImg);
       }
     });
   }, {
@@ -45,14 +47,15 @@ export function setupVideoPreviewObserver(container) {
 }
 
 /**
- * Plays the preview video at full speed, then gracefully decelerates to a stop.
+ * Plays preview video and crossfades from/to poster without gray flashes.
  * @param {HTMLVideoElement} video 
+ * @param {HTMLImageElement} posterImg 
  */
-export function playAndDeceleratePreview(video) {
+export function playAndCrossfadePreview(video, posterImg) {
   if (!video) return;
 
-  // Clear any existing preview timers or animations
-  cancelVideoPreview(video);
+  // Clear any existing preview timers
+  cancelVideoPreview(video, posterImg);
 
   try {
     video.muted = true;
@@ -60,58 +63,80 @@ export function playAndDeceleratePreview(video) {
     video.playbackRate = 1.0;
   } catch (_) {}
 
+  // Only hide poster image once the video is genuinely emitting frames (prevents iOS gray flash)
+  const onPlaying = () => {
+    if (posterImg) {
+      posterImg.classList.add('opacity-0');
+    }
+  };
+
+  video._onPlayingHandler = onPlaying;
+  video.addEventListener('playing', onPlaying, { once: true });
+
   const playPromise = video.play();
   if (playPromise !== undefined) {
-    playPromise.catch(() => {});
+    playPromise.catch(() => {
+      // Autoplay prevented: keep poster visible
+      if (posterImg) posterImg.classList.remove('opacity-0');
+    });
   }
 
-  // Play actively for PREVIEW_ACTIVE_DURATION, then decelerate
+  // Play actively for PREVIEW_ACTIVE_DURATION, then smoothly crossfade back to poster
   video._previewTimer = setTimeout(() => {
-    smoothDecelerateVideo(video);
+    // 1. Crossfade back to crisp poster
+    if (posterImg) {
+      posterImg.classList.remove('opacity-0');
+    }
+
+    // 2. Pause video once covered by poster
+    video._pauseTimer = setTimeout(() => {
+      video.pause();
+    }, FADE_OUT_DURATION);
   }, PREVIEW_ACTIVE_DURATION);
 }
 
 /**
- * Smoothly reduces playbackRate using requestAnimationFrame down to a pause.
+ * Handles desktop mouseenter hover preview.
  * @param {HTMLVideoElement} video 
+ * @param {HTMLImageElement} posterImg 
  */
-function smoothDecelerateVideo(video) {
-  if (!video || video.paused) return;
+export function startHoverPreview(video, posterImg) {
+  if (!video) return;
+  cancelVideoPreview(video, posterImg);
 
-  const startTime = performance.now();
-  const initialRate = video.playbackRate || 1.0;
+  try {
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playbackRate = 1.0;
+  } catch (_) {}
 
-  function step(now) {
-    const elapsed = now - startTime;
-    const progress = Math.min(elapsed / DECELERATION_DURATION, 1);
-
-    // Ease-out quadratic deceleration curve: (1 - progress)^2
-    const easeOut = (1 - progress) * (1 - progress);
-    const targetRate = Math.max(0.08, initialRate * easeOut);
-
-    try {
-      video.playbackRate = targetRate;
-    } catch (_) {}
-
-    if (progress < 1 && !video.paused) {
-      video._decelAnimFrame = requestAnimationFrame(step);
-    } else {
-      video.pause();
-      try {
-        video.playbackRate = 1.0;
-      } catch (_) {}
-      video._decelAnimFrame = null;
-    }
+  if (posterImg) {
+    posterImg.classList.add('opacity-0');
   }
 
-  video._decelAnimFrame = requestAnimationFrame(step);
+  const playPromise = video.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {
+      if (posterImg) posterImg.classList.remove('opacity-0');
+    });
+  }
 }
 
 /**
- * Cancels all timers, resets playback speed, and pauses the video.
+ * Handles desktop mouseleave or leaving viewport.
  * @param {HTMLVideoElement} video 
+ * @param {HTMLImageElement} posterImg 
  */
-export function cancelVideoPreview(video) {
+export function stopHoverPreview(video, posterImg) {
+  cancelVideoPreview(video, posterImg);
+}
+
+/**
+ * Cancels all timers, restores poster, and pauses video.
+ * @param {HTMLVideoElement} video 
+ * @param {HTMLImageElement} posterImg 
+ */
+export function cancelVideoPreview(video, posterImg) {
   if (!video) return;
 
   if (video._previewTimer) {
@@ -119,9 +144,18 @@ export function cancelVideoPreview(video) {
     video._previewTimer = null;
   }
 
-  if (video._decelAnimFrame) {
-    cancelAnimationFrame(video._decelAnimFrame);
-    video._decelAnimFrame = null;
+  if (video._pauseTimer) {
+    clearTimeout(video._pauseTimer);
+    video._pauseTimer = null;
+  }
+
+  if (video._onPlayingHandler) {
+    video.removeEventListener('playing', video._onPlayingHandler);
+    video._onPlayingHandler = null;
+  }
+
+  if (posterImg) {
+    posterImg.classList.remove('opacity-0');
   }
 
   video.pause();
