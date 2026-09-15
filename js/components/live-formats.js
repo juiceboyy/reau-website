@@ -25,7 +25,6 @@ export function renderLiveFormats(container) {
           <div>
             <div class="flex justify-between items-start">
               <span class="px-3 py-1 rounded-full text-xs font-semibold bg-terracotta/10 text-terracotta">Intiem & Puur</span>
-              <span class="text-[11px] uppercase tracking-wider text-terracotta font-semibold">De Kernact</span>
             </div>
             <h3 class="font-serif text-3xl text-espresso mt-4">Solo (Reau)</h3>
             <p class="text-xs font-semibold uppercase tracking-wider text-terracotta mt-1">Akoestische gitaar & zang</p>
@@ -69,7 +68,6 @@ export function renderLiveFormats(container) {
           <div>
             <div class="flex justify-between items-start">
               <span class="px-3 py-1 rounded-full text-xs font-semibold bg-terracotta/10 text-terracotta">Bandbeleving</span>
-              <span class="text-[11px] uppercase tracking-wider text-espresso-muted font-semibold">Uitbreiding</span>
             </div>
             <h3 class="font-serif text-3xl text-espresso mt-4">Reau XL</h3>
             <p class="text-xs font-semibold uppercase tracking-wider text-terracotta mt-1">Reau met extra muzikanten</p>
