@@ -15,7 +15,7 @@ export function renderAbout(container) {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         <div class="space-y-5 text-espresso-muted leading-relaxed">
           <p class="text-lg text-espresso font-serif">
-            Reau is het intieme akoestische soloproject van Ro Halfhide — singer-songwriter en producer met een warm, herkenbaar stemgeluid.
+            Reau is het intieme akoestische soloproject van Ro Halfhide - singer-songwriter en producer met een warm, herkenbaar stemgeluid.
           </p>
           <p>
             Als oprichter van het <strong>Amsterdam Songwriters Guild (ASG)</strong>, organisator van de <strong>Haagse Open Mic</strong> en producer voor gerenommeerde artiesten (waaronder Lucky Fonz III en Robin Block), staat Ro bekend om zijn muzikale vakmanschap, jazzy touch en ontwapenende podiumaanwezigheid.
@@ -44,7 +44,7 @@ export function renderAbout(container) {
             <div class="w-10 h-10 rounded-xl bg-terracotta/10 text-terracotta flex items-center justify-center font-serif text-xl shrink-0 mt-0.5">3</div>
             <div>
               <h4 class="font-serif text-xl text-espresso mb-1">Zelfvoorzienend & Flexibel</h4>
-              <p class="text-sm text-espresso-muted leading-relaxed">Eigen compacte, professionele apparatuur (desgewenst ook geschikt voor locaties zonder stroompunt). Past zich moeiteloos aan jouw setting aan — van intieme huiskamer tot tuin of feestzaal.</p>
+              <p class="text-sm text-espresso-muted leading-relaxed">Eigen compacte, professionele apparatuur (desgewenst ook geschikt voor locaties zonder stroompunt). Past zich moeiteloos aan jouw setting aan - van intieme huiskamer tot tuin of feestzaal.</p>
             </div>
           </div>
         </div>
