@@ -17,10 +17,10 @@ export function renderLiveFormats(container) {
         </p>
       </div>
 
-      <!-- Formats Cards Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+      <!-- Formats Cards Grid (2 Cards: Solo Core Act & Reau XL) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 items-stretch max-w-5xl mx-auto">
         
-        <!-- Solo Card -->
+        <!-- 1. Solo Card (De Kernact) -->
         <div class="bg-white rounded-3xl p-7 sm:p-8 border-2 border-espresso/10 hover:border-terracotta/40 hover-lift transition-all flex flex-col justify-between">
           <div>
             <div class="flex justify-between items-start">
@@ -28,10 +28,34 @@ export function renderLiveFormats(container) {
             </div>
             <h3 class="font-serif text-3xl text-espresso mt-4">Solo (Reau)</h3>
             <p class="text-xs font-semibold uppercase tracking-wider text-terracotta mt-1">Akoestische gitaar & zang</p>
-            <p class="text-sm text-espresso-muted mt-4 leading-relaxed">
-              Optioneel met backingtracks voor beats. Intiem, direct en 100% mobiel zonder benodigde stroom. Ideaal voor huiskamers, borrels en ceremonies.
+            <p class="text-sm text-espresso-muted mt-3 leading-relaxed">
+              Optioneel met subtiele backingtracks voor ritme. Intiem, direct en flexibel inzetbaar met eigen compacte apparatuur. Ideaal voor huiskamers, borrels en ceremonies.
             </p>
+
+            <!-- Feature Highlight Blocks -->
+            <div class="space-y-3 mt-6">
+              <div class="p-3.5 rounded-2xl bg-canvas/60 border border-espresso/10">
+                <div class="flex items-center justify-between">
+                  <h4 class="font-serif font-bold text-espresso text-sm">Akoestisch & Puur</h4>
+                  <span class="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md bg-terracotta/10 text-terracotta">Standaard</span>
+                </div>
+                <p class="text-xs text-espresso-muted mt-1 leading-relaxed">
+                  Zang en akoestische gitaar. Intiem, warm en direct in contact met het publiek.
+                </p>
+              </div>
+
+              <div class="p-3.5 rounded-2xl bg-canvas/60 border border-espresso/10">
+                <div class="flex items-center justify-between">
+                  <h4 class="font-serif font-bold text-espresso text-sm">Optioneel met Beats</h4>
+                  <span class="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md bg-terracotta/10 text-terracotta">Subtiele Groove</span>
+                </div>
+                <p class="text-xs text-espresso-muted mt-1 leading-relaxed">
+                  Subtiele backingtracks voor extra swing en ritme, zonder in te boeten op akoestisch gevoel.
+                </p>
+              </div>
+            </div>
           </div>
+
           <div class="mt-8 pt-6 border-t border-espresso/10">
             <button type="button" data-format-select="solo" class="format-select-btn w-full py-3.5 rounded-xl border border-espresso/15 hover:border-terracotta hover:bg-terracotta hover:text-white text-espresso text-xs font-semibold uppercase tracking-wider transition-all text-center">
               Kies Solo
@@ -39,39 +63,47 @@ export function renderLiveFormats(container) {
           </div>
         </div>
 
-        <!-- Duo Card -->
+        <!-- 2. Reau XL Card (Duo & Trio samengevoegd) -->
         <div class="bg-white rounded-3xl p-7 sm:p-8 border-2 border-espresso/10 hover:border-terracotta/40 hover-lift transition-all flex flex-col justify-between">
           <div>
             <div class="flex justify-between items-start">
-              <span class="px-3 py-1 rounded-full text-xs font-semibold bg-terracotta/10 text-terracotta">Warme Groove</span>
+              <span class="px-3 py-1 rounded-full text-xs font-semibold bg-terracotta/10 text-terracotta">Bandbeleving</span>
             </div>
-            <h3 class="font-serif text-3xl text-espresso mt-4">Duo (+ Bassist)</h3>
-            <p class="text-xs font-semibold uppercase tracking-wider text-terracotta mt-1">Reau + akoestische bas & zang</p>
-            <p class="text-sm text-espresso-muted mt-4 leading-relaxed">
-              Extra soulvolle dynamiek, diepere groove en warme meerstemmige zang. Brengt extra body voor borrels, tuinfeesten en recepties.
+            <h3 class="font-serif text-3xl text-espresso mt-4">Reau XL</h3>
+            <p class="text-xs font-semibold uppercase tracking-wider text-terracotta mt-1">Reau met extra muzikanten</p>
+            <p class="text-sm text-espresso-muted mt-3 leading-relaxed">
+              Voor gelegenheden waar meer groove of feestelijke energie gewenst is. Kies uit twee dynamische live bezettingen:
             </p>
+
+            <!-- Duo & Trio Option Blocks -->
+            <div class="space-y-3 mt-6">
+              <div class="p-3.5 rounded-2xl bg-canvas/60 border border-espresso/10">
+                <div class="flex items-center justify-between">
+                  <h4 class="font-serif font-bold text-espresso text-sm">Duo (+ Bassist)</h4>
+                  <span class="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md bg-terracotta/10 text-terracotta">Warme Groove</span>
+                </div>
+                <p class="text-xs text-espresso-muted mt-1 leading-relaxed">
+                  Reau + akoestische bas & meerstemmige zang. Diepere groove en extra body voor borrels en recepties.
+                </p>
+              </div>
+
+              <div class="p-3.5 rounded-2xl bg-canvas/60 border border-espresso/10">
+                <div class="flex items-center justify-between">
+                  <h4 class="font-serif font-bold text-espresso text-sm">Trio (+ Percussie)</h4>
+                  <span class="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md bg-terracotta/10 text-terracotta">Dansbaar</span>
+                </div>
+                <p class="text-xs text-espresso-muted mt-1 leading-relaxed">
+                  Reau + bassist + percussie. Aanstekelijke akoestische beats voor een complete bandbeleving op feesten.
+                </p>
+              </div>
+            </div>
           </div>
-          <div class="mt-8 pt-6 border-t border-espresso/10">
-            <button type="button" data-format-select="duo" class="format-select-btn w-full py-3.5 rounded-xl border border-espresso/15 hover:border-terracotta hover:bg-terracotta hover:text-white text-espresso text-xs font-semibold uppercase tracking-wider transition-all text-center">
+
+          <div class="mt-8 pt-6 border-t border-espresso/10 grid grid-cols-2 gap-3">
+            <button type="button" data-format-select="duo" class="format-select-btn py-3.5 rounded-xl border border-espresso/15 hover:border-terracotta hover:bg-terracotta hover:text-white text-espresso text-xs font-semibold uppercase tracking-wider transition-all text-center">
               Kies Duo
             </button>
-          </div>
-        </div>
-
-        <!-- Trio Card -->
-        <div class="bg-white rounded-3xl p-7 sm:p-8 border-2 border-espresso/10 hover:border-terracotta/40 hover-lift transition-all flex flex-col justify-between">
-          <div>
-            <div class="flex justify-between items-start">
-              <span class="px-3 py-1 rounded-full text-xs font-semibold bg-terracotta/10 text-terracotta">Dansbaar & Dynamisch</span>
-            </div>
-            <h3 class="font-serif text-3xl text-espresso mt-4">Trio (+ Percussie)</h3>
-            <p class="text-xs font-semibold uppercase tracking-wider text-terracotta mt-1">Reau + bassist + percussie</p>
-            <p class="text-sm text-espresso-muted mt-4 leading-relaxed">
-              Nodigt het publiek uit om te dansen met aanstekelijke akoestische beats. Een complete bandbeleving voor grotere feesten en festivals.
-            </p>
-          </div>
-          <div class="mt-8 pt-6 border-t border-espresso/10">
-            <button type="button" data-format-select="trio" class="format-select-btn w-full py-3.5 rounded-xl border border-espresso/15 hover:border-terracotta hover:bg-terracotta hover:text-white text-espresso text-xs font-semibold uppercase tracking-wider transition-all text-center">
+            <button type="button" data-format-select="trio" class="format-select-btn py-3.5 rounded-xl border border-espresso/15 hover:border-terracotta hover:bg-terracotta hover:text-white text-espresso text-xs font-semibold uppercase tracking-wider transition-all text-center">
               Kies Trio
             </button>
           </div>
@@ -86,9 +118,9 @@ export function renderLiveFormats(container) {
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
           </div>
           <div>
-            <h4 class="font-serif text-lg text-espresso">100% Mobiel & Geen stroom nodig op locatie</h4>
+            <h4 class="font-serif text-lg text-espresso">Volledig zelfvoorzienend & flexibel in te passen</h4>
             <p class="text-xs sm:text-sm text-espresso-muted mt-0.5 max-w-2xl leading-relaxed">
-              De artiest neemt zijn eigen compacte accu-apparatuur mee en kan vrij rondlopen tussen het publiek. Inclusief voorbereiding en eigen mobiele apparatuur. Bij meer dan 200 personen publiek stemmen we vooraf passende zaalversterking af.
+              Reau brengt zijn eigen compacte, hoogwaardige geluidstechniek mee en heeft minimale ruimte nodig (ook mogelijk op accu/buitenlocaties). Een vaste speelplek of specifieke wensen stemmen we vooraf samen af in het contactgesprek. Bij meer dan 200 personen publiek verzorgen we passende zaalversterking.
             </p>
           </div>
         </div>

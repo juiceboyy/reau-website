@@ -4,20 +4,7 @@
  */
 
 export const repertoireList = [
-  // Herkenbare covers & sfeermakers (bruiloften, tuinfeesten, cafés)
-  {
-    id: 'dancing-queen',
-    type: 'cover',
-    title: "Dancing Queen",
-    tag: "Cover • ABBA",
-    subtitle: "Bruiloft Live • Kasteel",
-    duration: "0:26",
-    style: "Live op een bruiloft in een kasteel met band Moon About; het publiek zingt lekker mee.",
-    audioSrc: null,
-    videoSrc: "assets/video/reau-dancing-queen.mp4",
-    videoPreviewSrc: "assets/video/reau-dancing-queen-preview.mp4",
-    videoPoster: "assets/images/video-poster-dancing-queen.jpg"
-  },
+  // Solo & intieme live fragmenten (akoestisch, tuin & café)
   {
     id: 'my-baby-just-cares',
     type: 'cover',
@@ -45,33 +32,6 @@ export const repertoireList = [
     videoPoster: "assets/images/video-poster-sweet-dreams.jpg"
   },
   {
-    id: 'be-bop-a-lula-pretty-woman',
-    type: 'cover',
-    title: "Be Bop A Lula / Pretty Woman",
-    tag: "Cover • Rock & Roll",
-    subtitle: "Live met Band • Dansvloer",
-    duration: "1:13",
-    style: "Rock & roll met band Moon About en een dansend publiek.",
-    audioSrc: null,
-    videoSrc: "assets/video/reau-be-bop-a-lula-pretty-woman.mp4",
-    videoPreviewSrc: "assets/video/reau-be-bop-a-lula-pretty-woman-preview.mp4",
-    videoPoster: "assets/images/video-poster-be-bop-a-lula-pretty-woman.jpg"
-  },
-  {
-    id: 'blue-suede-shoes',
-    type: 'cover',
-    title: "Blue Suede Shoes",
-    tag: "Cover • Rock & Roll",
-    subtitle: "Bruiloft Live • Volledige Band",
-    duration: "2:15",
-    style: "Live op een bruiloft in Zeeland met band Moon About; energieke rock & roll in volledige bezetting.",
-    audioSrc: null,
-    videoSrc: "assets/video/reau-blue-suede-shoes.mp4",
-    videoPreviewSrc: "assets/video/reau-blue-suede-shoes-preview.mp4",
-    videoPoster: "assets/images/video-poster-blue-suede-shoes.jpg"
-  },
-  // Origineel werk (met video)
-  {
     id: 'your-morning-smile',
     type: 'original',
     title: "Your Morning Smile",
@@ -96,6 +56,47 @@ export const repertoireList = [
     videoSrc: "assets/video/reau-maybe.mp4",
     videoPreviewSrc: "assets/video/reau-maybe-preview.mp4",
     videoPoster: "assets/images/video-poster-maybe.jpg"
+  },
+
+  // Band live fragmenten & dansvloer (bruiloften & feesten)
+  {
+    id: 'dancing-queen',
+    type: 'cover',
+    title: "Dancing Queen",
+    tag: "Cover • ABBA",
+    subtitle: "Bruiloft Live • Kasteel",
+    duration: "0:26",
+    style: "Live op een bruiloft: het publiek zingt lekker mee.",
+    audioSrc: null,
+    videoSrc: "assets/video/reau-dancing-queen.mp4",
+    videoPreviewSrc: "assets/video/reau-dancing-queen-preview.mp4",
+    videoPoster: "assets/images/video-poster-dancing-queen.jpg"
+  },
+  {
+    id: 'be-bop-a-lula-pretty-woman',
+    type: 'cover',
+    title: "Be Bop A Lula / Pretty Woman",
+    tag: "Cover • Rock & Roll",
+    subtitle: "Live met Band • Dansvloer",
+    duration: "1:13",
+    style: "Rock & roll met live band en dansend publiek.",
+    audioSrc: null,
+    videoSrc: "assets/video/reau-be-bop-a-lula-pretty-woman.mp4",
+    videoPreviewSrc: "assets/video/reau-be-bop-a-lula-pretty-woman-preview.mp4",
+    videoPoster: "assets/images/video-poster-be-bop-a-lula-pretty-woman.jpg"
+  },
+  {
+    id: 'blue-suede-shoes',
+    type: 'cover',
+    title: "Blue Suede Shoes",
+    tag: "Cover • Rock & Roll",
+    subtitle: "Bruiloft Live • Volledige Band",
+    duration: "2:15",
+    style: "Live op een bruiloft in Zeeland; energieke rock & roll in volledige bezetting.",
+    audioSrc: null,
+    videoSrc: "assets/video/reau-blue-suede-shoes.mp4",
+    videoPreviewSrc: "assets/video/reau-blue-suede-shoes-preview.mp4",
+    videoPoster: "assets/images/video-poster-blue-suede-shoes.jpg"
   },
 
   // Akoestisch repertoire (zonder video)
