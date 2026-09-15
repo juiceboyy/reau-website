@@ -79,7 +79,7 @@ export const repertoireList = [
     tag: "Cover • Rock & Roll",
     subtitle: "Live met Band • Dansvloer",
     duration: "1:13",
-    style: "Rock & roll met live band en een dansend publiek.",
+    style: "Rock & roll met live band en dansend publiek.",
     audioSrc: null,
     videoSrc: "assets/video/reau-be-bop-a-lula-pretty-woman.mp4",
     videoPreviewSrc: "assets/video/reau-be-bop-a-lula-pretty-woman-preview.mp4",
