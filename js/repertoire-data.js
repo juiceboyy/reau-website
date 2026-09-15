@@ -66,7 +66,7 @@ export const repertoireList = [
     tag: "Cover • ABBA",
     subtitle: "Bruiloft Live • Kasteel",
     duration: "0:26",
-    style: "Live op een bruiloft in een kasteel; het publiek zingt lekker mee.",
+    style: "Live op een bruiloft: het publiek zingt lekker mee.",
     audioSrc: null,
     videoSrc: "assets/video/reau-dancing-queen.mp4",
     videoPreviewSrc: "assets/video/reau-dancing-queen-preview.mp4",
