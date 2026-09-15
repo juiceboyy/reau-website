@@ -253,7 +253,7 @@ export function renderWallOfFame(container) {
       <span class="text-xs uppercase tracking-widest text-terracotta font-semibold">Waar heb ik gespeeld?</span>
       <h3 class="font-serif text-2xl sm:text-3xl text-espresso mt-2">Wall of Fame</h3>
       <p class="text-xs sm:text-sm text-espresso-muted mt-1.5 max-w-xl mx-auto">
-        Gespeeld voor toonaangevende bedrijven, culturele podia en particuliere opdrachtgevers — solo en met professionele akoestische coveracts.
+        Gespeeld voor toonaangevende bedrijven, culturele podia en particuliere opdrachtgevers - solo en met professionele akoestische coveracts.
       </p>
     </div>
 
