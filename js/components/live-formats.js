@@ -29,7 +29,7 @@ export function renderLiveFormats(container) {
             <h3 class="font-serif text-3xl text-espresso mt-4">Solo (Reau)</h3>
             <p class="text-xs font-semibold uppercase tracking-wider text-terracotta mt-1">Akoestische gitaar & zang</p>
             <p class="text-sm text-espresso-muted mt-3 leading-relaxed">
-              Optioneel met backingtracks voor beats. Intiem, direct en 100% mobiel zonder benodigde stroom. Ideaal voor huiskamers, borrels en ceremonies.
+              Optioneel met subtiele backingtracks voor ritme. Intiem, direct en flexibel inzetbaar met eigen compacte apparatuur. Ideaal voor huiskamers, borrels en ceremonies.
             </p>
 
             <!-- Feature Highlight Blocks -->
@@ -47,7 +47,7 @@ export function renderLiveFormats(container) {
               <div class="p-3.5 rounded-2xl bg-canvas/60 border border-espresso/10">
                 <div class="flex items-center justify-between">
                   <h4 class="font-serif font-bold text-espresso text-sm">Optioneel met Beats</h4>
-                  <span class="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md bg-terracotta/10 text-terracotta">Mobiel</span>
+                  <span class="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md bg-terracotta/10 text-terracotta">Subtiele Groove</span>
                 </div>
                 <p class="text-xs text-espresso-muted mt-1 leading-relaxed">
                   Subtiele backingtracks voor extra swing en ritme, zonder in te boeten op akoestisch gevoel.
@@ -118,9 +118,9 @@ export function renderLiveFormats(container) {
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
           </div>
           <div>
-            <h4 class="font-serif text-lg text-espresso">100% Mobiel & Geen stroom nodig op locatie</h4>
+            <h4 class="font-serif text-lg text-espresso">Volledig zelfvoorzienend & flexibel in te passen</h4>
             <p class="text-xs sm:text-sm text-espresso-muted mt-0.5 max-w-2xl leading-relaxed">
-              De artiest neemt zijn eigen compacte accu-apparatuur mee en kan vrij rondlopen tussen het publiek. Inclusief voorbereiding en eigen mobiele apparatuur. Bij meer dan 200 personen publiek stemmen we vooraf passende zaalversterking af.
+              Reau brengt zijn eigen compacte, hoogwaardige geluidstechniek mee en heeft minimale ruimte nodig (ook mogelijk op accu/buitenlocaties). Een vaste speelplek of specifieke wensen stemmen we vooraf samen af in het contactgesprek. Bij meer dan 200 personen publiek verzorgen we passende zaalversterking.
             </p>
           </div>
         </div>

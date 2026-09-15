@@ -80,7 +80,7 @@ export function renderTop(container) {
           <!-- Minimalist Mobile USP: High calm, no clutter -->
           <div class="sm:hidden flex items-center justify-center gap-2 pt-1 text-xs font-mono text-white/70">
             <svg class="w-3.5 h-3.5 text-terracotta shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-            <span>Geen stroom nodig (100% mobiel)</span>
+            <span>Eigen compacte apparatuur • Flexibel inzetbaar</span>
           </div>
         </div>
       </div>
@@ -91,7 +91,7 @@ export function renderTop(container) {
         <div class="lg:col-span-7 flex flex-wrap gap-2.5 text-xs font-mono text-white/80">
           <span class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 backdrop-blur-sm shadow-[0_0_0_1px_rgba(255,255,255,0.1)]">
             <svg class="w-3.5 h-3.5 text-terracotta" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-            Geen stroom nodig (100% mobiel)
+            Volledig zelfvoorzienend (eigen techniek)
           </span>
           <span class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 backdrop-blur-sm shadow-[0_0_0_1px_rgba(255,255,255,0.1)]">
             <svg class="w-3.5 h-3.5 text-terracotta" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
@@ -106,7 +106,7 @@ export function renderTop(container) {
         <!-- Artist Quote -->
         <div class="lg:col-span-5 lg:text-right">
           <p class="text-xs text-white/70 italic font-light">
-            "Mobiel &amp; akoestisch: muziek midden tussen de mensen, overal waar geluisterd wordt."
+            "Puur akoestisch &amp; verbindend: sfeervolle livemuziek, perfect afgestemd op jouw setting."
           </p>
         </div>
       </div>

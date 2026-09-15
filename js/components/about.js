@@ -43,8 +43,8 @@ export function renderAbout(container) {
           <div class="p-6 rounded-2xl bg-white border border-espresso/10 hover-lift flex items-start gap-4">
             <div class="w-10 h-10 rounded-xl bg-terracotta/10 text-terracotta flex items-center justify-center font-serif text-xl shrink-0 mt-0.5">3</div>
             <div>
-              <h4 class="font-serif text-xl text-espresso mb-1">100% Vrij & Mobiel</h4>
-              <p class="text-sm text-espresso-muted leading-relaxed">Eigen compacte apparatuur zonder stopcontacten of kabels. Speelt overal — in de tuin, salon of tussen de gasten.</p>
+              <h4 class="font-serif text-xl text-espresso mb-1">Zelfvoorzienend & Flexibel</h4>
+              <p class="text-sm text-espresso-muted leading-relaxed">Eigen compacte, professionele apparatuur (desgewenst ook geschikt voor locaties zonder stroompunt). Past zich moeiteloos aan jouw setting aan — van intieme huiskamer tot tuin of feestzaal.</p>
             </div>
           </div>
         </div>

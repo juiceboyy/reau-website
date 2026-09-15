@@ -4,7 +4,7 @@
 Solo music artist website for **Reau** (Ro Halfhide).
 - Musical style: Soulful acoustic pop, reimagined covers (Bill Withers, Nina Simone, Smokey Robinson, Bob Marley) & original stories.
 - Warm, earthy acoustic aesthetic (linen `#FDFBF7`, sand `#F5EFE6`, terracotta `#C86D51`, amber `#D97706`, espresso `#251D1A`).
-- Tech Rider / USP: 100% mobile battery-powered equipment, no power/electricity required on location; walking around among audience is possible. Custom PA coordination for audiences > 200 people.
+- Tech Rider / Live Setup: Zelfvoorzienend met eigen professionele compacte apparatuur (desgewenst ook op accu/buitenlocaties). Vaste setting of mobiele wensen worden in het verkoopgesprek afgestemd; zaalversterking op maat bij > 200 personen.
 
 ## Live Formats:
 - **Solo (Reau)**: De standaard kernact (akoestische gitaar & zang, optioneel met beats/backingtracks).
