@@ -1,6 +1,6 @@
 /**
  * Reau Website - QR Kaart Landing Page Companion Script
- * Handles native web share / clipboard fallback, video player overlay, and icons.
+ * Handles native web share / clipboard fallback, looping silent video preview with sound toggle, and icons.
  */
 
 function initKaart() {
@@ -89,37 +89,55 @@ function initKaart() {
     document.body.removeChild(tempInput);
   }
 
-  // Direct video play/pause overlay
+  // Looping silent video preview with sound toggle
   const video = document.getElementById('card-video');
-  const playOverlay = document.getElementById('video-play-overlay');
+  const soundToggleBtn = document.getElementById('video-sound-toggle');
+  const soundIconMuted = document.getElementById('sound-icon-muted');
+  const soundIconUnmuted = document.getElementById('sound-icon-unmuted');
+  const soundToggleText = document.getElementById('sound-toggle-text');
 
-  if (video && playOverlay) {
-    const updatePlayState = () => {
-      if (video.paused || video.ended) {
-        playOverlay.classList.remove('opacity-0', 'pointer-events-none');
-        playOverlay.classList.add('opacity-100');
+  if (video) {
+    // Ensure autoplay starts muted
+    video.muted = true;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Autoplay policy prevented playback until first touch
+        const startOnTouch = () => {
+          video.play().catch(() => {});
+          document.removeEventListener('touchstart', startOnTouch);
+          document.removeEventListener('click', startOnTouch);
+        };
+        document.addEventListener('touchstart', startOnTouch, { once: true });
+        document.addEventListener('click', startOnTouch, { once: true });
+      });
+    }
+
+    function toggleSound(e) {
+      if (e) e.stopPropagation();
+
+      if (video.muted) {
+        video.muted = false;
+        video.volume = 1.0;
+        if (video.paused) {
+          video.play().catch(() => {});
+        }
+        if (soundIconMuted) soundIconMuted.classList.add('hidden');
+        if (soundIconUnmuted) soundIconUnmuted.classList.remove('hidden');
+        if (soundToggleText) soundToggleText.textContent = 'Geluid uit';
       } else {
-        playOverlay.classList.remove('opacity-100');
-        playOverlay.classList.add('opacity-0', 'pointer-events-none');
+        video.muted = true;
+        if (soundIconMuted) soundIconMuted.classList.remove('hidden');
+        if (soundIconUnmuted) soundIconUnmuted.classList.add('hidden');
+        if (soundToggleText) soundToggleText.textContent = 'Geluid aan';
       }
-    };
+    }
 
-    playOverlay.addEventListener('click', () => {
-      if (video.paused) {
-        video.play().catch((err) => {
-          console.warn('Video play was prevented:', err);
-        });
-      } else {
-        video.pause();
-      }
-    });
+    if (soundToggleBtn) {
+      soundToggleBtn.addEventListener('click', toggleSound);
+    }
 
-    video.addEventListener('play', updatePlayState);
-    video.addEventListener('pause', updatePlayState);
-    video.addEventListener('ended', () => {
-      video.currentTime = 0;
-      updatePlayState();
-    });
+    video.addEventListener('click', toggleSound);
   }
 }
 
