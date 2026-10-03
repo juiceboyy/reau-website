@@ -1,6 +1,6 @@
 /**
  * Reau Website - QR Kaart Landing Page Companion Script
- * Handles native web share, clipboard fallback, and launching the vertical video modal with sound.
+ * Handles native web share, clipboard fallback, and launching direct native fullscreen with audio.
  */
 
 import { openVideoModal } from '/js/components/video-modal.js';
@@ -99,7 +99,7 @@ function initKaart() {
     document.body.removeChild(tempInput);
   }
 
-  // Looping silent video preview and fullscreen vertical modal trigger
+  // Looping silent video preview and direct native fullscreen trigger
   const video = document.getElementById('card-video');
   const videoTrigger = document.getElementById('video-preview-trigger');
 
@@ -119,37 +119,95 @@ function initKaart() {
         document.addEventListener('click', startOnTouch, { once: true });
       });
     }
-  }
 
-  if (videoTrigger) {
-    const triggerFullscreenModal = () => {
-      const currentPos = video ? video.currentTime : 0;
-      if (video) {
-        video.pause();
-      }
-
-      openVideoModal(
-        '/assets/video/reau-nina-simone.mp4',
-        'My Baby Just Cares for Me • Nina Simone',
-        () => {
-          if (video && !video.paused) {
-            video.pause();
-          }
-        },
-        () => {
-          if (video) {
-            video.play().catch(() => {});
-          }
-        },
-        currentPos
+    // Reset to silent looping preview whenever native fullscreen is exited
+    const onExitFullscreen = () => {
+      const isStillFullscreen = Boolean(
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement ||
+        document.msFullscreenElement
       );
+
+      if (!isStillFullscreen) {
+        video.controls = false;
+        video.muted = true;
+        video.play().catch(() => {});
+      }
     };
 
-    videoTrigger.addEventListener('click', triggerFullscreenModal);
+    video.addEventListener('webkitendfullscreen', onExitFullscreen);
+    document.addEventListener('fullscreenchange', onExitFullscreen);
+    document.addEventListener('webkitfullscreenchange', onExitFullscreen);
+  }
+
+  if (videoTrigger && video) {
+    const triggerDirectFullscreen = async () => {
+      video.muted = false;
+      video.controls = true;
+
+      let enteredNative = false;
+
+      // 1. iOS Safari (iPhone / iPad native video player)
+      if (typeof video.webkitEnterFullscreen === 'function') {
+        try {
+          video.webkitEnterFullscreen();
+          enteredNative = true;
+        } catch (err) {
+          console.warn('webkitEnterFullscreen error:', err);
+        }
+      }
+
+      // 2. Standard Fullscreen API (Android, Chrome, Firefox, Safari desktop)
+      if (!enteredNative && typeof video.requestFullscreen === 'function') {
+        try {
+          await video.requestFullscreen();
+          enteredNative = true;
+        } catch (err) {
+          console.warn('requestFullscreen error:', err);
+        }
+      }
+
+      // 3. WebKit Fullscreen API
+      if (!enteredNative && typeof video.webkitRequestFullscreen === 'function') {
+        try {
+          video.webkitRequestFullscreen();
+          enteredNative = true;
+        } catch (err) {
+          console.warn('webkitRequestFullscreen error:', err);
+        }
+      }
+
+      // Ensure audio playback continues
+      video.play().catch((err) => {
+        console.warn('Playback error:', err);
+      });
+
+      // 4. Fallback: if native fullscreen was rejected or unsupported, open in-page modal
+      if (!enteredNative) {
+        openVideoModal(
+          video.src || '/assets/video/reau-nina-simone.mp4',
+          'My Baby Just Cares for Me • Nina Simone',
+          () => {
+            if (!video.paused) {
+              video.pause();
+            }
+          },
+          () => {
+            video.controls = false;
+            video.muted = true;
+            video.play().catch(() => {});
+          },
+          video.currentTime || 0
+        );
+      }
+    };
+
+    videoTrigger.addEventListener('click', triggerDirectFullscreen);
     videoTrigger.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        triggerFullscreenModal();
+        triggerDirectFullscreen();
       }
     });
   }
