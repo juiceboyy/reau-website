@@ -29,13 +29,14 @@
                         terracotta: {
                             DEFAULT: '#C86D51',
                             hover: '#B35E43',
-                        }
+                        },
+                        espresso: '#251D1A'
                     }
                 }
             }
         };
     </script>
-    <script src="/kaart/kaart.js" defer></script>
+    <script type="module" src="/kaart/kaart.js"></script>
 </head>
 
 <body class="relative bg-[#0C0C0C] text-[#FDFBF7] font-sans antialiased selection:bg-[#C86D51] selection:text-white min-h-screen flex flex-col justify-between overflow-x-hidden">
@@ -112,7 +113,11 @@
 
             <!-- 2. Live Video Preview (Draait direct geluidloos zoals op main website) -->
             <div class="space-y-2 pt-1">
-                <div class="relative w-full aspect-[16/10] rounded-2xl overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.12)] bg-black group cursor-pointer">
+                <div id="video-preview-trigger"
+                     role="button"
+                     tabindex="0"
+                     aria-label="Speel video af met geluid op volledig staand scherm"
+                     class="relative w-full aspect-[16/10] rounded-2xl overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.12)] bg-black group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
                     <video id="card-video"
                            src="/assets/video/reau-nina-simone.mp4"
                            autoplay
@@ -124,19 +129,11 @@
                         Je browser ondersteunt deze videospeler niet.
                     </video>
 
-                    <!-- Geluid Aan/Uit Toggle Badge -->
-                    <button id="video-sound-toggle"
-                            type="button"
-                            aria-label="Schakel geluid in of uit"
-                            class="absolute bottom-2.5 right-2.5 px-3 py-1.5 rounded-full bg-black/70 hover:bg-black/90 text-white text-xs font-mono uppercase tracking-wider backdrop-blur-md shadow-[0_0_0_1px_rgba(255,255,255,0.25)] flex items-center gap-1.5 transition z-10">
-                        <span id="sound-icon-muted">
-                            <svg class="w-3.5 h-3.5 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
-                        </span>
-                        <span id="sound-icon-unmuted" class="hidden">
-                            <svg class="w-3.5 h-3.5 text-[#C86D51]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
-                        </span>
-                        <span id="sound-toggle-text">Geluid aan</span>
-                    </button>
+                    <!-- Geluid Aan Badge (Tik om staand met geluid te bekijken) -->
+                    <div class="absolute bottom-2.5 right-2.5 px-3 py-1.5 rounded-full bg-black/75 group-hover:bg-black/90 text-white text-xs font-mono uppercase tracking-wider backdrop-blur-md shadow-[0_0_0_1px_rgba(255,255,255,0.25)] flex items-center gap-1.5 transition pointer-events-none">
+                        <svg class="w-3.5 h-3.5 text-[#C86D51]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                        <span>Geluid aan</span>
+                    </div>
                 </div>
                 <p class="text-center text-xs font-mono text-neutral-400">
                     My Baby Just Cares for Me &bull; Nina Simone

@@ -6,8 +6,11 @@
 let modalElement = null;
 let currentVideoElement = null;
 let escapeKeyHandler = null;
+let currentOnCloseCallback = null;
 
-export function openVideoModal(videoSrc, title = 'Reau Live Video', onOpenCallback = null) {
+export function openVideoModal(videoSrc, title = 'Reau Live Video', onOpenCallback = null, onCloseCallback = null, startTime = 0) {
+  currentOnCloseCallback = onCloseCallback;
+
   if (onOpenCallback && typeof onOpenCallback === 'function') {
     onOpenCallback();
   }
@@ -32,7 +35,8 @@ export function openVideoModal(videoSrc, title = 'Reau Live Video', onOpenCallba
 
   // Autoplay video with sound once modal opens
   if (currentVideoElement) {
-    currentVideoElement.currentTime = 0;
+    currentVideoElement.muted = false;
+    currentVideoElement.currentTime = startTime || 0;
     currentVideoElement.play().catch((err) => {
       console.warn('Autoplay prevented or interrupted:', err);
     });
@@ -61,6 +65,11 @@ export function closeVideoModal() {
   if (escapeKeyHandler) {
     document.removeEventListener('keydown', escapeKeyHandler);
     escapeKeyHandler = null;
+  }
+
+  if (currentOnCloseCallback && typeof currentOnCloseCallback === 'function') {
+    currentOnCloseCallback();
+    currentOnCloseCallback = null;
   }
 }
 

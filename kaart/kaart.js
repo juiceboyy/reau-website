@@ -1,12 +1,22 @@
 /**
  * Reau Website - QR Kaart Landing Page Companion Script
- * Handles native web share / clipboard fallback, looping silent video preview with sound toggle, and icons.
+ * Handles native web share, clipboard fallback, and launching the vertical video modal with sound.
  */
 
+import { openVideoModal } from '/js/components/video-modal.js';
+
 function initKaart() {
-  // Initialize Lucide icons if available
+  // Initialize Lucide icons if available (with fallback guard)
   if (typeof lucide !== 'undefined' && lucide.createIcons) {
     lucide.createIcons();
+  } else {
+    const iconInterval = setInterval(() => {
+      if (typeof lucide !== 'undefined' && lucide.createIcons) {
+        clearInterval(iconInterval);
+        lucide.createIcons();
+      }
+    }, 100);
+    setTimeout(() => clearInterval(iconInterval), 10000);
   }
 
   // Toast notification element
@@ -89,12 +99,9 @@ function initKaart() {
     document.body.removeChild(tempInput);
   }
 
-  // Looping silent video preview with sound toggle
+  // Looping silent video preview and fullscreen vertical modal trigger
   const video = document.getElementById('card-video');
-  const soundToggleBtn = document.getElementById('video-sound-toggle');
-  const soundIconMuted = document.getElementById('sound-icon-muted');
-  const soundIconUnmuted = document.getElementById('sound-icon-unmuted');
-  const soundToggleText = document.getElementById('sound-toggle-text');
+  const videoTrigger = document.getElementById('video-preview-trigger');
 
   if (video) {
     // Ensure autoplay starts muted
@@ -112,35 +119,43 @@ function initKaart() {
         document.addEventListener('click', startOnTouch, { once: true });
       });
     }
+  }
 
-    function toggleSound(e) {
-      if (e) e.stopPropagation();
-
-      if (video.muted) {
-        video.muted = false;
-        video.volume = 1.0;
-        if (video.paused) {
-          video.play().catch(() => {});
-        }
-        if (soundIconMuted) soundIconMuted.classList.add('hidden');
-        if (soundIconUnmuted) soundIconUnmuted.classList.remove('hidden');
-        if (soundToggleText) soundToggleText.textContent = 'Geluid uit';
-      } else {
-        video.muted = true;
-        if (soundIconMuted) soundIconMuted.classList.remove('hidden');
-        if (soundIconUnmuted) soundIconUnmuted.classList.add('hidden');
-        if (soundToggleText) soundToggleText.textContent = 'Geluid aan';
+  if (videoTrigger) {
+    const triggerFullscreenModal = () => {
+      const currentPos = video ? video.currentTime : 0;
+      if (video) {
+        video.pause();
       }
-    }
 
-    if (soundToggleBtn) {
-      soundToggleBtn.addEventListener('click', toggleSound);
-    }
+      openVideoModal(
+        '/assets/video/reau-nina-simone.mp4',
+        'My Baby Just Cares for Me • Nina Simone',
+        () => {
+          if (video && !video.paused) {
+            video.pause();
+          }
+        },
+        () => {
+          if (video) {
+            video.play().catch(() => {});
+          }
+        },
+        currentPos
+      );
+    };
 
-    video.addEventListener('click', toggleSound);
+    videoTrigger.addEventListener('click', triggerFullscreenModal);
+    videoTrigger.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        triggerFullscreenModal();
+      }
+    });
   }
 }
 
+// DOMContentLoaded state guard according to user global guidelines
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initKaart);
 } else {
