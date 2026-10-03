@@ -5,3 +5,4 @@ assets/video/*.mov
 .env
 .env.local
 node_modules/
+assets/video/backup/
