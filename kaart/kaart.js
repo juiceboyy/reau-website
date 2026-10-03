@@ -102,6 +102,7 @@ function initKaart() {
   // Looping silent video preview and direct native fullscreen trigger
   const video = document.getElementById('card-video');
   const videoTrigger = document.getElementById('video-preview-trigger');
+  let isInlinePreviewMode = true;
 
   if (video) {
     // Ensure autoplay starts muted
@@ -111,7 +112,10 @@ function initKaart() {
       playPromise.catch(() => {
         // Autoplay policy prevented playback until first touch
         const startOnTouch = () => {
-          video.play().catch(() => {});
+          if (isInlinePreviewMode) {
+            video.muted = true;
+            video.play().catch(() => {});
+          }
           document.removeEventListener('touchstart', startOnTouch);
           document.removeEventListener('click', startOnTouch);
         };
@@ -120,29 +124,64 @@ function initKaart() {
       });
     }
 
-    // Reset to silent looping preview whenever native fullscreen is exited
-    const onExitFullscreen = () => {
-      const isStillFullscreen = Boolean(
-        document.fullscreenElement ||
-        document.webkitFullscreenElement ||
-        document.mozFullScreenElement ||
-        document.msFullscreenElement
-      );
-
-      if (!isStillFullscreen) {
-        video.controls = false;
-        video.muted = true;
+    // Helper to safely resume the silent inline loop
+    const resumeInlinePreview = () => {
+      isInlinePreviewMode = true;
+      video.controls = false;
+      video.muted = true;
+      if (video.paused) {
         video.play().catch(() => {});
       }
     };
 
-    video.addEventListener('webkitendfullscreen', onExitFullscreen);
-    document.addEventListener('fullscreenchange', onExitFullscreen);
-    document.addEventListener('webkitfullscreenchange', onExitFullscreen);
+    // Staggered resumption when exiting fullscreen (handles iOS dismiss animation)
+    const handleExitFullscreen = () => {
+      isInlinePreviewMode = true;
+      resumeInlinePreview();
+      setTimeout(resumeInlinePreview, 80);
+      setTimeout(resumeInlinePreview, 250);
+      setTimeout(resumeInlinePreview, 450);
+    };
+
+    video.addEventListener('webkitendfullscreen', handleExitFullscreen);
+
+    document.addEventListener('fullscreenchange', () => {
+      if (!document.fullscreenElement) {
+        handleExitFullscreen();
+      }
+    });
+
+    document.addEventListener('webkitfullscreenchange', () => {
+      if (!document.webkitFullscreenElement) {
+        handleExitFullscreen();
+      }
+    });
+
+    if ('webkitPresentationMode' in video) {
+      video.addEventListener('webkitpresentationmodechanged', () => {
+        if (video.webkitPresentationMode === 'inline') {
+          handleExitFullscreen();
+        }
+      });
+    }
+
+    // Anti-freeze guard: if browser pauses video after dismiss while in inline mode, resume
+    video.addEventListener('pause', () => {
+      if (isInlinePreviewMode) {
+        setTimeout(() => {
+          if (isInlinePreviewMode && video.paused) {
+            video.controls = false;
+            video.muted = true;
+            video.play().catch(() => {});
+          }
+        }, 50);
+      }
+    });
   }
 
   if (videoTrigger && video) {
     const triggerDirectFullscreen = async () => {
+      isInlinePreviewMode = false;
       video.muted = false;
       video.controls = true;
 
@@ -194,6 +233,7 @@ function initKaart() {
             }
           },
           () => {
+            isInlinePreviewMode = true;
             video.controls = false;
             video.muted = true;
             video.play().catch(() => {});
