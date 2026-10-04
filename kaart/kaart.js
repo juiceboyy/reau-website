@@ -181,6 +181,35 @@ function initKaart() {
 
   if (videoTrigger && video) {
     const triggerDirectFullscreen = async () => {
+      const isMobileDevice =
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        ) ||
+        (window.matchMedia &&
+          window.matchMedia('(max-width: 768px) and (pointer: coarse)').matches);
+
+      // On desktop / Mac: directly open the elegant vertical in-page modal
+      if (!isMobileDevice) {
+        openVideoModal(
+          video.src || '/assets/video/reau-nina-simone.mp4',
+          'My Baby Just Cares for Me • Nina Simone',
+          () => {
+            if (!video.paused) {
+              video.pause();
+            }
+          },
+          () => {
+            isInlinePreviewMode = true;
+            video.controls = false;
+            video.muted = true;
+            video.play().catch(() => {});
+          },
+          video.currentTime || 0
+        );
+        return;
+      }
+
+      // On mobile devices (smartphones): use native mobile fullscreen
       isInlinePreviewMode = false;
       video.muted = false;
       video.controls = true;
@@ -197,7 +226,7 @@ function initKaart() {
         }
       }
 
-      // 2. Standard Fullscreen API (Android, Chrome, Firefox, Safari desktop)
+      // 2. Android Fullscreen API
       if (!enteredNative && typeof video.requestFullscreen === 'function') {
         try {
           await video.requestFullscreen();
