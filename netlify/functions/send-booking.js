@@ -2,9 +2,10 @@
  * Netlify Serverless Function: send-booking
  * Dispatches booking notifications to Ro Halfhide (halfhide@gmail.com)
  * and confirmation emails to the applicant using Brevo API.
- * Hardened with honeypot traps, Cloudflare Turnstile verification, and strict input sanitization.
+ * Hardened with honeypot traps, Cloudflare Turnstile verification, rate limiting, and strict input validation.
  */
 
+const querystring = require('querystring');
 const {
   isHoneypotTriggered,
   validateName,
@@ -12,24 +13,63 @@ const {
   validateEventDate,
   validateLocation,
   validatePhone,
+  validateMessage,
+  isSubmissionTooFast,
   verifyTurnstileToken
 } = require('./utils/validation');
 
-const {
-  getArtistEmailHtml,
-  getClientEmailHtml
-} = require('./utils/email-templates');
+const { checkRateLimit } = require('./utils/rate-limiter');
+const { getArtistEmailHtml, getClientEmailHtml } = require('./utils/email-templates');
+
+function parseRequestBody(event) {
+  let rawBody = event.body || '';
+  if (event.isBase64Encoded && rawBody) {
+    rawBody = Buffer.from(rawBody, 'base64').toString('utf8');
+  }
+
+  const contentType = (event.headers && (event.headers['content-type'] || event.headers['Content-Type'])) || '';
+  if (contentType.includes('application/x-www-form-urlencoded')) {
+    return querystring.parse(rawBody);
+  }
+
+  try {
+    return JSON.parse(rawBody || '{}');
+  } catch (e) {
+    return querystring.parse(rawBody);
+  }
+}
+
+function getClientIp(event) {
+  if (!event || !event.headers) return undefined;
+  return (
+    event.headers['x-nf-client-connection-ip'] ||
+    event.headers['client-ip'] ||
+    (event.headers['x-forwarded-for'] ? event.headers['x-forwarded-for'].split(',')[0].trim() : undefined)
+  );
+}
 
 exports.handler = async (event) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Content-Type': 'application/json'
   };
 
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers, body: JSON.stringify({ ok: true }) };
+  }
+
+  // Provide public configuration (Turnstile site key) to client dynamically
+  if (event.httpMethod === 'GET') {
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({
+        turnstileSiteKey: process.env.TURNSTILE_SITE_KEY || '',
+        isTurnstileActive: Boolean(process.env.TURNSTILE_SITE_KEY && process.env.TURNSTILE_SECRET_KEY)
+      })
+    };
   }
 
   if (event.httpMethod !== 'POST') {
@@ -41,11 +81,25 @@ exports.handler = async (event) => {
   }
 
   try {
-    const data = JSON.parse(event.body || '{}');
+    const data = parseRequestBody(event);
+    const clientIp = getClientIp(event);
 
     // 1. Honeypot check - Trap bots silently without sending emails
     if (isHoneypotTriggered(data)) {
       console.warn('[SECURITY] Bot submission trapped by honeypot. Request dropped.');
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          success: true,
+          message: 'Aanvraag succesvol ontvangen.'
+        })
+      };
+    }
+
+    // 2. Velocity check - Bot fill speed anomaly (< 1500ms)
+    if (isSubmissionTooFast(data.fill_time_ms)) {
+      console.warn('[SECURITY] Bot submission trapped by velocity guard. Request dropped.');
       return {
         statusCode: 200,
         headers,
@@ -64,67 +118,56 @@ exports.handler = async (event) => {
       location = 'Niet opgegeven',
       event_type = 'Particulier',
       format = 'Solo',
-      sets = '3 sets',
+      sets = '3 uur',
       message = '',
       gekozen_configuratie = '',
       cf_turnstile_response,
       turnstile_token
     } = data;
 
-    // 2. Strict input validation
+    // 3. Rate limiting check
+    const rateCheck = checkRateLimit(clientIp, email);
+    if (!rateCheck.allowed) {
+      return {
+        statusCode: rateCheck.status || 429,
+        headers,
+        body: JSON.stringify({ error: rateCheck.error })
+      };
+    }
+
+    // 4. Strict input validations
     const nameCheck = validateName(name);
     if (!nameCheck.valid) {
-      return {
-        statusCode: 400,
-        headers,
-        body: JSON.stringify({ error: nameCheck.error })
-      };
+      return { statusCode: 400, headers, body: JSON.stringify({ error: nameCheck.error }) };
     }
 
     const emailCheck = validateEmail(email);
     if (!emailCheck.valid) {
-      return {
-        statusCode: 400,
-        headers,
-        body: JSON.stringify({ error: emailCheck.error })
-      };
+      return { statusCode: 400, headers, body: JSON.stringify({ error: emailCheck.error }) };
     }
 
     const dateCheck = validateEventDate(event_date);
     if (!dateCheck.valid) {
-      return {
-        statusCode: 400,
-        headers,
-        body: JSON.stringify({ error: dateCheck.error })
-      };
+      return { statusCode: 400, headers, body: JSON.stringify({ error: dateCheck.error }) };
     }
 
     const locationCheck = validateLocation(location);
     if (!locationCheck.valid) {
-      return {
-        statusCode: 400,
-        headers,
-        body: JSON.stringify({ error: locationCheck.error })
-      };
+      return { statusCode: 400, headers, body: JSON.stringify({ error: locationCheck.error }) };
     }
 
     const phoneCheck = validatePhone(phone);
     if (!phoneCheck.valid) {
-      return {
-        statusCode: 400,
-        headers,
-        body: JSON.stringify({ error: phoneCheck.error })
-      };
+      return { statusCode: 400, headers, body: JSON.stringify({ error: phoneCheck.error }) };
     }
 
-    // 3. Cloudflare Turnstile verification
-    const token = cf_turnstile_response || turnstile_token || data['cf-turnstile-response'];
-    const clientIp = (event.headers && (
-      event.headers['x-nf-client-connection-ip'] ||
-      event.headers['client-ip'] ||
-      (event.headers['x-forwarded-for'] ? event.headers['x-forwarded-for'].split(',')[0].trim() : undefined)
-    )) || undefined;
+    const messageCheck = validateMessage(message);
+    if (!messageCheck.valid) {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: messageCheck.error }) };
+    }
 
+    // 5. Cloudflare Turnstile verification
+    const token = cf_turnstile_response || turnstile_token || data['cf-turnstile-response'];
     const turnstileResult = await verifyTurnstileToken(token, clientIp);
     if (!turnstileResult.success) {
       console.warn('[SECURITY] Turnstile verification failed:', turnstileResult['error-codes'] || turnstileResult.error);
@@ -137,7 +180,7 @@ exports.handler = async (event) => {
       };
     }
 
-    // 4. Validate Brevo credentials before sending
+    // 6. Validate Brevo credentials before sending
     const brevoApiKey = process.env.BREVO_API_KEY;
     const senderEmail = process.env.SENDER_EMAIL || 'info@haagseopenmic.nl';
     const artistEmail = process.env.ARTIST_EMAIL || 'boekingen@reaumusic.nl';
@@ -151,7 +194,7 @@ exports.handler = async (event) => {
       };
     }
 
-    // 5. Construct emails
+    // 7. Construct email payload
     const configLabel = gekozen_configuratie || `${format} • ${sets} • ${event_type}`;
     const emailPayloadData = {
       name: name.trim(),
@@ -189,7 +232,7 @@ exports.handler = async (event) => {
       ]
     };
 
-    // 6. Send via Brevo API
+    // 8. Send transactional emails via Brevo
     const brevoResponse = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
       headers: {

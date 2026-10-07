@@ -1,8 +1,7 @@
 /**
  * Reau Website - Contact & Booking Form Module
- * Handles direct background submission via Netlify Functions (AJAX),
- * input validation, bot mitigation (Honeypots & Cloudflare Turnstile),
- * loading states, and UI feedback.
+ * Handles background submission via Netlify Functions, input validation,
+ * bot mitigation (Honeypots & Cloudflare Turnstile), loading states, and feedback.
  */
 
 import { formatConfig } from './live-formats-selector.js';
@@ -27,7 +26,6 @@ export function initContactForm() {
   let currentTurnstileToken = '';
   const formMountTime = Date.now();
 
-  // Prevent past dates in HTML5 datepicker
   const dateInput = document.getElementById('form-date');
   if (dateInput) {
     const today = new Date();
@@ -37,44 +35,53 @@ export function initContactForm() {
     dateInput.min = `${yyyy}-${mm}-${dd}`;
   }
 
-  // Setup Turnstile with CDN Polling Guard
-  function setupTurnstile() {
-    const container = document.getElementById('turnstile-container');
-    if (!container || !window.turnstile) return;
-    if (container.dataset.rendered === 'true') return;
+  function initTurnstileWidget(siteKey) {
+    if (!siteKey) return;
+    function render() {
+      const container = document.getElementById('turnstile-container');
+      if (!container || !window.turnstile || container.dataset.rendered === 'true') return;
+      try {
+        turnstileWidgetId = window.turnstile.render(container, {
+          sitekey: siteKey,
+          theme: 'light',
+          callback: (t) => { currentTurnstileToken = t; },
+          'expired-callback': () => { currentTurnstileToken = ''; }
+        });
+        container.dataset.rendered = 'true';
+      } catch (err) {
+        console.warn('Turnstile render melding:', err);
+      }
+    }
 
-    const siteKey = window.TURNSTILE_SITE_KEY || container.dataset.sitekey || '1x00000000000000000000AA';
-    try {
-      turnstileWidgetId = window.turnstile.render(container, {
-        sitekey: siteKey,
-        theme: 'light',
-        callback: (token) => {
-          currentTurnstileToken = token;
-        },
-        'expired-callback': () => {
-          currentTurnstileToken = '';
-        },
-        'error-callback': () => {
-          console.warn('Turnstile challenge melding ontvangen.');
+    if (typeof turnstile !== 'undefined') {
+      render();
+    } else {
+      const interval = setInterval(() => {
+        if (typeof turnstile !== 'undefined') {
+          clearInterval(interval);
+          render();
         }
-      });
-      container.dataset.rendered = 'true';
-    } catch (err) {
-      console.warn('Turnstile init issue:', err);
+      }, 100);
+      setTimeout(() => clearInterval(interval), 10000);
     }
   }
 
-  if (typeof turnstile !== 'undefined') {
-    setupTurnstile();
-  } else {
-    const interval = setInterval(() => {
-      if (typeof turnstile !== 'undefined') {
-        clearInterval(interval);
-        setupTurnstile();
+  async function checkTurnstileConfig() {
+    const manualKey = window.TURNSTILE_SITE_KEY || document.getElementById('turnstile-container')?.dataset.sitekey;
+    if (manualKey) {
+      initTurnstileWidget(manualKey);
+      return;
+    }
+    try {
+      const res = await fetch('/.netlify/functions/send-booking');
+      if (res.ok) {
+        const config = await res.json();
+        if (config.turnstileSiteKey) initTurnstileWidget(config.turnstileSiteKey);
       }
-    }, 100);
-    setTimeout(() => clearInterval(interval), 10000);
+    } catch (e) {}
   }
+
+  checkTurnstileConfig();
 
   function showToast(title, message, isSuccess = true) {
     if (!toast) return;
@@ -86,23 +93,18 @@ export function initContactForm() {
       iconContainer.className = `toast-icon w-8 h-8 rounded-full flex items-center justify-center text-white shrink-0 ${isSuccess ? 'bg-emerald-500' : 'bg-red-500'}`;
       iconContainer.textContent = isSuccess ? '✓' : '!';
     }
-
     toast.classList.remove('hidden', 'opacity-0', 'translate-y-4');
     toast.classList.add('opacity-100', 'translate-y-0');
 
     if (toastTimer) clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => {
-      hideToast();
-    }, 6000);
+    toastTimer = setTimeout(hideToast, 6000);
   }
 
   function hideToast() {
     if (!toast) return;
     toast.classList.remove('opacity-100', 'translate-y-0');
     toast.classList.add('opacity-0', 'translate-y-4');
-    setTimeout(() => {
-      toast.classList.add('hidden');
-    }, 300);
+    setTimeout(() => { toast.classList.add('hidden'); }, 300);
   }
 
   toastClose?.addEventListener('click', hideToast);
@@ -110,33 +112,26 @@ export function initContactForm() {
   function setSubmittingState(isSubmitting) {
     if (!submitBtn) return;
     submitBtn.disabled = isSubmitting;
-    if (isSubmitting) {
-      submitBtn.classList.add('opacity-80', 'cursor-not-allowed');
-      submitBtnSpinner?.classList.remove('hidden');
-      if (submitBtnText) submitBtnText.textContent = 'Versturen...';
-    } else {
-      submitBtn.classList.remove('opacity-80', 'cursor-not-allowed');
-      submitBtnSpinner?.classList.add('hidden');
-      if (submitBtnText) submitBtnText.textContent = 'Verstuur Aanvraag';
-    }
+    submitBtn.classList.toggle('opacity-80', isSubmitting);
+    submitBtn.classList.toggle('cursor-not-allowed', isSubmitting);
+    submitBtnSpinner?.classList.toggle('hidden', !isSubmitting);
+    if (submitBtnText) submitBtnText.textContent = isSubmitting ? 'Versturen...' : 'Verstuur Aanvraag';
   }
 
   if (form) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // 1. Honeypot traps
+      // Honeypot traps: drop silently on client
       const botFieldVal = form.querySelector('input[name="bot-field"]')?.value?.trim() || '';
       const websiteVal = form.querySelector('input[name="website"]')?.value?.trim() || '';
       if (botFieldVal || websiteVal) {
-        console.warn('Bot detected by honeypot.');
         form.reset();
         form.classList.add('hidden');
         successCard?.classList.remove('hidden');
         return;
       }
 
-      // 2. Client-side field validations
       const name = document.getElementById('form-name')?.value.trim();
       const email = document.getElementById('form-email')?.value.trim();
       const eventDate = document.getElementById('form-date')?.value || '';
@@ -147,14 +142,17 @@ export function initContactForm() {
         return;
       }
 
-      // Check name for numbers, excessive length, or random string patterns
-      if (/[0-9]/.test(name) || (name.length > 18 && !name.includes(' ') && !name.includes('-'))) {
+      const hasMixedCaseTransitions = (name.match(/[a-z][A-Z]/g) || []).length >= 2;
+      const isUnbrokenLongName = name.length > 18 && !name.includes(' ') && !name.includes('-');
+      if (/[0-9]/.test(name) || hasMixedCaseTransitions || isUnbrokenLongName) {
         showToast('Ongeldige naam', 'Vul een geldige voor- en achternaam in.', false);
         return;
       }
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-      if (!emailRegex.test(email)) {
+      const emailLocalPart = email.split('@')[0] || '';
+      const emailLocalBotTransitions = (emailLocalPart.match(/[a-z][A-Z]/g) || []).length >= 2;
+      if (!emailRegex.test(email) || emailLocalBotTransitions) {
         showToast('Ongeldig e-mailadres', 'Controleer het opgegeven e-mailadres.', false);
         return;
       }
@@ -162,19 +160,17 @@ export function initContactForm() {
       if (eventDate) {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        const selected = new Date(eventDate);
-        if (selected < today) {
+        if (new Date(eventDate) < today) {
           showToast('Ongeldige datum', 'De datum van het evenement kan niet in het verleden liggen.', false);
           return;
         }
       }
 
-      if (location && location.length > 25 && !location.includes(' ') && !location.includes(',')) {
+      if (location && (/https?:\/\/|www\./i.test(location) || (location.length > 25 && !location.includes(' ') && !location.includes(',')))) {
         showToast('Ongeldige locatie', 'Controleer de opgegeven plaats of locatie.', false);
         return;
       }
 
-      // 3. Turnstile check if widget rendered
       if (turnstileWidgetId !== null && !currentTurnstileToken) {
         showToast('Beveiligingscontrole', 'Even geduld, de beveiligingscontrole wordt uitgevoerd.', false);
         return;
@@ -183,15 +179,12 @@ export function initContactForm() {
       const format = document.getElementById('form-format')?.value || 'solo';
       const sets = document.getElementById('form-sets')?.value || '3';
       const eventType = document.getElementById('form-event-type')?.value || 'Particulier';
-
       const formatName = formatConfig[format]?.name || format;
       const durationText = sets === '5+' ? '5+ uur (Maatwerk)' : `${sets} uur`;
       const configSummary = `${formatName} • ${durationText} • ${eventType}`;
 
       const calculatedConfigEl = document.getElementById('form-calculated-config');
-      if (calculatedConfigEl) {
-        calculatedConfigEl.value = configSummary;
-      }
+      if (calculatedConfigEl) calculatedConfigEl.value = configSummary;
 
       setSubmittingState(true);
 
@@ -221,13 +214,8 @@ export function initContactForm() {
         });
 
         const result = await funcResponse.json().catch(() => ({}));
-
         if (funcResponse.ok && result.success) {
-          showToast(
-            'Aanvraag Verzonden!',
-            'Bedankt! Ro heeft je aanvraag ontvangen en er is een bevestiging naar je e-mailadres gestuurd.'
-          );
-          
+          showToast('Aanvraag Verzonden!', 'Bedankt! Ro heeft je aanvraag ontvangen en er is een bevestiging gemaild.');
           form.reset();
           if (turnstileWidgetId !== null && window.turnstile) {
             try {
@@ -235,7 +223,6 @@ export function initContactForm() {
               currentTurnstileToken = '';
             } catch (e) {}
           }
-
           form.classList.add('hidden');
           successCard?.classList.remove('hidden');
           successCard?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -243,19 +230,13 @@ export function initContactForm() {
           throw new Error(result.error || `Status ${funcResponse.status}`);
         }
       } catch (error) {
-        console.error('Fout bij versturen formulier:', error);
-        showToast(
-          'Verzending mislukt',
-          error.message || 'Er is een verbindingsprobleem. Mail gerust direct naar boekingen@reaumusic.nl.',
-          false
-        );
+        showToast('Verzending mislukt', error.message || 'Verbindingsprobleem. Mail gerust naar boekingen@reaumusic.nl.', false);
       } finally {
         setSubmittingState(false);
       }
     });
   }
 
-  // Reset button to allow submitting another inquiry
   if (resetBtn) {
     resetBtn.addEventListener('click', () => {
       successCard?.classList.add('hidden');
@@ -270,12 +251,9 @@ export function initContactForm() {
     });
   }
 
-  // Direct WhatsApp Button Handlers
   function openWhatsApp() {
-    const whatsappText = encodeURIComponent(
-      'Hallo Ro! Ik heb interesse in een optreden van Reau en wil graag meer informatie over de beschikbaarheid.'
-    );
-    window.open(`https://wa.me/31600000000?text=${whatsappText}`, '_blank', 'noopener,noreferrer');
+    const text = encodeURIComponent('Hallo Ro! Ik heb interesse in een optreden van Reau en wil graag meer informatie over de beschikbaarheid.');
+    window.open(`https://wa.me/31600000000?text=${text}`, '_blank', 'noopener,noreferrer');
   }
 
   directWhatsappBtn?.addEventListener('click', openWhatsApp);

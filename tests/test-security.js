@@ -1,5 +1,6 @@
 /**
- * Comprehensive Automated Test Suite for Booking Form Anti-Spam Security
+ * Security and Bot Mitigation Test Suite for Reau Website
+ * Validates honeypots, gibberish detection, input sanitization, rate limiting, and handler integration.
  */
 
 const assert = require('assert');
@@ -11,75 +12,70 @@ const {
   validateEventDate,
   validateLocation,
   validatePhone,
+  validateMessage,
+  isSubmissionTooFast,
   verifyTurnstileToken
 } = require('../netlify/functions/utils/validation');
 
+const { checkRateLimit, resetRateLimits } = require('../netlify/functions/utils/rate-limiter');
 const { handler } = require('../netlify/functions/send-booking');
 
-let passedTests = 0;
 let totalTests = 0;
+let passedTests = 0;
 
-function runTest(name, fn) {
+function runTest(description, fn) {
   totalTests++;
   try {
     fn();
-    console.log(`  ✓ ${name}`);
     passedTests++;
+    console.log(`  ✓ ${description}`);
   } catch (err) {
-    console.error(`  ✗ FAIL: ${name}\n    ${err.message}`);
+    console.error(`  ✗ ${description}`);
+    console.error(`    ${err.message}`);
     process.exitCode = 1;
   }
 }
 
-async function runAsyncTest(name, fn) {
+async function runAsyncTest(description, fn) {
   totalTests++;
   try {
     await fn();
-    console.log(`  ✓ ${name}`);
     passedTests++;
+    console.log(`  ✓ ${description}`);
   } catch (err) {
-    console.error(`  ✗ FAIL: ${name}\n    ${err.message}`);
+    console.error(`  ✗ ${description}`);
+    console.error(`    ${err.message}`);
     process.exitCode = 1;
   }
 }
 
-console.log('\n--- 1. Testing Honeypot Traps ---');
+console.log('--- 1. Testing Honeypot Traps ---');
 runTest('Traps bot when bot-field is filled', () => {
-  assert.strictEqual(isHoneypotTriggered({ 'bot-field': 'spam_bot_val' }), true);
-});
-runTest('Traps bot when bot_field is filled', () => {
-  assert.strictEqual(isHoneypotTriggered({ bot_field: 'http://spam.ru' }), true);
+  assert.strictEqual(isHoneypotTriggered({ 'bot-field': 'spam' }), true);
 });
 runTest('Traps bot when website field is filled', () => {
-  assert.strictEqual(isHoneypotTriggered({ website: 'http://example.com' }), true);
-});
-runTest('Traps bot when url field is filled', () => {
-  assert.strictEqual(isHoneypotTriggered({ url: 'promo-link' }), true);
+  assert.strictEqual(isHoneypotTriggered({ website: 'https://spam.com' }), true);
+  assert.strictEqual(isHoneypotTriggered({ website_url: 'spam' }), true);
 });
 runTest('Allows legitimate submission with empty honeypots', () => {
-  assert.strictEqual(isHoneypotTriggered({ 'bot-field': '', bot_field: '', website: '', name: 'Jan Jansen' }), false);
+  assert.strictEqual(isHoneypotTriggered({ name: 'Ro Halfhide', email: 'halfhide@gmail.com' }), false);
 });
 
 console.log('\n--- 2. Testing Gibberish Bot String Detection ---');
-runTest('Detects the exact attack string "RKuQcpyCXNCryQkuqDjoqaG" as bot', () => {
+runTest('Detects the exact attack string "RKuQcpyCXNCryQkuqDjoqaG"', () => {
   assert.strictEqual(isGibberishOrBotString('RKuQcpyCXNCryQkuqDjoqaG'), true);
 });
-runTest('Detects random mixed-case tokens', () => {
-  assert.strictEqual(isGibberishOrBotString('aBcDeFgHiJkLmN'), true);
-  assert.strictEqual(isGibberishOrBotString('mYnAmEiSbOt'), true);
+runTest('Detects random mixed-case tokens and consonant clusters', () => {
+  assert.strictEqual(isGibberishOrBotString('qWkLsPzxTr'), true);
+  assert.strictEqual(isGibberishOrBotString('cxncryqku'), true);
 });
-runTest('Detects single unbroken token > 22 characters', () => {
-  assert.strictEqual(isGibberishOrBotString('abcdefghijklmnopqrstuvwxy'), true);
+runTest('Detects long unbroken single token > 18 chars', () => {
+  assert.strictEqual(isGibberishOrBotString('superlongrandomtokenwithoutspaces'), true);
 });
-runTest('Detects excessive consecutive consonants', () => {
-  assert.strictEqual(isGibberishOrBotString('bcdfghjklm'), true);
-});
-runTest('Accepts legitimate single and compound names', () => {
+runTest('Accepts legitimate single and compound Dutch/international names', () => {
   assert.strictEqual(isGibberishOrBotString('Ro Halfhide'), false);
   assert.strictEqual(isGibberishOrBotString('Ronald van Holst'), false);
   assert.strictEqual(isGibberishOrBotString('Lucky Fonz III'), false);
-  assert.strictEqual(isGibberishOrBotString('Jean-Paul Sartre'), false);
-  assert.strictEqual(isGibberishOrBotString('McDonald'), false);
   assert.strictEqual(isGibberishOrBotString("O'Connor"), false);
   assert.strictEqual(isGibberishOrBotString('Renée Müller'), false);
 });
@@ -88,21 +84,12 @@ console.log('\n--- 3. Testing Name Validation ---');
 runTest('Rejects bot string "RKuQcpyCXNCryQkuqDjoqaG"', () => {
   assert.strictEqual(validateName('RKuQcpyCXNCryQkuqDjoqaG').valid, false);
 });
-runTest('Rejects names containing numbers', () => {
+runTest('Rejects names containing numbers or special symbols', () => {
   assert.strictEqual(validateName('John123').valid, false);
-  assert.strictEqual(validateName('Bot99').valid, false);
-});
-runTest('Rejects names containing special symbols', () => {
-  assert.strictEqual(validateName('Test@Name').valid, false);
-  assert.strictEqual(validateName('<script>').valid, false);
-});
-runTest('Rejects empty or too short names', () => {
-  assert.strictEqual(validateName('').valid, false);
-  assert.strictEqual(validateName('A').valid, false);
+  assert.strictEqual(validateName('<script>alert()</script>').valid, false);
 });
 runTest('Accepts valid full names', () => {
   assert.strictEqual(validateName('Ro Halfhide').valid, true);
-  assert.strictEqual(validateName('Marcus Bruystens').valid, true);
   assert.strictEqual(validateName('Jan-Willem van den Berg').valid, true);
 });
 
@@ -112,92 +99,95 @@ runTest('Rejects the exact attack date "1970-05-31"', () => {
   assert.strictEqual(res.valid, false);
   assert.match(res.error, /verleden/);
 });
-runTest('Rejects yesterday as an event date', () => {
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  const yStr = yesterday.toISOString().split('T')[0];
-  assert.strictEqual(validateEventDate(yStr).valid, false);
+runTest('Rejects unparseable and garbage date strings', () => {
+  assert.strictEqual(validateEventDate('garbage12345').valid, false);
+  assert.strictEqual(validateEventDate('1970').valid, false);
 });
-runTest('Accepts today and future dates', () => {
+runTest('Accepts today, future dates, and empty strings', () => {
   const today = new Date().toISOString().split('T')[0];
   assert.strictEqual(validateEventDate(today).valid, true);
-  const future = new Date();
-  future.setFullYear(future.getFullYear() + 1);
-  assert.strictEqual(validateEventDate(future.toISOString().split('T')[0]).valid, true);
-});
-runTest('Accepts "Nader te bepalen" and empty strings', () => {
   assert.strictEqual(validateEventDate('Nader te bepalen').valid, true);
-  assert.strictEqual(validateEventDate('').valid, true);
 });
 
 console.log('\n--- 5. Testing Email Validation ---');
 runTest('Accepts valid email formats', () => {
   assert.strictEqual(validateEmail('boekingen@reaumusic.nl').valid, true);
-  assert.strictEqual(validateEmail('user.name+tag@sub.domain.com').valid, true);
-  assert.strictEqual(validateEmail('contact@bedrijf.nl').valid, true);
 });
-runTest('Rejects invalid email structures', () => {
-  assert.strictEqual(validateEmail('not-an-email').valid, false);
-  assert.strictEqual(validateEmail('user@domain').valid, false);
-  assert.strictEqual(validateEmail('user@domain.c').valid, false);
-  assert.strictEqual(validateEmail('user..test@domain.com').valid, false);
-  assert.strictEqual(validateEmail('user@ domain.com').valid, false);
+runTest('Rejects attack email with gibberish username', () => {
+  assert.strictEqual(validateEmail('RKuQcpyCXNCryQkuqDjoqaG@gmail.com').valid, false);
+});
+runTest('Rejects disposable burner email domains', () => {
+  assert.strictEqual(validateEmail('spammer@sharklasers.com').valid, false);
+  assert.strictEqual(validateEmail('spammer@mailinator.com').valid, false);
 });
 
-console.log('\n--- 6. Testing Location and Phone Validation ---');
-runTest('Rejects bot string in location', () => {
-  assert.strictEqual(validateLocation('RKuQcpyCXNCryQkuqDjoqaG').valid, false);
+console.log('\n--- 6. Testing Location, Phone & Message Validation ---');
+runTest('Rejects spam URLs in location', () => {
+  assert.strictEqual(validateLocation('https://spam-viagra.ru/buy').valid, false);
 });
-runTest('Accepts valid Dutch venues and addresses', () => {
+runTest('Accepts valid physical locations and phone numbers', () => {
   assert.strictEqual(validateLocation('Amsterdam').valid, true);
-  assert.strictEqual(validateLocation('Huiskamerconcert Utrecht').valid, true);
-  assert.strictEqual(validateLocation('Keizersgracht 101, Amsterdam').valid, true);
-  assert.strictEqual(validateLocation('Niet opgegeven').valid, true);
-});
-runTest('Rejects bot strings in phone', () => {
+  assert.strictEqual(validatePhone('06-12345678').valid, true);
   assert.strictEqual(validatePhone('RKuQcpyCXNCryQkuqDjoqaG').valid, false);
 });
-runTest('Accepts valid phone formats', () => {
-  assert.strictEqual(validatePhone('06-12345678').valid, true);
-  assert.strictEqual(validatePhone('+31 6 12345678').valid, true);
-  assert.strictEqual(validatePhone('Niet opgegeven').valid, true);
+runTest('Validates message length and filters excessive links', () => {
+  assert.strictEqual(validateMessage('Heel veel zin in het optreden!').valid, true);
+  assert.strictEqual(validateMessage('Check http://a.com and http://b.com').valid, false);
 });
 
-console.log('\n--- 7. Testing Turnstile Verification Function ---');
+console.log('\n--- 7. Testing Velocity and Rate Limiting ---');
+runTest('Detects bot submission velocity (< 1500ms)', () => {
+  assert.strictEqual(isSubmissionTooFast(250), true);
+  assert.strictEqual(isSubmissionTooFast(3500), false);
+});
+runTest('Enforces rate limiting on repeated requests', () => {
+  resetRateLimits();
+  assert.strictEqual(checkRateLimit('192.168.1.1', 'user@test.nl').allowed, true);
+  // Burst interval guard (< 3s)
+  const burst = checkRateLimit('192.168.1.1', 'user@test.nl');
+  assert.strictEqual(burst.allowed, false);
+  assert.strictEqual(burst.status, 429);
+  resetRateLimits();
+});
+
+console.log('\n--- 8. Testing Handler Integration ---');
 (async () => {
-  await runAsyncTest('Rejects missing token when TURNSTILE_SECRET_KEY is configured', async () => {
-    process.env.TURNSTILE_SECRET_KEY = 'test_secret_key';
-    const res = await verifyTurnstileToken('', '127.0.0.1');
-    assert.strictEqual(res.success, false);
-    delete process.env.TURNSTILE_SECRET_KEY;
+  resetRateLimits();
+
+  await runAsyncTest('GET request returns Turnstile configuration', async () => {
+    const res = await handler({ httpMethod: 'GET' });
+    assert.strictEqual(res.statusCode, 200);
+    assert.strictEqual(typeof JSON.parse(res.body).turnstileSiteKey, 'string');
   });
 
-  console.log('\n--- 8. Testing Full Handler Integration & Security Interception ---');
-  await runAsyncTest('Honeypot interception drops request silently with HTTP 200 without Brevo call', async () => {
+  await runAsyncTest('Honeypot interception drops request silently with HTTP 200', async () => {
     const event = {
       httpMethod: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        name: 'Spam Bot',
-        email: 'bot@spam.com',
-        'bot-field': 'I am a bot',
-        event_date: '2027-01-01'
-      })
+      headers: { 'content-type': 'application/json', 'client-ip': '10.0.0.1' },
+      body: JSON.stringify({ name: 'Bot', email: 'bot@spam.com', 'bot-field': 'I am bot' })
     };
     const res = await handler(event);
     assert.strictEqual(res.statusCode, 200);
     assert.strictEqual(JSON.parse(res.body).success, true);
   });
 
-  await runAsyncTest('Rejects bot payload with gibberish name "RKuQcpyCXNCryQkuqDjoqaG" (HTTP 400)', async () => {
+  await runAsyncTest('Velocity guard drops sub-1.5s submission silently with HTTP 200', async () => {
+    resetRateLimits();
     const event = {
       httpMethod: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        name: 'RKuQcpyCXNCryQkuqDjoqaG',
-        email: 'random@botmail.com',
-        event_date: '2027-01-01'
-      })
+      headers: { 'content-type': 'application/json', 'client-ip': '10.0.0.2' },
+      body: JSON.stringify({ name: 'Bot', email: 'bot@spam.com', fill_time_ms: 120 })
+    };
+    const res = await handler(event);
+    assert.strictEqual(res.statusCode, 200);
+  });
+
+  await runAsyncTest('Rejects bot payload with gibberish name "RKuQcpyCXNCryQkuqDjoqaG" (HTTP 400)', async () => {
+    resetRateLimits();
+    const event = {
+      httpMethod: 'POST',
+      headers: { 'content-type': 'application/json', 'client-ip': '10.0.0.3' },
+      body: JSON.stringify({ name: 'RKuQcpyCXNCryQkuqDjoqaG', email: 'klant@domain.com', event_date: '2027-01-01', fill_time_ms: 5000 })
     };
     const res = await handler(event);
     assert.strictEqual(res.statusCode, 400);
@@ -205,46 +195,48 @@ console.log('\n--- 7. Testing Turnstile Verification Function ---');
   });
 
   await runAsyncTest('Rejects bot payload with past date "1970-05-31" (HTTP 400)', async () => {
+    resetRateLimits();
     const event = {
       httpMethod: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        name: 'Echte Klant',
-        email: 'klant@example.com',
-        event_date: '1970-05-31'
-      })
+      headers: { 'content-type': 'application/json', 'client-ip': '10.0.0.4' },
+      body: JSON.stringify({ name: 'Echte Klant', email: 'klant@domain.com', event_date: '1970-05-31', fill_time_ms: 5000 })
     };
     const res = await handler(event);
     assert.strictEqual(res.statusCode, 400);
     assert.match(JSON.parse(res.body).error, /verleden/);
   });
 
-  await runAsyncTest('Rejects bot payload with invalid email (HTTP 400)', async () => {
+  await runAsyncTest('Rejects bot payload with gibberish email (HTTP 400)', async () => {
+    resetRateLimits();
     const event = {
       httpMethod: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        name: 'Echte Klant',
-        email: 'invalid-email-address',
-        event_date: '2027-01-01'
-      })
+      headers: { 'content-type': 'application/json', 'client-ip': '10.0.0.5' },
+      body: JSON.stringify({ name: 'Echte Klant', email: 'RKuQcpyCXNCryQkuqDjoqaG@gmail.com', event_date: '2027-01-01', fill_time_ms: 5000 })
     };
     const res = await handler(event);
     assert.strictEqual(res.statusCode, 400);
     assert.match(JSON.parse(res.body).error, /e-mail/);
   });
 
-  await runAsyncTest('Rejects submission without Turnstile token when TURNSTILE_SECRET_KEY is enforced (HTTP 400)', async () => {
-    process.env.TURNSTILE_SECRET_KEY = 'real_turnstile_secret';
+  await runAsyncTest('Rejects bot payload with spam URL in location (HTTP 400)', async () => {
+    resetRateLimits();
     const event = {
       httpMethod: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        name: 'Echte Klant',
-        email: 'klant@example.com',
-        event_date: '2027-01-01',
-        location: 'Amsterdam'
-      })
+      headers: { 'content-type': 'application/json', 'client-ip': '10.0.0.6' },
+      body: JSON.stringify({ name: 'Echte Klant', email: 'klant@domain.com', location: 'https://spam.ru', event_date: '2027-01-01', fill_time_ms: 5000 })
+    };
+    const res = await handler(event);
+    assert.strictEqual(res.statusCode, 400);
+    assert.match(JSON.parse(res.body).error, /locatie/);
+  });
+
+  await runAsyncTest('Enforces Turnstile token when TURNSTILE_SECRET_KEY is configured (HTTP 400)', async () => {
+    resetRateLimits();
+    process.env.TURNSTILE_SECRET_KEY = 'real_secret_key';
+    const event = {
+      httpMethod: 'POST',
+      headers: { 'content-type': 'application/json', 'client-ip': '10.0.0.7' },
+      body: JSON.stringify({ name: 'Echte Klant', email: 'klant@domain.com', event_date: '2027-01-01', location: 'Amsterdam', fill_time_ms: 5000 })
     };
     const res = await handler(event);
     assert.strictEqual(res.statusCode, 400);

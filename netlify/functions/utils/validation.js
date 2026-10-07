@@ -1,28 +1,25 @@
 /**
  * Netlify Function Utilities - Security & Input Validation
  * Protects booking submissions against automated bot spam, honeypots,
- * gibberish string generators, past dates, and invalid emails.
+ * gibberish string generators, past dates, spam URLs, and invalid emails.
  */
 
-/**
- * Checks whether any honeypot field has been filled in.
- */
+const DISPOSABLE_EMAIL_DOMAINS = new Set([
+  'mailinator.com', 'guerrillamail.com', 'sharklasers.com',
+  'tempmail.com', 'temp-mail.org', 'yopmail.com',
+  '10minutemail.com', 'trashmail.com', 'dispostable.com', 'getairmail.com'
+]);
+
 function isHoneypotTriggered(data) {
   if (!data || typeof data !== 'object') return false;
   const candidates = [
-    data['bot-field'],
-    data.bot_field,
-    data.botField,
-    data.website,
-    data.url
+    data['bot-field'], data.bot_field, data.botField,
+    data.website, data.website_url, data.url,
+    data.company_url, data.comment_extra
   ];
   return candidates.some((val) => typeof val === 'string' && val.trim().length > 0);
 }
 
-/**
- * Detects whether a string is a machine-generated random alphanumeric sequence
- * (such as "RKuQcpyCXNCryQkuqDjoqaG" or Base64 / high-entropy bot strings).
- */
 function isGibberishOrBotString(str, maxSingleWordLength = 22) {
   if (!str || typeof str !== 'string') return false;
   const trimmed = str.trim();
@@ -30,58 +27,38 @@ function isGibberishOrBotString(str, maxSingleWordLength = 22) {
 
   const tokens = trimmed.split(/[\s-]+/).filter(Boolean);
   for (const token of tokens) {
-    // 1. Single contiguous word exceeding allowable maximum length
     if (token.length > maxSingleWordLength) return true;
-
-    // 2. Random mixed-case transitions: [a-z][A-Z] occurring 2 or more times
-    const mixedCaseTransitions = token.match(/[a-z][A-Z]/g);
-    if (mixedCaseTransitions && mixedCaseTransitions.length >= 2) return true;
-
-    // 3. Excessive consecutive consonants (6 or more)
-    if (/[bcdfghjklmnpqrstvwxz]{6,}/i.test(token)) return true;
+    const mixed = token.match(/[a-z][A-Z]/g);
+    if (mixed && mixed.length >= 2) return true;
+    if (/[bcdfghjklmnpqrstvwxz]{5,}/i.test(token)) return true;
+    if (token.length >= 6 && !/[aeiouy]/i.test(token)) return true;
   }
 
-  // 4. Overall string length without spaces or hyphens
-  if (trimmed.length > 18 && !trimmed.includes(' ') && !trimmed.includes('-')) {
+  if (trimmed.length > 18 && !trimmed.includes(' ') && !trimmed.includes('-') && !trimmed.includes('.')) {
     return true;
   }
-
   return false;
 }
 
-/**
- * Validates applicant name.
- */
 function validateName(name) {
   if (!name || typeof name !== 'string') {
     return { valid: false, error: 'Naam is verplicht.' };
   }
   const trimmed = name.trim();
-  if (trimmed.length < 2) {
-    return { valid: false, error: 'Naam moet minimaal 2 tekens bevatten.' };
-  }
-  if (trimmed.length > 70) {
-    return { valid: false, error: 'Naam is te lang (maximaal 70 tekens).' };
-  }
-  if (/[0-9]/.test(trimmed)) {
-    return { valid: false, error: 'Een geldige naam bevat geen cijfers.' };
-  }
+  if (trimmed.length < 2) return { valid: false, error: 'Naam moet minimaal 2 tekens bevatten.' };
+  if (trimmed.length > 70) return { valid: false, error: 'Naam is te lang (maximaal 70 tekens).' };
+  if (/[0-9]/.test(trimmed)) return { valid: false, error: 'Een geldige naam bevat geen cijfers.' };
   if (/[@#$%^*_=~<>/\\{}[\]|+]/.test(trimmed)) {
     return { valid: false, error: 'Een geldige naam bevat geen speciale symbolen.' };
   }
   const nameRegex = /^[\p{L}][\p{L}\s.'-]*[\p{L}.]$/u;
-  if (!nameRegex.test(trimmed)) {
-    return { valid: false, error: 'Vul een geldige voor- en achternaam in.' };
-  }
+  if (!nameRegex.test(trimmed)) return { valid: false, error: 'Vul een geldige voor- en achternaam in.' };
   if (isGibberishOrBotString(trimmed, 22)) {
     return { valid: false, error: 'Vul een geldige naam in zonder willekeurige tekenreeksen.' };
   }
   return { valid: true };
 }
 
-/**
- * Validates email address format strictly.
- */
 function validateEmail(email) {
   if (!email || typeof email !== 'string') {
     return { valid: false, error: 'E-mailadres is verplicht.' };
@@ -97,12 +74,16 @@ function validateEmail(email) {
   if (!emailRegex.test(trimmed)) {
     return { valid: false, error: 'Vul een geldig e-mailadres in (bijv. naam@domein.nl).' };
   }
+  const [localPart, domain] = trimmed.split('@');
+  if (domain && DISPOSABLE_EMAIL_DOMAINS.has(domain.toLowerCase())) {
+    return { valid: false, error: 'Tijdelijke wegwerp e-mailadressen worden niet geaccepteerd.' };
+  }
+  if (localPart && isGibberishOrBotString(localPart, 22)) {
+    return { valid: false, error: 'Vul een geldig e-mailadres in zonder willekeurige tekenreeksen.' };
+  }
   return { valid: true };
 }
 
-/**
- * Validates event date (must not be in the past).
- */
 function validateEventDate(dateStr) {
   if (!dateStr || typeof dateStr !== 'string') return { valid: true };
   const trimmed = dateStr.trim();
@@ -117,20 +98,14 @@ function validateEventDate(dateStr) {
     const day = parseInt(isoMatch[3], 10);
     const eventDate = new Date(year, month, day);
 
-    if (
-      eventDate.getFullYear() !== year ||
-      eventDate.getMonth() !== month ||
-      eventDate.getDate() !== day
-    ) {
+    if (eventDate.getFullYear() !== year || eventDate.getMonth() !== month || eventDate.getDate() !== day) {
       return { valid: false, error: 'De opgegeven datum is ongeldig.' };
     }
-
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     if (eventDate < today) {
       return { valid: false, error: 'De datum van het evenement kan niet in het verleden liggen.' };
     }
-
     const maxDate = new Date();
     maxDate.setFullYear(maxDate.getFullYear() + 5);
     if (eventDate > maxDate) {
@@ -140,36 +115,32 @@ function validateEventDate(dateStr) {
   }
 
   const parsed = new Date(trimmed);
-  if (!isNaN(parsed.getTime())) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    if (parsed < today) {
-      return { valid: false, error: 'De datum van het evenement kan niet in het verleden liggen.' };
-    }
+  if (isNaN(parsed.getTime())) {
+    return { valid: false, error: 'De opgegeven datum is ongeldig.' };
   }
-
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  if (parsed < today) {
+    return { valid: false, error: 'De datum van het evenement kan niet in het verleden liggen.' };
+  }
   return { valid: true };
 }
 
-/**
- * Validates location / venue.
- */
 function validateLocation(location) {
   if (!location || typeof location !== 'string') return { valid: true };
   const trimmed = location.trim();
   if (trimmed === '' || trimmed === 'Niet opgegeven') return { valid: true };
-  if (trimmed.length > 120) {
-    return { valid: false, error: 'Locatie is te lang (maximaal 120 tekens).' };
+  if (trimmed.length > 120) return { valid: false, error: 'Locatie is te lang (maximaal 120 tekens).' };
+  if (/https?:\/\/|www\.|\.ru\b|\.cn\b|\.xyz\b/i.test(trimmed)) {
+    return { valid: false, error: 'Vul een geldige plaats of locatie in zonder links.' };
   }
+  if (/[<>]/.test(trimmed)) return { valid: false, error: 'Locatie bevat ongeldige tekens.' };
   if (isGibberishOrBotString(trimmed, 26)) {
     return { valid: false, error: 'Vul een geldige plaats of locatie in.' };
   }
   return { valid: true };
 }
 
-/**
- * Validates optional phone number.
- */
 function validatePhone(phone) {
   if (!phone || typeof phone !== 'string') return { valid: true };
   const trimmed = phone.trim();
@@ -177,12 +148,25 @@ function validatePhone(phone) {
   if (!/^[0-9+\-().\s]{6,25}$/.test(trimmed)) {
     return { valid: false, error: 'Vul een geldig telefoonnummer in.' };
   }
+  const digitsOnly = trimmed.replace(/\D/g, '');
+  if (digitsOnly.length < 6) return { valid: false, error: 'Vul een geldig telefoonnummer in.' };
   return { valid: true };
 }
 
-/**
- * Verifies Cloudflare Turnstile token via Cloudflare siteverify endpoint.
- */
+function validateMessage(message) {
+  if (!message || typeof message !== 'string') return { valid: true };
+  const trimmed = message.trim();
+  if (trimmed.length > 2500) return { valid: false, error: 'Bericht is te lang (maximaal 2500 tekens).' };
+  const urlMatches = trimmed.match(/https?:\/\/|www\./gi);
+  if (urlMatches && urlMatches.length > 1) return { valid: false, error: 'Bericht bevat te veel links.' };
+  if (/<script/i.test(trimmed)) return { valid: false, error: 'Bericht bevat niet-toegestane code.' };
+  return { valid: true };
+}
+
+function isSubmissionTooFast(fillTimeMs) {
+  return typeof fillTimeMs === 'number' && fillTimeMs > 0 && fillTimeMs < 1500;
+}
+
 async function verifyTurnstileToken(token, remoteIp) {
   const secretKey = process.env.TURNSTILE_SECRET_KEY;
   const activeSecret = secretKey || '1x0000000000000000000000000000000AA';
@@ -209,8 +193,7 @@ async function verifyTurnstileToken(token, remoteIp) {
       signal: controller.signal
     });
     clearTimeout(timeout);
-    const data = await res.json();
-    return data;
+    return await res.json();
   } catch (err) {
     console.error('Fout bij verifiëren van Turnstile token:', err);
     return { success: false, error: 'Beveiligingscontrole kon niet worden voltooid.' };
@@ -225,5 +208,7 @@ module.exports = {
   validateEventDate,
   validateLocation,
   validatePhone,
+  validateMessage,
+  isSubmissionTooFast,
   verifyTurnstileToken
 };

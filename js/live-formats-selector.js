@@ -9,11 +9,11 @@ export const formatConfig = {
     subtitle: 'Akoestische gitaar & zang'
   },
   duo: {
-    name: 'Reau XL — Duo (+ Bassist)',
+    name: 'Reau XL - Duo (+ Bassist)',
     subtitle: 'Reau + akoestische bas & zang'
   },
   trio: {
-    name: 'Reau XL — Trio (+ Percussie)',
+    name: 'Reau XL - Trio (+ Percussie)',
     subtitle: 'Reau + bassist + percussie'
   }
 };
