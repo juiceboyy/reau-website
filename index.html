@@ -34,6 +34,9 @@
     }
   </script>
 
+  <!-- Cloudflare Turnstile Bot Protection -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+
   <!-- Custom Stylesheet & Favicons -->
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
@@ -137,6 +140,7 @@
   <form name="booking-form" netlify netlify-honeypot="bot-field" hidden>
     <input type="hidden" name="form-name" value="booking-form" />
     <input type="text" name="bot-field" />
+    <input type="text" name="website" />
     <input type="text" name="name" />
     <input type="email" name="email" />
     <input type="tel" name="phone" />
@@ -147,6 +151,7 @@
     <input type="text" name="sets" />
     <textarea name="message"></textarea>
     <input type="text" name="gekozen_configuratie" />
+    <input type="text" name="cf_turnstile_response" />
   </form>
 
   <!-- Main ES Module Script -->

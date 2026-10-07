@@ -39,9 +39,13 @@ export function renderContact(container) {
           
           <!-- Netlify Forms Hidden Identifiers -->
           <input type="hidden" name="form-name" value="booking-form">
-          <p class="hidden">
-            <label>Niet invullen indien menselijk: <input name="bot-field"></label>
-          </p>
+          
+          <!-- Honeypot Traps for Automated Spambots (Completely Hidden from Humans) -->
+          <div class="hidden-honeypot" style="display: none !important; position: absolute; left: -9999px;" aria-hidden="true">
+            <label for="form-bot-field">Laat dit veld leeg: <input type="text" id="form-bot-field" name="bot-field" tabindex="-1" autocomplete="off"></label>
+            <label for="form-website">Website: <input type="text" id="form-website" name="website" tabindex="-1" autocomplete="off"></label>
+          </div>
+
           <input type="hidden" id="form-calculated-config" name="gekozen_configuratie" value="">
           
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -83,8 +87,8 @@ export function renderContact(container) {
               <label for="form-format" class="block text-xs uppercase tracking-wider font-semibold text-espresso mb-2">Gewenste Bezetting</label>
               <select id="form-format" name="format" class="w-full px-4 py-3 rounded-xl border border-espresso/15 bg-canvas focus:bg-white text-espresso text-sm transition-all">
                 <option value="solo">Solo (Reau)</option>
-                <option value="duo">Reau XL — Duo (+ Bassist)</option>
-                <option value="trio">Reau XL — Trio (+ Percussie)</option>
+                <option value="duo">Reau XL - Duo (+ Bassist)</option>
+                <option value="trio">Reau XL - Trio (+ Percussie)</option>
               </select>
             </div>
             <div>
@@ -103,6 +107,11 @@ export function renderContact(container) {
           <div>
             <label for="form-message" class="block text-xs uppercase tracking-wider font-semibold text-espresso mb-2">Aanvullende Wensen of Vragen</label>
             <textarea id="form-message" name="message" rows="4" placeholder="Vertel kort over de sfeer, het aantal gasten of eventuele verzoeknummers..." class="w-full px-4 py-3 rounded-xl border border-espresso/15 bg-canvas focus:bg-white text-espresso placeholder:text-espresso-muted/50 text-sm transition-all"></textarea>
+          </div>
+
+          <!-- Cloudflare Turnstile Verification Widget Container -->
+          <div class="pt-1">
+            <div id="turnstile-container" class="min-h-[65px]"></div>
           </div>
 
           <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
