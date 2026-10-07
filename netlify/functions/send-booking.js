@@ -1,22 +1,24 @@
 /**
  * Netlify Serverless Function: send-booking
  * Dispatches booking notifications to Ro Halfhide (halfhide@gmail.com)
- * and confirmation emails to the applicant using Brevo API (no Netlify Pro plan required).
+ * and confirmation emails to the applicant using Brevo API.
+ * Hardened with honeypot traps, Cloudflare Turnstile verification, and strict input sanitization.
  */
 
-const BREVO_API_KEY = process.env.BREVO_API_KEY;
-const SENDER_EMAIL = process.env.SENDER_EMAIL || 'info@haagseopenmic.nl';
-const ARTIST_EMAIL = process.env.ARTIST_EMAIL || 'boekingen@reaumusic.nl';
+const {
+  isHoneypotTriggered,
+  validateName,
+  validateEmail,
+  validateEventDate,
+  validateLocation,
+  validatePhone,
+  verifyTurnstileToken
+} = require('./utils/validation');
 
-function escapeHtml(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
+const {
+  getArtistEmailHtml,
+  getClientEmailHtml
+} = require('./utils/email-templates');
 
 exports.handler = async (event) => {
   const headers = {
@@ -38,17 +40,22 @@ exports.handler = async (event) => {
     };
   }
 
-  if (!BREVO_API_KEY) {
-    console.error('BREVO_API_KEY is niet ingesteld in environment variables.');
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ error: 'E-mailservice configuratie ontbreekt (BREVO_API_KEY).' })
-    };
-  }
-
   try {
     const data = JSON.parse(event.body || '{}');
+
+    // 1. Honeypot check - Trap bots silently without sending emails
+    if (isHoneypotTriggered(data)) {
+      console.warn('[SECURITY] Bot submission trapped by honeypot. Request dropped.');
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          success: true,
+          message: 'Aanvraag succesvol ontvangen.'
+        })
+      };
+    }
+
     const {
       name,
       email,
@@ -59,128 +66,135 @@ exports.handler = async (event) => {
       format = 'Solo',
       sets = '3 sets',
       message = '',
-      gekozen_configuratie = ''
+      gekozen_configuratie = '',
+      cf_turnstile_response,
+      turnstile_token
     } = data;
 
-    if (!name || !email) {
+    // 2. Strict input validation
+    const nameCheck = validateName(name);
+    if (!nameCheck.valid) {
       return {
         statusCode: 400,
         headers,
-        body: JSON.stringify({ error: 'Naam en e-mailadres zijn verplicht.' })
+        body: JSON.stringify({ error: nameCheck.error })
       };
     }
 
+    const emailCheck = validateEmail(email);
+    if (!emailCheck.valid) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: emailCheck.error })
+      };
+    }
+
+    const dateCheck = validateEventDate(event_date);
+    if (!dateCheck.valid) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: dateCheck.error })
+      };
+    }
+
+    const locationCheck = validateLocation(location);
+    if (!locationCheck.valid) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: locationCheck.error })
+      };
+    }
+
+    const phoneCheck = validatePhone(phone);
+    if (!phoneCheck.valid) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: phoneCheck.error })
+      };
+    }
+
+    // 3. Cloudflare Turnstile verification
+    const token = cf_turnstile_response || turnstile_token || data['cf-turnstile-response'];
+    const clientIp = (event.headers && (
+      event.headers['x-nf-client-connection-ip'] ||
+      event.headers['client-ip'] ||
+      (event.headers['x-forwarded-for'] ? event.headers['x-forwarded-for'].split(',')[0].trim() : undefined)
+    )) || undefined;
+
+    const turnstileResult = await verifyTurnstileToken(token, clientIp);
+    if (!turnstileResult.success) {
+      console.warn('[SECURITY] Turnstile verification failed:', turnstileResult['error-codes'] || turnstileResult.error);
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({
+          error: 'Beveiligingscontrole mislukt. Vernieuw de pagina en probeer het opnieuw.'
+        })
+      };
+    }
+
+    // 4. Validate Brevo credentials before sending
+    const brevoApiKey = process.env.BREVO_API_KEY;
+    const senderEmail = process.env.SENDER_EMAIL || 'info@haagseopenmic.nl';
+    const artistEmail = process.env.ARTIST_EMAIL || 'boekingen@reaumusic.nl';
+
+    if (!brevoApiKey) {
+      console.error('BREVO_API_KEY is niet ingesteld in environment variables.');
+      return {
+        statusCode: 500,
+        headers,
+        body: JSON.stringify({ error: 'E-mailservice configuratie ontbreekt (BREVO_API_KEY).' })
+      };
+    }
+
+    // 5. Construct emails
     const configLabel = gekozen_configuratie || `${format} • ${sets} • ${event_type}`;
+    const emailPayloadData = {
+      name: name.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      event_date,
+      location: location.trim(),
+      event_type,
+      format,
+      sets,
+      message: message.trim(),
+      configLabel
+    };
 
-    // 1. Email naar Ro Halfhide
-    const artistEmailHtml = `
-      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #FDFBF7; padding: 24px; border-radius: 12px; color: #251D1A; border: 1px solid #EAE1D2;">
-        <div style="border-bottom: 2px solid #C86D51; padding-bottom: 16px; margin-bottom: 20px;">
-          <h2 style="color: #C86D51; margin: 0; font-size: 22px;">Nieuwe Boekingsaanvraag via reau.netlify.app</h2>
-          <p style="margin: 4px 0 0 0; color: #6B6059; font-size: 13px;">Ontvangen op ${new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
-        </div>
-
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px;">
-          <tr style="border-bottom: 1px solid #EAE1D2;">
-            <td style="padding: 10px 0; font-weight: bold; width: 160px; color: #6B6059;">Aanvrager:</td>
-            <td style="padding: 10px 0; color: #251D1A; font-weight: 600;">${escapeHtml(name)}</td>
-          </tr>
-          <tr style="border-bottom: 1px solid #EAE1D2;">
-            <td style="padding: 10px 0; font-weight: bold; color: #6B6059;">E-mail:</td>
-            <td style="padding: 10px 0;"><a href="mailto:${escapeHtml(email)}" style="color: #C86D51; text-decoration: none;">${escapeHtml(email)}</a></td>
-          </tr>
-          <tr style="border-bottom: 1px solid #EAE1D2;">
-            <td style="padding: 10px 0; font-weight: bold; color: #6B6059;">Telefoon / WhatsApp:</td>
-            <td style="padding: 10px 0; color: #251D1A;">${escapeHtml(phone)}</td>
-          </tr>
-          <tr style="border-bottom: 1px solid #EAE1D2;">
-            <td style="padding: 10px 0; font-weight: bold; color: #6B6059;">Datum Evenement:</td>
-            <td style="padding: 10px 0; color: #251D1A; font-weight: 600;">${escapeHtml(event_date)}</td>
-          </tr>
-          <tr style="border-bottom: 1px solid #EAE1D2;">
-            <td style="padding: 10px 0; font-weight: bold; color: #6B6059;">Plaats / Locatie:</td>
-            <td style="padding: 10px 0; color: #251D1A;">${escapeHtml(location)}</td>
-          </tr>
-          <tr style="border-bottom: 1px solid #EAE1D2;">
-            <td style="padding: 10px 0; font-weight: bold; color: #6B6059;">Configuratie:</td>
-            <td style="padding: 10px 0; color: #251D1A;">${escapeHtml(configLabel)}</td>
-          </tr>
-        </table>
-
-        <div style="background-color: #FFFFFF; padding: 16px; border-radius: 8px; border: 1px solid #EAE1D2; margin-bottom: 20px;">
-          <h4 style="margin: 0 0 8px 0; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; color: #6B6059;">Aanvullende wensen / toelichting:</h4>
-          <p style="margin: 0; font-size: 14px; line-height: 1.6; white-space: pre-line; color: #251D1A;">${message ? escapeHtml(message) : '<i>Geen aanvullende toelichting ingevuld.</i>'}</p>
-        </div>
-
-        <div style="text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid #EAE1D2; font-size: 12px; color: #6B6059;">
-          Klik op 'Beantwoorden' om direct te reageren naar <strong>${escapeHtml(email)}</strong>.
-        </div>
-      </div>
-    `;
-
-    // 2. Bevestigingsmail naar de klant
-    const clientEmailHtml = `
-      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #FDFBF7; padding: 28px; border-radius: 12px; color: #251D1A; border: 1px solid #EAE1D2;">
-        <div style="text-align: center; border-bottom: 2px solid #C86D51; padding-bottom: 20px; margin-bottom: 24px;">
-          <h1 style="color: #251D1A; margin: 0; font-family: Georgia, serif; font-size: 26px;">Reau</h1>
-          <p style="color: #C86D51; margin: 4px 0 0 0; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold;">Acoustic Soul & Stories</p>
-        </div>
-
-        <p style="font-size: 15px; line-height: 1.6; margin-bottom: 16px;">Beste ${escapeHtml(name)},</p>
-        <p style="font-size: 14px; line-height: 1.6; color: #403833; margin-bottom: 20px;">
-          Bedankt voor je aanvraag voor een optreden van <strong>Reau</strong>! Ik heb je gegevens in goede orde ontvangen en kijk er naar uit om van je gelegenheid een bijzondere muzikale ervaring te maken.
-        </p>
-
-        <div style="background-color: #FFFFFF; padding: 20px; border-radius: 10px; border: 1px solid #EAE1D2; margin-bottom: 24px;">
-          <h3 style="margin: 0 0 12px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #C86D51;">Overzicht van je aanvraag:</h3>
-          <ul style="margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.8; color: #251D1A;">
-            <li><strong>Datum:</strong> ${escapeHtml(event_date)}</li>
-            <li><strong>Locatie:</strong> ${escapeHtml(location)}</li>
-            <li><strong>Configuratie:</strong> ${escapeHtml(configLabel)}</li>
-          </ul>
-        </div>
-
-        <p style="font-size: 14px; line-height: 1.6; color: #403833; margin-bottom: 20px;">
-          Ik neem zo snel mogelijk (meestal binnen 24 tot 48 uur) persoonlijk contact met je op voor de beschikbaarheid en een passend voorstel op maat.
-        </p>
-
-        <p style="font-size: 14px; line-height: 1.6; margin-bottom: 28px;">
-          Met muzikale groet,<br>
-          <strong>Ro Halfhide</strong><br>
-          <span style="font-size: 12px; color: #6B6059;">Reau | Acoustic Soul</span>
-        </p>
-
-        <div style="border-top: 1px solid #EAE1D2; padding-top: 16px; text-align: center; font-size: 12px; color: #6B6059;">
-          E-mail: <a href="mailto:${ARTIST_EMAIL}" style="color: #C86D51;">${ARTIST_EMAIL}</a> • Website: <a href="https://reaumusic.nl" style="color: #C86D51;">reaumusic.nl</a>
-        </div>
-      </div>
-    `;
+    const artistHtml = getArtistEmailHtml(emailPayloadData, artistEmail);
+    const clientHtml = getClientEmailHtml(emailPayloadData, artistEmail);
 
     const brevoPayload = {
-      sender: { name: 'Reau Boekingen', email: SENDER_EMAIL },
+      sender: { name: 'Reau Boekingen', email: senderEmail },
       subject: `Boekingsaanvraag Reau: ${name} (${format})`,
-      htmlContent: artistEmailHtml,
+      htmlContent: artistHtml,
       messageVersions: [
         {
-          to: [{ email: ARTIST_EMAIL, name: 'Ro Halfhide' }],
-          replyTo: { email: email, name: name },
+          to: [{ email: artistEmail, name: 'Ro Halfhide' }],
+          replyTo: { email: email.trim(), name: name.trim() },
           subject: `Boekingsaanvraag Reau: ${name} (${format}, ${event_date})`,
-          htmlContent: artistEmailHtml
+          htmlContent: artistHtml
         },
         {
-          to: [{ email: email, name: name }],
-          replyTo: { email: ARTIST_EMAIL, name: 'Ro Halfhide' },
-          subject: `Ontvangstbevestiging boekingsaanvraag Reau`,
-          htmlContent: clientEmailHtml
+          to: [{ email: email.trim(), name: name.trim() }],
+          replyTo: { email: artistEmail, name: 'Ro Halfhide' },
+          subject: 'Ontvangstbevestiging boekingsaanvraag Reau',
+          htmlContent: clientHtml
         }
       ]
     };
 
+    // 6. Send via Brevo API
     const brevoResponse = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
       headers: {
         accept: 'application/json',
-        'api-key': BREVO_API_KEY,
+        'api-key': brevoApiKey,
         'content-type': 'application/json'
       },
       body: JSON.stringify(brevoPayload)
