@@ -183,7 +183,8 @@ exports.handler = async (event) => {
     // 6. Validate Brevo credentials before sending
     const brevoApiKey = process.env.BREVO_API_KEY;
     const senderEmail = process.env.SENDER_EMAIL || 'info@haagseopenmic.nl';
-    const artistEmail = process.env.ARTIST_EMAIL || 'boekingen@reaumusic.nl';
+    const notificationEmail = process.env.NOTIFICATION_EMAIL || process.env.ARTIST_EMAIL || 'halfhide@gmail.com';
+    const publicBookingEmail = process.env.PUBLIC_BOOKING_EMAIL || 'boekingen@reaumusic.nl';
 
     if (!brevoApiKey) {
       console.error('BREVO_API_KEY is niet ingesteld in environment variables.');
@@ -209,8 +210,8 @@ exports.handler = async (event) => {
       configLabel
     };
 
-    const artistHtml = getArtistEmailHtml(emailPayloadData, artistEmail);
-    const clientHtml = getClientEmailHtml(emailPayloadData, artistEmail);
+    const artistHtml = getArtistEmailHtml(emailPayloadData, publicBookingEmail);
+    const clientHtml = getClientEmailHtml(emailPayloadData, publicBookingEmail);
 
     const brevoPayload = {
       sender: { name: 'Reau Boekingen', email: senderEmail },
@@ -218,14 +219,14 @@ exports.handler = async (event) => {
       htmlContent: artistHtml,
       messageVersions: [
         {
-          to: [{ email: artistEmail, name: 'Ro Halfhide' }],
+          to: [{ email: notificationEmail, name: 'Ro Halfhide' }],
           replyTo: { email: email.trim(), name: name.trim() },
           subject: `Boekingsaanvraag Reau: ${name} (${format}, ${event_date})`,
           htmlContent: artistHtml
         },
         {
           to: [{ email: email.trim(), name: name.trim() }],
-          replyTo: { email: artistEmail, name: 'Ro Halfhide' },
+          replyTo: { email: publicBookingEmail, name: 'Reau Boekingen' },
           subject: 'Ontvangstbevestiging boekingsaanvraag Reau',
           htmlContent: clientHtml
         }

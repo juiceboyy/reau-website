@@ -78,12 +78,15 @@ function getArtistEmailHtml(data, artistEmail) {
   `;
 }
 
-function getClientEmailHtml(data, artistEmail) {
+function getClientEmailHtml(data, publicEmail = 'boekingen@reaumusic.nl') {
   const {
     name,
+    email,
+    phone = 'Niet opgegeven',
     event_date = 'Nader te bepalen',
     location = 'Niet opgegeven',
-    configLabel
+    configLabel,
+    message = ''
   } = data;
 
   return `
@@ -101,9 +104,13 @@ function getClientEmailHtml(data, artistEmail) {
       <div style="background-color: #FFFFFF; padding: 20px; border-radius: 10px; border: 1px solid #EAE1D2; margin-bottom: 24px;">
         <h3 style="margin: 0 0 12px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #C86D51;">Overzicht van je aanvraag:</h3>
         <ul style="margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.8; color: #251D1A;">
+          <li><strong>Aanvrager:</strong> ${escapeHtml(name)}</li>
+          <li><strong>E-mail:</strong> ${escapeHtml(email)}</li>
+          <li><strong>Telefoon:</strong> ${escapeHtml(phone)}</li>
           <li><strong>Datum:</strong> ${escapeHtml(event_date)}</li>
           <li><strong>Locatie:</strong> ${escapeHtml(location)}</li>
           <li><strong>Configuratie:</strong> ${escapeHtml(configLabel)}</li>
+          ${message ? `<li><strong>Aanvullende wensen:</strong> ${escapeHtml(message)}</li>` : ''}
         </ul>
       </div>
 
@@ -118,7 +125,7 @@ function getClientEmailHtml(data, artistEmail) {
       </p>
 
       <div style="border-top: 1px solid #EAE1D2; padding-top: 16px; text-align: center; font-size: 12px; color: #6B6059;">
-        E-mail: <a href="mailto:${artistEmail}" style="color: #C86D51;">${artistEmail}</a> • Website: <a href="https://reaumusic.nl" style="color: #C86D51;">reaumusic.nl</a>
+        E-mail: <a href="mailto:${publicEmail}" style="color: #C86D51;">${publicEmail}</a> • Website: <a href="https://reaumusic.nl" style="color: #C86D51;">reaumusic.nl</a>
       </div>
     </div>
   `;
