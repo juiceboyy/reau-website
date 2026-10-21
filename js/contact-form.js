@@ -253,7 +253,7 @@ export function initContactForm() {
 
   function openWhatsApp() {
     const text = encodeURIComponent('Hallo Ro! Ik heb interesse in een optreden van Reau en wil graag meer informatie over de beschikbaarheid.');
-    window.open(`https://wa.me/31600000000?text=${text}`, '_blank', 'noopener,noreferrer');
+    window.open(`https://wa.me/31628884143?text=${text}`, '_blank', 'noopener,noreferrer');
   }
 
   directWhatsappBtn?.addEventListener('click', openWhatsApp);
