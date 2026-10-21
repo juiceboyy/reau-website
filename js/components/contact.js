@@ -130,16 +130,11 @@ export function renderContact(container) {
             <div id="turnstile-container" class="min-h-[65px]"></div>
           </div>
 
-          <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="pt-2">
             <button id="form-submit-btn" type="submit" class="btn-terracotta w-full sm:w-auto px-10 py-4 rounded-full font-semibold text-sm uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 transition-all">
               <span id="submit-btn-spinner" class="hidden w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
               <span id="submit-btn-text">Verstuur Aanvraag</span>
             </button>
-            
-            <div class="flex items-center gap-3 text-xs text-espresso-muted">
-              <span>Of direct per e-mail:</span>
-              <a href="mailto:boekingen@reaumusic.nl" class="font-medium text-terracotta hover:underline">boekingen@reaumusic.nl</a>
-            </div>
           </div>
 
         </form>
