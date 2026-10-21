@@ -6,12 +6,28 @@ export function renderContact(container) {
   if (!container) return;
   container.innerHTML = `
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-12">
+      <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
         <span class="text-xs uppercase tracking-widest text-terracotta font-semibold">Boeking & Informatie</span>
         <h2 class="font-serif text-3xl sm:text-4xl text-espresso mt-2">Neem Contact Op</h2>
         <p class="text-espresso-muted mt-3 text-sm sm:text-base">
           Vul het formulier in voor een vrijblijvende beschikbaarheidscheck en offerte op maat.
         </p>
+
+        <!-- Direct Contact Optie -->
+        <div class="mt-5 pt-1 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-xs sm:text-sm text-espresso-muted">
+          <span>Of neem direct contact op:</span>
+          <div class="flex items-center gap-3 sm:gap-4 font-medium text-espresso">
+            <a href="tel:0628884143" class="hover:text-terracotta transition-colors inline-flex items-center gap-1.5 group">
+              <svg class="w-4 h-4 text-terracotta group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+              <span>06 28 88 41 43</span>
+            </a>
+            <span class="text-espresso/25" aria-hidden="true">•</span>
+            <a href="mailto:boekingen@reaumusic.nl" class="hover:text-terracotta transition-colors inline-flex items-center gap-1.5 group">
+              <svg class="w-4 h-4 text-terracotta group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <span>boekingen@reaumusic.nl</span>
+            </a>
+          </div>
+        </div>
       </div>
 
       <div class="bg-white rounded-3xl p-6 sm:p-10 border border-espresso/10 shadow-xl">
@@ -29,7 +45,7 @@ export function renderContact(container) {
             <button id="form-reset-btn" type="button" class="btn-terracotta px-8 py-3 rounded-full font-semibold text-xs uppercase tracking-wider">
               Nieuwe aanvraag versturen
             </button>
-            <a href="https://wa.me/31600000000" id="direct-whatsapp-btn-success" target="_blank" rel="noopener noreferrer" class="px-6 py-3 rounded-full border border-espresso/20 text-xs font-semibold text-espresso hover:bg-espresso/5 transition-colors">
+            <a href="https://wa.me/31628884143" id="direct-whatsapp-btn-success" target="_blank" rel="noopener noreferrer" class="px-6 py-3 rounded-full border border-espresso/20 text-xs font-semibold text-espresso hover:bg-espresso/5 transition-colors">
               Direct WhatsAppen
             </a>
           </div>
@@ -109,21 +125,16 @@ export function renderContact(container) {
             <textarea id="form-message" name="message" rows="4" placeholder="Vertel kort over de sfeer, het aantal gasten of eventuele verzoeknummers..." class="w-full px-4 py-3 rounded-xl border border-espresso/15 bg-canvas focus:bg-white text-espresso placeholder:text-espresso-muted/50 text-sm transition-all"></textarea>
           </div>
 
-          <!-- Cloudflare Turnstile Verification Widget Container -->
-          <div class="pt-1">
-            <div id="turnstile-container" class="min-h-[65px]"></div>
+          <!-- Cloudflare Turnstile Verification Widget Container (only takes space when active) -->
+          <div id="turnstile-wrapper" class="hidden">
+            <div id="turnstile-container"></div>
           </div>
 
-          <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
             <button id="form-submit-btn" type="submit" class="btn-terracotta w-full sm:w-auto px-10 py-4 rounded-full font-semibold text-sm uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 transition-all">
               <span id="submit-btn-spinner" class="hidden w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
               <span id="submit-btn-text">Verstuur Aanvraag</span>
             </button>
-            
-            <div class="flex items-center gap-3 text-xs text-espresso-muted">
-              <span>Of direct per e-mail:</span>
-              <a href="mailto:boekingen@reaumusic.nl" class="font-medium text-terracotta hover:underline">boekingen@reaumusic.nl</a>
-            </div>
           </div>
 
         </form>

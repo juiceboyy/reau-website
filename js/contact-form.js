@@ -39,8 +39,10 @@ export function initContactForm() {
     if (!siteKey) return;
     function render() {
       const container = document.getElementById('turnstile-container');
+      const wrapper = document.getElementById('turnstile-wrapper');
       if (!container || !window.turnstile || container.dataset.rendered === 'true') return;
       try {
+        if (wrapper) wrapper.classList.remove('hidden');
         turnstileWidgetId = window.turnstile.render(container, {
           sitekey: siteKey,
           theme: 'light',
@@ -253,7 +255,7 @@ export function initContactForm() {
 
   function openWhatsApp() {
     const text = encodeURIComponent('Hallo Ro! Ik heb interesse in een optreden van Reau en wil graag meer informatie over de beschikbaarheid.');
-    window.open(`https://wa.me/31600000000?text=${text}`, '_blank', 'noopener,noreferrer');
+    window.open(`https://wa.me/31628884143?text=${text}`, '_blank', 'noopener,noreferrer');
   }
 
   directWhatsappBtn?.addEventListener('click', openWhatsApp);
