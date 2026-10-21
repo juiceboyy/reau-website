@@ -39,8 +39,10 @@ export function initContactForm() {
     if (!siteKey) return;
     function render() {
       const container = document.getElementById('turnstile-container');
+      const wrapper = document.getElementById('turnstile-wrapper');
       if (!container || !window.turnstile || container.dataset.rendered === 'true') return;
       try {
+        if (wrapper) wrapper.classList.remove('hidden');
         turnstileWidgetId = window.turnstile.render(container, {
           sitekey: siteKey,
           theme: 'light',

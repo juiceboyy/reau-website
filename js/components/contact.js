@@ -125,12 +125,12 @@ export function renderContact(container) {
             <textarea id="form-message" name="message" rows="4" placeholder="Vertel kort over de sfeer, het aantal gasten of eventuele verzoeknummers..." class="w-full px-4 py-3 rounded-xl border border-espresso/15 bg-canvas focus:bg-white text-espresso placeholder:text-espresso-muted/50 text-sm transition-all"></textarea>
           </div>
 
-          <!-- Cloudflare Turnstile Verification Widget Container -->
-          <div class="pt-1">
-            <div id="turnstile-container" class="min-h-[65px]"></div>
+          <!-- Cloudflare Turnstile Verification Widget Container (only takes space when active) -->
+          <div id="turnstile-wrapper" class="hidden">
+            <div id="turnstile-container"></div>
           </div>
 
-          <div class="pt-2">
+          <div>
             <button id="form-submit-btn" type="submit" class="btn-terracotta w-full sm:w-auto px-10 py-4 rounded-full font-semibold text-sm uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 transition-all">
               <span id="submit-btn-spinner" class="hidden w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
               <span id="submit-btn-text">Verstuur Aanvraag</span>
