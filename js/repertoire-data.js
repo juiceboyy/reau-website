@@ -37,7 +37,7 @@ export const repertoireList = [
     title: "To Love Somebody",
     tag: "Cover • Bee Gees",
     subtitle: "Bedside Buskers • Ziekenhuis",
-    duration: "3:02",
+    duration: "2:57",
     style: "Intiem optreden voor patiënten in het Deventer Ziekenhuis voor het Bedside Buskers initiatief.",
     audioSrc: null,
     videoSrc: "assets/video/reau-to-love-somebody.mp4",
