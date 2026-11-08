@@ -21,7 +21,7 @@ function renderCard(item) {
       ${logoContent}
       <div class="flex flex-col justify-center min-w-0 pr-1">
         <span class="font-serif text-sm sm:text-base text-espresso font-medium whitespace-nowrap leading-snug">${item.name}</span>
-        <span class="text-xs text-espresso-muted whitespace-nowrap leading-tight mt-0.5">${item.category}</span>
+        ${item.category ? `<span class="text-xs text-espresso-muted whitespace-nowrap leading-tight mt-0.5">${item.category}</span>` : ''}
       </div>
     </div>
   `;

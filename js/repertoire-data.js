@@ -32,6 +32,19 @@ export const repertoireList = [
     videoPoster: "assets/images/video-poster-sweet-dreams.jpg"
   },
   {
+    id: 'to-love-somebody',
+    type: 'cover',
+    title: "To Love Somebody",
+    tag: "Cover • Bee Gees",
+    subtitle: "Bedside Buskers • Ziekenhuis",
+    duration: "2:57",
+    style: "Intiem optreden voor patiënten in het Deventer Ziekenhuis voor het Bedside Buskers initiatief.",
+    audioSrc: null,
+    videoSrc: "assets/video/reau-to-love-somebody.mp4",
+    videoPreviewSrc: "assets/video/reau-to-love-somebody-preview.mp4",
+    videoPoster: "assets/images/video-poster-to-love-somebody.jpg"
+  },
+  {
     id: 'your-morning-smile',
     type: 'original',
     title: "Your Morning Smile",
@@ -100,16 +113,6 @@ export const repertoireList = [
   },
 
   // Akoestisch repertoire (zonder video)
-  {
-    id: 'easy',
-    type: 'cover',
-    title: "Easy",
-    tag: "Cover • Lionel Richie",
-    subtitle: "Smooth Soul",
-    duration: "Live fragment",
-    style: "Ontspannen soulklassieker in een warm akoestisch jasje.",
-    audioSrc: null
-  },
   {
     id: 'my-girl',
     type: 'cover',
